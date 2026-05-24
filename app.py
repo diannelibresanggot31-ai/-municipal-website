@@ -6,7 +6,7 @@ import os
 import json
 
 app = Flask(__name__, template_folder='templates')
-app.secret_key = 'municipal_secret_key_2026'
+app.secret_key = os.environ.get('SECRET_KEY', 'municipal_secret_key_2026')
 
 # ── Register templates_admin as additional template folder ──
 from jinja2 import ChoiceLoader, FileSystemLoader
@@ -27,10 +27,10 @@ def allowed_file(filename):
 
 def get_db():
     return mysql.connector.connect(
-        host="localhost",
-        user="root",
-        password="dianne2005",
-        database="municipal_db"
+        host=os.environ.get('DB_HOST', 'localhost'),
+        user=os.environ.get('DB_USER', 'root'),
+        password=os.environ.get('DB_PASSWORD', 'dianne2005'),
+        database=os.environ.get('DB_NAME', 'municipal_db')
     )
 
 def admin_required(f):
@@ -43,50 +43,50 @@ def admin_required(f):
 
 # Create necessary tables
 def init_database():
-    db = get_db()
-    cursor = db.cursor()
-    
-    # Images table
-    cursor.execute("""
-        CREATE TABLE IF NOT EXISTS images (
-            id INT AUTO_INCREMENT PRIMARY KEY,
-            filename VARCHAR(255) NOT NULL,
-            original_name VARCHAR(255),
-            category VARCHAR(50) DEFAULT 'gallery',
-            caption TEXT,
-            file_size INT,
-            uploaded_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-        )
-    """)
-    
-    # Contact settings table
-    cursor.execute("""
-        CREATE TABLE IF NOT EXISTS contact_settings (
-            id INT PRIMARY KEY DEFAULT 1,
-            address VARCHAR(255),
-            phone VARCHAR(50),
-            email VARCHAR(100),
-            facebook VARCHAR(255),
-            twitter VARCHAR(255),
-            hours VARCHAR(255),
-            updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
-        )
-    """)
-    
-    # Insert default contact settings if not exists
-    cursor.execute("SELECT * FROM contact_settings WHERE id = 1")
-    if not cursor.fetchone():
+    try:
+        db = get_db()
+        cursor = db.cursor()
+        
         cursor.execute("""
-            INSERT INTO contact_settings (id, address, phone, email, hours) VALUES (1, 
-                'Poblacion, Las Nieves, Agusan del Norte', 
-                '(088) 813-0110', 
-                'info@lasnieves.gov.ph',
-                'Monday - Friday, 8:00 AM - 5:00 PM'
+            CREATE TABLE IF NOT EXISTS images (
+                id INT AUTO_INCREMENT PRIMARY KEY,
+                filename VARCHAR(255) NOT NULL,
+                original_name VARCHAR(255),
+                category VARCHAR(50) DEFAULT 'gallery',
+                caption TEXT,
+                file_size INT,
+                uploaded_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
             )
         """)
-    
-    db.commit()
-    db.close()
+        
+        cursor.execute("""
+            CREATE TABLE IF NOT EXISTS contact_settings (
+                id INT PRIMARY KEY DEFAULT 1,
+                address VARCHAR(255),
+                phone VARCHAR(50),
+                email VARCHAR(100),
+                facebook VARCHAR(255),
+                twitter VARCHAR(255),
+                hours VARCHAR(255),
+                updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+            )
+        """)
+        
+        cursor.execute("SELECT * FROM contact_settings WHERE id = 1")
+        if not cursor.fetchone():
+            cursor.execute("""
+                INSERT INTO contact_settings (id, address, phone, email, hours) VALUES (1, 
+                    'Poblacion, Las Nieves, Agusan del Norte', 
+                    '(088) 813-0110', 
+                    'info@lasnieves.gov.ph',
+                    'Monday - Friday, 8:00 AM - 5:00 PM'
+                )
+            """)
+        
+        db.commit()
+        db.close()
+    except Exception as e:
+        print(f"Database init warning: {e}")
 
 init_database()
 
@@ -502,7 +502,7 @@ def admin_images():
     logo_list = []
     
     for img in images:
-        img['url'] = url_for('static', filename=f'images/{img["filename"]}')
+        img['url'] = img['filename']  # filename now stores Cloudinary URL
         img['size'] = round(img['file_size'] / 1024, 1) if img['file_size'] else 0
         image_list.append(img)
         if img['category'] == 'hero':
@@ -535,27 +535,33 @@ def admin_upload_image():
     if file_size > MAX_FILE_SIZE:
         return jsonify({'success': False, 'error': 'File too large (max 5MB)'})
     
-    filename = secure_filename(file.filename)
-    name, ext = os.path.splitext(filename)
-    timestamp = datetime.now().strftime('%Y%m%d_%H%M%S')
-    new_filename = f"{name}_{timestamp}{ext}"
-    
-    file_path = os.path.join(app.config['UPLOAD_FOLDER'], new_filename)
-    file.save(file_path)
-    
     category = request.form.get('category', 'gallery')
     caption = request.form.get('caption', '')
+    original_filename = secure_filename(file.filename)
+
+    try:
+        import cloudinary
+        import cloudinary.uploader
+        cloudinary.config(
+            cloud_name=os.environ.get('CLOUDINARY_CLOUD_NAME', 'dycblkudt'),
+            api_key=os.environ.get('CLOUDINARY_API_KEY', '943494719821294'),
+            api_secret=os.environ.get('CLOUDINARY_API_SECRET', '7FK57v3WJwLwrdLdF8iug99LMbE')
+        )
+        upload_result = cloudinary.uploader.upload(file, folder=f"municipal-site/{category}")
+        image_url = upload_result['secure_url']
+    except Exception as e:
+        return jsonify({'success': False, 'error': f'Upload failed: {str(e)}'})
     
     db = get_db()
     cursor = db.cursor()
     cursor.execute("""
         INSERT INTO images (filename, original_name, category, caption, file_size)
         VALUES (%s, %s, %s, %s, %s)
-    """, (new_filename, filename, category, caption, file_size))
+    """, (image_url, original_filename, category, caption, file_size))
     db.commit()
     db.close()
     
-    return jsonify({'success': True, 'filename': new_filename})
+    return jsonify({'success': True, 'filename': image_url, 'url': image_url})
 
 @app.route('/admin/delete-image/<filename>', methods=['DELETE'])
 @admin_required
