@@ -1,0 +1,320 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<!-- ── PAGE HEADER ───────────────────────────────────────── -->
+<div class="page-header">
+    <div class="container">
+        <h1><i class="fas fa-exclamation-triangle"></i> Emergency Information</h1>
+        <p>Stay safe. Stay prepared. Emergency contacts and disaster preparedness guide.</p>
+    </div>
+</div>
+
+<style>
+    .emergency-container {
+        max-width: 1200px;
+        margin: 0 auto;
+    }
+    
+    .hotline-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 25px;
+        margin-bottom: 35px;
+    }
+    
+    .hotline-card {
+        background: var(--white);
+        border-radius: var(--radius-md);
+        box-shadow: var(--shadow-sm);
+        padding: 25px;
+        text-align: center;
+        transition: transform 0.2s, box-shadow 0.2s;
+        border-top: 4px solid var(--red-600);
+    }
+    
+    .hotline-card:hover {
+        transform: translateY(-5px);
+        box-shadow: var(--shadow-md);
+    }
+    
+    .hotline-icon {
+        width: 70px;
+        height: 70px;
+        background: var(--red-50);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto 15px;
+    }
+    
+    .hotline-icon i {
+        font-size: 32px;
+        color: var(--red-600);
+    }
+    
+    .hotline-number {
+        font-size: 28px;
+        font-weight: 700;
+        color: var(--red-600);
+        font-family: monospace;
+        margin: 10px 0;
+    }
+    
+    .hotline-title {
+        font-size: 14px;
+        color: var(--neutral-500);
+        text-transform: uppercase;
+        letter-spacing: 1px;
+    }
+    
+    .info-card {
+        background: var(--white);
+        border-radius: var(--radius-md);
+        box-shadow: var(--shadow-sm);
+        padding: 25px;
+        margin-bottom: 25px;
+        transition: box-shadow 0.2s;
+    }
+    
+    .info-card:hover {
+        box-shadow: var(--shadow-md);
+    }
+    
+    .section-title {
+        font-family: var(--font-display);
+        font-size: 22px;
+        font-weight: 700;
+        color: var(--green-700);
+        margin-bottom: 20px;
+        padding-bottom: 10px;
+        border-bottom: 3px solid var(--red-600);
+        display: inline-block;
+    }
+    
+    .service-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 20px;
+        margin-top: 20px;
+    }
+    
+    .service-card {
+        background: var(--green-50);
+        border-radius: var(--radius-md);
+        padding: 20px;
+        text-align: center;
+        transition: transform 0.2s;
+    }
+    
+    .service-card:hover {
+        transform: translateY(-3px);
+    }
+    
+    .service-icon {
+        width: 50px;
+        height: 50px;
+        background: var(--white);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto 12px;
+    }
+    
+    .service-icon i {
+        font-size: 22px;
+        color: var(--green-500);
+    }
+    
+    .service-title {
+        font-size: 16px;
+        font-weight: 700;
+        color: var(--green-700);
+        margin-bottom: 8px;
+    }
+    
+    .service-contact {
+        font-size: 12px;
+        color: var(--neutral-600);
+    }
+    
+    .evacuation-list {
+        list-style: none;
+        padding: 0;
+        margin: 15px 0 0 0;
+    }
+    
+    .evacuation-list li {
+        padding: 10px 0;
+        border-bottom: 1px solid var(--green-100);
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+    
+    .evacuation-list li i {
+        color: var(--red-600);
+        width: 25px;
+    }
+    
+    .emergency-kit {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+        gap: 12px;
+        margin-top: 15px;
+    }
+    
+    .kit-item {
+        background: var(--green-50);
+        border-radius: var(--radius-sm);
+        padding: 10px;
+        text-align: center;
+        font-size: 13px;
+    }
+    
+    .kit-item i {
+        color: var(--red-600);
+        margin-right: 5px;
+    }
+    
+    @media (max-width: 768px) {
+        .hotline-number {
+            font-size: 22px;
+        }
+        .service-grid {
+            grid-template-columns: 1fr;
+        }
+    }
+</style>
+
+<div class="container mb-5">
+    <div class="emergency-container">
+        
+        <!-- Emergency Hotlines -->
+        <div class="hotline-grid">
+            <div class="hotline-card">
+                <div class="hotline-icon">
+                    <i class="fas fa-shield-alt"></i>
+                </div>
+                <div class="hotline-number">117</div>
+                <div class="hotline-title">Philippine National Police</div>
+                <small class="text-muted">Emergency Hotline</small>
+            </div>
+            <div class="hotline-card">
+                <div class="hotline-icon">
+                    <i class="fas fa-fire-extinguisher"></i>
+                </div>
+                <div class="hotline-number">160</div>
+                <div class="hotline-title">Bureau of Fire Protection</div>
+                <small class="text-muted">Emergency Hotline</small>
+            </div>
+            <div class="hotline-card">
+                <div class="hotline-icon">
+                    <i class="fas fa-ambulance"></i>
+                </div>
+                <div class="hotline-number">911</div>
+                <div class="hotline-title">Emergency Medical Services</div>
+                <small class="text-muted">Ambulance / Emergency</small>
+            </div>
+        </div>
+        
+        <!-- Operating Hours -->
+        <div class="info-card">
+            <h3 class="section-title"><i class="fas fa-clock"></i> Operating Hours</h3>
+            <div class="service-grid">
+                <div class="service-card">
+                    <div class="service-icon"><i class="fas fa-building"></i></div>
+                    <div class="service-title">Municipal Hall</div>
+                    <div class="service-contact">Monday - Friday<br>8:00 AM - 5:00 PM</div>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon"><i class="fas fa-hospital"></i></div>
+                    <div class="service-title">Health Center (RHU)</div>
+                    <div class="service-contact">Monday - Saturday<br>8:00 AM - 8:00 PM</div>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon"><i class="fas fa-phone-alt"></i></div>
+                    <div class="service-title">Emergency Services</div>
+                    <div class="service-contact">24/7 • Available All Year</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Emergency Service Locations -->
+        <div class="row g-4">
+            <div class="col-md-4">
+                <div class="info-card" style="border-left: 3px solid var(--red-600);">
+                    <i class="fas fa-shield-alt" style="font-size: 36px; color: var(--red-600); margin-bottom: 10px;"></i>
+                    <h4>Police Station</h4>
+                    <p><i class="fas fa-phone"></i> (088) 813-0124</p>
+                    <p><i class="fas fa-map-marker-alt"></i> Municipal Hall Compound, Poblacion</p>
+                    <small class="text-muted">Emergency Hotline: 117</small>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="info-card" style="border-left: 3px solid var(--red-600);">
+                    <i class="fas fa-fire-extinguisher" style="font-size: 36px; color: var(--red-600); margin-bottom: 10px;"></i>
+                    <h4>Fire Station</h4>
+                    <p><i class="fas fa-phone"></i> (088) 813-0125</p>
+                    <p><i class="fas fa-map-marker-alt"></i> Near Public Market, Poblacion</p>
+                    <small class="text-muted">Emergency Hotline: 160</small>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="info-card" style="border-left: 3px solid var(--red-600);">
+                    <i class="fas fa-hospital" style="font-size: 36px; color: var(--red-600); margin-bottom: 10px;"></i>
+                    <h4>Rural Health Unit (RHU)</h4>
+                    <p><i class="fas fa-phone"></i> (088) 813-0120</p>
+                    <p><i class="fas fa-map-marker-alt"></i> Riverside District</p>
+                    <small class="text-muted">Emergency: 911</small>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Disaster Preparedness -->
+        <div class="info-card">
+            <h3 class="section-title"><i class="fas fa-cloud-rain"></i> Disaster Preparedness</h3>
+            
+            <div class="row">
+                <div class="col-md-6">
+                    <h4><i class="fas fa-calendar"></i> Typhoon Season</h4>
+                    <p><strong>June to November</strong> - Annual typhoon and monsoon season.</p>
+                    
+                    <h4 class="mt-3"><i class="fas fa-building"></i> Evacuation Centers</h4>
+                    <ul class="evacuation-list">
+                        <li><i class="fas fa-school"></i> Central Elementary School - Poblacion</li>
+                        <li><i class="fas fa-basketball"></i> Riverside Covered Court - Riverside</li>
+                        <li><i class="fas fa-church"></i> Barangay Hall - Upland Barangay</li>
+                        <li><i class="fas fa-home"></i> Multi-purpose Hall - Durian</li>
+                    </ul>
+                </div>
+                <div class="col-md-6">
+                    <h4><i class="fas fa-tshirt"></i> Emergency Kit Checklist</h4>
+                    <div class="emergency-kit">
+                        <div class="kit-item"><i class="fas fa-tint"></i> Water</div>
+                        <div class="kit-item"><i class="fas fa-utensils"></i> Food</div>
+                        <div class="kit-item"><i class="fas fa-capsules"></i> Medicine</div>
+                        <div class="kit-item"><i class="fas fa-lightbulb"></i> Flashlight</div>
+                        <div class="kit-item"><i class="fas fa-battery-full"></i> Radio</div>
+                        <div class="kit-item"><i class="fas fa-whistle"></i> Whistle</div>
+                        <div class="kit-item"><i class="fas fa-band-aid"></i> First Aid Kit</div>
+                        <div class="kit-item"><i class="fas fa-mobile-alt"></i> Power Bank</div>
+                    </div>
+                    
+                    <h4 class="mt-3"><i class="fas fa-phone-alt"></i> Important Reminders</h4>
+                    <ul class="evacuation-list">
+                        <li><i class="fas fa-bell"></i> Stay informed via local news and social media</li>
+                        <li><i class="fas fa-people-arrows"></i> Follow evacuation orders immediately</li>
+                        <li><i class="fas fa-hand-holding-heart"></i> Check on elderly and neighbors</li>
+                        <li><i class="fas fa-car"></i> Keep vehicles fueled and ready</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        
+    </div>
+</div>
+
+{% endblock %}

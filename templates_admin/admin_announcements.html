@@ -1,0 +1,50 @@
+{% extends "admin_base.html" %}
+
+{% block title %}Announcements{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h2>All Announcements</h2>
+    <a href="/admin/announcements/new" class="btn btn-primary">+ New Announcement</a>
+</div>
+
+<div class="card">
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Title</th>
+                        <th>Content</th>
+                        <th>Posted By</th>
+                        <th>Date</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% if announcements %}
+                        {% for announcement in announcements %}
+                        <tr>
+                            <td>{{ announcement.id }}</td>
+                            <td><strong>{{ announcement.title }}</strong></td>
+                            <td>{{ announcement.content[:80] }}{% if announcement.content|length > 80 %}...{% endif %}</td>
+                            <td>{{ announcement.posted_by or 'Admin' }}</td>
+                            <td>{{ announcement.date_posted.strftime('%Y-%m-%d') if announcement.date_posted else 'N/A' }}</td>
+                            <td>
+                                <a href="/admin/announcements/edit/{{ announcement.id }}" class="btn btn-warning btn-sm">Edit</a>
+                                <a href="/admin/announcements/delete/{{ announcement.id }}" class="btn btn-danger btn-sm" onclick="return confirm('Delete?')">Delete</a>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    {% else %}
+                        <tr>
+                            <td colspan="6" class="text-center">No announcements. <a href="/admin/announcements/new">Create one</a></td>
+                        </tr>
+                    {% endif %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}

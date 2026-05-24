@@ -1,0 +1,326 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<!-- ── PAGE HEADER ───────────────────────────────────────── -->
+<div class="page-header">
+    <div class="container">
+        <h1><i class="fas fa-map"></i> Geographic Information</h1>
+        <p>Location, land area, and topography of Las Nieves</p>
+    </div>
+</div>
+
+<style>
+    .geo-container {
+        max-width: 1200px;
+        margin: 0 auto;
+    }
+    
+    .geo-card {
+        background: var(--white);
+        border-radius: var(--radius-md);
+        box-shadow: var(--shadow-sm);
+        padding: 32px 35px;
+        margin-bottom: 25px;
+        transition: transform 0.2s, box-shadow 0.2s;
+    }
+    
+    .geo-card:hover {
+        box-shadow: var(--shadow-md);
+    }
+    
+    .geo-title {
+        font-family: var(--font-display);
+        font-size: 22px;
+        font-weight: 700;
+        color: var(--green-700);
+        margin-bottom: 20px;
+        padding-bottom: 10px;
+        border-bottom: 3px solid var(--green-500);
+        display: inline-block;
+    }
+    
+    .geo-text {
+        font-size: 15px;
+        line-height: 1.8;
+        color: var(--neutral-700);
+        margin-bottom: 12px;
+    }
+    
+    .highlight-number {
+        font-size: 28px;
+        font-weight: 700;
+        color: var(--green-600);
+        display: inline-block;
+    }
+    
+    .highlight-text {
+        color: var(--green-600);
+        font-weight: 600;
+    }
+    
+    .boundary-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 15px;
+        margin-top: 20px;
+    }
+    
+    .boundary-item {
+        background: var(--green-50);
+        border-radius: var(--radius-md);
+        padding: 12px 18px;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        transition: transform 0.2s;
+    }
+    
+    .boundary-item:hover {
+        transform: translateX(5px);
+        background: var(--green-100);
+    }
+    
+    .boundary-icon {
+        width: 40px;
+        height: 40px;
+        background: var(--white);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+    }
+    
+    .boundary-icon i {
+        font-size: 18px;
+        color: var(--green-500);
+    }
+    
+    .boundary-direction {
+        font-weight: 700;
+        color: var(--green-700);
+        font-size: 14px;
+        margin-bottom: 2px;
+    }
+    
+    .boundary-place {
+        font-size: 12.5px;
+        color: var(--neutral-600);
+    }
+    
+    .climate-table-wrapper {
+        overflow-x: auto;
+        margin: 20px 0;
+    }
+    
+    .climate-table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 13px;
+    }
+    
+    .climate-table th {
+        background: var(--green-700);
+        color: var(--white);
+        padding: 12px 15px;
+        text-align: center;
+        font-weight: 600;
+    }
+    
+    .climate-table td {
+        padding: 10px 15px;
+        text-align: center;
+        border-bottom: 1px solid var(--green-100);
+        color: var(--neutral-700);
+    }
+    
+    .climate-table tr:hover {
+        background: var(--green-50);
+    }
+    
+    .stats-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 20px;
+        margin: 25px 0;
+    }
+    
+    .stat-badge {
+        background: linear-gradient(135deg, var(--green-50), var(--green-100));
+        border-radius: var(--radius-md);
+        padding: 20px;
+        text-align: center;
+        border-left: 3px solid var(--green-500);
+    }
+    
+    .stat-badge-number {
+        font-size: 28px;
+        font-weight: 700;
+        color: var(--green-700);
+    }
+    
+    .stat-badge-label {
+        font-size: 12px;
+        color: var(--neutral-500);
+        margin-top: 5px;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }
+    
+    @media (max-width: 768px) {
+        .geo-card {
+            padding: 20px;
+        }
+        .climate-table th,
+        .climate-table td {
+            padding: 8px 10px;
+            font-size: 11px;
+        }
+    }
+</style>
+
+<div class="container mb-5">
+    <div class="geo-container">
+        
+        <!-- Location Section -->
+        <div class="geo-card">
+            <h2 class="geo-title"><i class="fas fa-map-pin" style="margin-right: 10px;"></i> Location</h2>
+            <p class="geo-text">The Municipality of <span class="highlight-text">Las Nieves</span> is located in the province of <span class="highlight-text">Agusan del Norte</span>, Philippines. It is situated in the northeastern part of Mindanao, approximately 1,476 kilometers southeast of Manila.</p>
+        </div>
+        
+        <!-- Land Area Section -->
+        <div class="geo-card">
+            <h2 class="geo-title"><i class="fas fa-chart-line" style="margin-right: 10px;"></i> Land Area</h2>
+            <div class="stats-grid">
+                <div class="stat-badge">
+                    <div class="stat-badge-number">582.69</div>
+                    <div class="stat-badge-label">Total Land Area (km²)</div>
+                </div>
+                <div class="stat-badge">
+                    <div class="stat-badge-number">21.34%</div>
+                    <div class="stat-badge-label">of Agusan del Norte</div>
+                </div>
+                <div class="stat-badge">
+                    <div class="stat-badge-number">224.98</div>
+                    <div class="stat-badge-label">Square Miles (sq mi)</div>
+                </div>
+            </div>
+            <p class="geo-text">The total land area of Las Nieves is <span class="highlight-text">582.69 square kilometres (224.98 sq mi)</span>. This constitutes <span class="highlight-text">21.34%</span> of the total area of Agusan del Norte (2,730.24 km²), making it one of the largest municipalities in the province.</p>
+        </div>
+        
+        <!-- Boundaries Section -->
+        <div class="geo-card">
+            <h2 class="geo-title"><i class="fas fa-border-all" style="margin-right: 10px;"></i> Boundaries</h2>
+            <div class="boundary-grid">
+                <div class="boundary-item">
+                    <div class="boundary-icon"><i class="fas fa-arrow-up"></i></div>
+                    <div>
+                        <div class="boundary-direction">North</div>
+                        <div class="boundary-place">Butuan City and Buenavista</div>
+                        <div class="boundary-place" style="font-size:11px; color:#888;">Agusan del Norte</div>
+                    </div>
+                </div>
+                <div class="boundary-item">
+                    <div class="boundary-icon"><i class="fas fa-arrow-up-right"></i></div>
+                    <div>
+                        <div class="boundary-direction">Northeast</div>
+                        <div class="boundary-place">Sibagat</div>
+                        <div class="boundary-place" style="font-size:11px; color:#888;">Agusan del Sur</div>
+                    </div>
+                </div>
+                <div class="boundary-item">
+                    <div class="boundary-icon"><i class="fas fa-arrow-right"></i></div>
+                    <div>
+                        <div class="boundary-direction">East</div>
+                        <div class="boundary-place">Bayugan City</div>
+                        <div class="boundary-place" style="font-size:11px; color:#888;">Agusan del Sur</div>
+                    </div>
+                </div>
+                <div class="boundary-item">
+                    <div class="boundary-icon"><i class="fas fa-arrow-down"></i></div>
+                    <div>
+                        <div class="boundary-direction">South</div>
+                        <div class="boundary-place">Esperanza</div>
+                        <div class="boundary-place" style="font-size:11px; color:#888;">Agusan del Sur</div>
+                    </div>
+                </div>
+                <div class="boundary-item">
+                    <div class="boundary-icon"><i class="fas fa-arrow-left"></i></div>
+                    <div>
+                        <div class="boundary-direction">West</div>
+                        <div class="boundary-place">Claveria</div>
+                        <div class="boundary-place" style="font-size:11px; color:#888;">Misamis Oriental</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Topography Section -->
+        <div class="geo-card">
+            <h2 class="geo-title"><i class="fas fa-mountain" style="margin-right: 10px;"></i> Topography</h2>
+            <p class="geo-text">The municipality features <span class="highlight-text">alluvial plains</span> stretching up to the mountains, with vast agricultural lands and cool weather conditions. The terrain ranges from flat coastal plains to rolling hills and mountainous areas, providing diverse ecosystems and natural resources.</p>
+            <p class="geo-text">The <span class="highlight-text">Agusan River</span>, one of Mindanao's major river systems, flows through the municipality, providing irrigation for farmlands and serving as a vital transportation route for residents.</p>
+        </div>
+        
+        <!-- Climate Section -->
+        <div class="geo-card">
+            <h2 class="geo-title"><i class="fas fa-cloud-sun-rain" style="margin-right: 10px;"></i> Climate</h2>
+            
+            <div class="stats-grid">
+                <div class="stat-badge">
+                    <div class="stat-badge-number">254.9</div>
+                    <div class="stat-badge-label">Average Rainy Days/Year</div>
+                </div>
+                <div class="stat-badge">
+                    <div class="stat-badge-number">27°C - 30°C</div>
+                    <div class="stat-badge-label">Average Temperature</div>
+                </div>
+                <div class="stat-badge">
+                    <div class="stat-badge-number">Type II</div>
+                    <div class="stat-badge-label">Climate Classification</div>
+                </div>
+            </div>
+            
+            <div class="climate-table-wrapper">
+                <table class="climate-table">
+                    <thead>
+                        <tr>
+                            <th>Month</th>
+                            <th>Max Temp (°C)</th>
+                            <th>Min Temp (°C)</th>
+                            <th>Precipitation (mm)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>January</td><td>28</td><td>23</td><td>154</td></tr>
+                        <tr><td>February</td><td>28</td><td>23</td><td>101</td></tr>
+                        <tr><td>March</td><td>29</td><td>22</td><td>78</td></tr>
+                        <tr><td>April</td><td>30</td><td>23</td><td>59</td></tr>
+                        <tr><td>May</td><td>30</td><td>24</td><td>95</td></tr>
+                        <tr><td>June</td><td>30</td><td>24</td><td>130</td></tr>
+                        <tr><td>July</td><td>30</td><td>24</td><td>131</td></tr>
+                        <tr><td>August</td><td>30</td><td>24</td><td>137</td></tr>
+                        <tr><td>September</td><td>30</td><td>24</td><td>125</td></tr>
+                        <tr><td>October</td><td>30</td><td>24</td><td>145</td></tr>
+                        <tr><td>November</td><td>29</td><td>24</td><td>141</td></tr>
+                        <tr><td>December</td><td>28</td><td>23</td><td>121</td></tr>
+                    </tbody>
+                </table>
+            </div>
+            
+            <p class="geo-text" style="margin-top: 15px;">The municipality has a <span class="highlight-text">Type II climate</span> classification, characterized by <span class="highlight-text">no dry season but a very pronounced wet season</span>. Rainfall is evenly distributed throughout the year, with peak precipitation occurring between November and January.</p>
+            
+            <div class="boundary-item" style="margin-top: 15px; background: #fff5e0;">
+                <div class="boundary-icon"><i class="fas fa-info-circle"></i></div>
+                <div>
+                    <div class="boundary-direction">Climate Note</div>
+                    <div class="boundary-place">The coolest months are December to February, while April and May are the warmest.</div>
+                </div>
+            </div>
+        </div>
+        
+    </div>
+</div>
+
+{% endblock %}

@@ -1,0 +1,53 @@
+{% extends "admin_base.html" %}
+
+{% block content %}
+<div class="container-fluid">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2><i class="fas fa-map-pin"></i> Barangay Directory Management</h2>
+        <a href="/admin/barangays/new" class="btn btn-primary">
+            <i class="fas fa-plus"></i> Add New Barangay
+        </a>
+    </div>
+    
+    <div class="card">
+        <div class="card-header bg-white">
+            <h5 class="mb-0">All Barangays</h5>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-bordered table-hover">
+                    <thead class="table-light">
+                        <tr>
+                            <th>ID</th>
+                            <th>Barangay Name</th>
+                            <th>Barangay Captain</th>
+                            <th>Contact Number</th>
+                            <th>Population</th>
+                            <th width="120">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for barangay in barangays %}
+                        <tr>
+                            <td>{{ barangay.id }}</td>
+                            <td><strong>{{ barangay.name }}</strong></td>
+                            <td>{{ barangay.captain or '-' }}</td>
+                            <td>{{ barangay.contact_number or '-' }}</td>
+                            <td>{{ "{:,}".format(barangay.population) if barangay.population else 0 }}</td>
+                            <td>
+                                <a href="/admin/barangays/edit/{{ barangay.id }}" class="btn btn-warning btn-sm">
+                                    <i class="fas fa-edit"></i>
+                                </a>
+                                <a href="/admin/barangays/delete/{{ barangay.id }}" class="btn btn-danger btn-sm" onclick="return confirm('Delete this barangay?')">
+                                    <i class="fas fa-trash"></i>
+                                </a>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

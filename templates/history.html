@@ -1,0 +1,260 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<!-- ── PAGE HEADER ───────────────────────────────────────── -->
+<div class="page-header">
+    <div class="container">
+        <h1><i class="fas fa-book-open"></i> History of Las Nieves</h1>
+        <p>"The Snows" - A legacy of faith, peace, and cultural heritage</p>
+    </div>
+</div>
+
+<style>
+    .history-content {
+        max-width: 1000px;
+        margin: 0 auto;
+    }
+    
+    .history-card {
+        background: var(--white);
+        border-radius: var(--radius-md);
+        box-shadow: var(--shadow-sm);
+        padding: 32px 40px;
+        margin-bottom: 30px;
+    }
+    
+    .history-title {
+        font-family: var(--font-display);
+        font-size: 24px;
+        font-weight: 700;
+        color: var(--green-700);
+        margin-bottom: 20px;
+        padding-bottom: 12px;
+        border-bottom: 3px solid var(--green-500);
+        display: inline-block;
+    }
+    
+    .history-subtitle {
+        font-family: var(--font-display);
+        font-size: 20px;
+        font-weight: 600;
+        color: var(--green-600);
+        margin: 28px 0 16px 0;
+    }
+    
+    .history-text {
+        font-size: 15px;
+        line-height: 1.8;
+        color: var(--neutral-700);
+        margin-bottom: 16px;
+        text-align: justify;
+    }
+    
+    .history-quote {
+        background: var(--green-50);
+        border-left: 4px solid var(--green-500);
+        padding: 20px 25px;
+        margin: 25px 0;
+        border-radius: 0 var(--radius-md) var(--radius-md) 0;
+        font-style: italic;
+        color: var(--green-700);
+    }
+    
+    .timeline-box {
+        background: var(--green-50);
+        border-radius: var(--radius-md);
+        padding: 25px 30px;
+        margin-top: 30px;
+    }
+    
+    .timeline-title {
+        font-family: var(--font-display);
+        font-size: 20px;
+        font-weight: 700;
+        color: var(--green-700);
+        margin-bottom: 20px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+    
+    .timeline-list {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+    }
+    
+    .timeline-list li {
+        padding: 12px 0;
+        border-bottom: 1px solid var(--green-100);
+        display: flex;
+        align-items: flex-start;
+        gap: 15px;
+        font-size: 14px;
+        color: var(--neutral-700);
+    }
+    
+    .timeline-list li:last-child {
+        border-bottom: none;
+    }
+    
+    .timeline-year {
+        font-weight: 700;
+        color: var(--green-600);
+        min-width: 110px;
+        font-size: 14px;
+    }
+    
+    .timeline-desc {
+        flex: 1;
+        line-height: 1.6;
+    }
+    
+    .highlight-text {
+        color: var(--green-600);
+        font-weight: 600;
+    }
+    
+    .indigenous-term {
+        font-style: italic;
+        color: var(--green-600);
+        font-weight: 500;
+    }
+    
+    @media (max-width: 768px) {
+        .history-card {
+            padding: 20px;
+        }
+        .timeline-list li {
+            flex-direction: column;
+            gap: 5px;
+        }
+        .timeline-year {
+            min-width: auto;
+        }
+    }
+</style>
+
+<div class="container mb-5">
+    <div class="history-content">
+        <div class="history-card">
+            
+            <!-- Origin of the Name -->
+            <h2 class="history-title">Origin of the Name</h2>
+            <p class="history-text">
+                Las Nieves (Spanish for <span class="highlight-text">"The Snows"</span>) got its name from Spanish Jesuit Missionary 
+                <span class="highlight-text">Father Saturnino Urios</span>. Upon arriving in the area in April 1877, he and his 
+                companions were struck by the unusually cold conditions. The valley was enveloped in thick fog and intense chill, 
+                giving the impression of falling snow. The scene reminded Father Urios of his hometown in Játiva, Spain, prompting 
+                them to exclaim, <span class="indigenous-term">"¡La nieve! ¡La nieve!"</span> ("The snow! The snow!").
+            </p>
+            
+            <div class="history-quote">
+                <i class="fas fa-quote-left" style="color: var(--green-500); margin-right: 10px;"></i>
+                The valley was enveloped in thick fog and intense chill, giving the impression of falling snow.
+            </div>
+            
+            <!-- Early History -->
+            <h2 class="history-title">Early History</h2>
+            <p class="history-text">
+                The first traders to enter Las Nieves were natives of Butuan City. They used to travel along the 
+                <span class="highlight-text">Agusan River</span> in wooden dug-out boats or <span class="indigenous-term">baoto</span> 
+                using a long paddle called <span class="indigenous-term">ga-o</span>. The Manobo and Higaonon tribes, including the 
+                Jovellar, Tepnage, Bayan, Legis, Taga-ang and Kulisan families, were the first dominant families in the area. 
+                Respected warriors, or <span class="indigenous-term">bagani</span>, such as Dagohoy and Kulisan were considered 
+                influential leaders.
+            </p>
+            
+            <p class="history-text">
+                The Manobo and Higaonon peoples traditionally used bags made from woven abaca fibers, known as 
+                <span class="indigenous-term">camuyot</span>, to carry their belongings. Their customary entertainment included 
+                traditional war dances like <span class="indigenous-term">kalasag</span>, as well as ceremonial dances like 
+                <span class="indigenous-term">binaylan</span>, <span class="indigenous-term">inamo</span>, and 
+                <span class="indigenous-term">binanog</span>. These performances were often accompanied by the 
+                <span class="indigenous-term">agong</span>, a musical instrument believed to have been made of pure gold.
+            </p>
+            
+            <!-- The Jesuit Mission -->
+            <h2 class="history-title">The Jesuit Mission</h2>
+            <p class="history-text">
+                In 1875, on orders from the Bishop of Cebu, a group of Spanish Jesuit Missionaries disembarked at the Port of Butuan. 
+                In February 1877, Father Saturnino Urios, with two other Jesuit Missionaries, Father Ramon Pamies and Father Jose Casellas, 
+                announced the beginning of their mission to preach the gospel to the natives.
+            </p>
+            
+            <p class="history-text">
+                In April 1877, Father Urios reported to his superior in Manila the successful founding of five villages along the 
+                Agusan River. The villages were <span class="highlight-text">Las Nieves, Remedios, Esperanza, Guadalupe and San Luis</span>.
+            </p>
+            
+            <p class="history-text">
+                Las Nieves, originally named <span class="highlight-text">Pinana-an</span> (a place for hunting), was the area that 
+                Father Urios first founded. The natives or Manobos used to catch wild pigs, birds, and fishes with their bows and 
+                arrows or <span class="indigenous-term">panâ</span> here.
+            </p>
+            
+            <!-- Foundation as a Municipality -->
+            <h2 class="history-title">Foundation as a Municipality</h2>
+            <p class="history-text">
+                <span class="highlight-text">Eufronio Rosales</span> was first elected mayor in 1955. He later became the first 
+                municipal mayor following the creation of the Municipality of Las Nieves through a Republic Act on 
+                <span class="highlight-text">July 2, 1962</span>. The municipality was formally separated from Esperanza on 
+                <span class="highlight-text">June 25, 1963</span>, by virtue of Executive Order No. 42 issued by President 
+                <span class="highlight-text">Diosdado Macapagal</span>.
+            </p>
+            
+            <!-- Patron Saint -->
+            <h2 class="history-title">Patron Saint</h2>
+            <p class="history-text">
+                In honor of their patroness, the <span class="highlight-text">Nuestra Señora de Las Nieves</span> 
+                (Our Lady of the Snow), Father Urios named this place <span class="highlight-text">Las Nieves</span>.
+            </p>
+            
+            <!-- Historical Timeline -->
+            <div class="timeline-box">
+                <div class="timeline-title">
+                    <i class="fas fa-timeline" style="color: var(--green-500);"></i>
+                    Historical Timeline
+                </div>
+                <ul class="timeline-list">
+                    <li>
+                        <span class="timeline-year">1875</span>
+                        <span class="timeline-desc">Spanish Jesuit Missionaries arrive in Butuan</span>
+                    </li>
+                    <li>
+                        <span class="timeline-year">February 1877</span>
+                        <span class="timeline-desc">Father Saturnino Urios begins his mission</span>
+                    </li>
+                    <li>
+                        <span class="timeline-year">April 1877</span>
+                        <span class="timeline-desc">Las Nieves founded as a village</span>
+                    </li>
+                    <li>
+                        <span class="timeline-year">1943</span>
+                        <span class="timeline-desc">Became headquarters of Agusan 110th and 113th Infantry Division</span>
+                    </li>
+                    <li>
+                        <span class="timeline-year">1955</span>
+                        <span class="timeline-desc">First elected mayor (Eufronio Rosales)</span>
+                    </li>
+                    <li>
+                        <span class="timeline-year">July 2, 1962</span>
+                        <span class="timeline-desc">Created as a municipality by Republic Act</span>
+                    </li>
+                    <li>
+                        <span class="timeline-year">June 25, 1963</span>
+                        <span class="timeline-desc">Formally separated from Esperanza (Executive Order No. 42)</span>
+                    </li>
+                    <li>
+                        <span class="timeline-year">March 27, 2021</span>
+                        <span class="timeline-desc">304 NPA militiamen and supporters surrendered</span>
+                    </li>
+                </ul>
+            </div>
+            
+        </div>
+    </div>
+</div>
+
+{% endblock %}

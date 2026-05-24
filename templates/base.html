@@ -1,0 +1,999 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Municipality of Las Nieves - Official Website</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Source+Sans+3:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --green-950: #071a0e;
+            --green-900: #0d2b16;
+            --green-800: #14401f;
+            --green-700: #1a5228;
+            --green-600: #1f6130;
+            --green-500: #2a7a3b;
+            --green-400: #3d9950;
+            --green-300: #5cb870;
+            --green-200: #a8d9b3;
+            --green-100: #dff0e3;
+            --green-50:  #f0f8f2;
+
+            --red-600:   #c62828;
+            --red-500:   #e53935;
+
+            --neutral-900: #1a1a1a;
+            --neutral-700: #444444;
+            --neutral-500: #666666;
+            --neutral-400: #888888;
+            --neutral-300: #bbbbbb;
+            --neutral-200: #dddddd;
+            --neutral-100: #f4f4f2;
+            --white:       #ffffff;
+
+            --shadow-sm: 0 1px 4px rgba(0,0,0,0.07);
+            --shadow-md: 0 4px 16px rgba(0,0,0,0.10);
+            --shadow-lg: 0 8px 32px rgba(0,0,0,0.14);
+
+            --radius-sm: 6px;
+            --radius-md: 10px;
+            --radius-lg: 16px;
+
+            --font-display: 'Playfair Display', Georgia, serif;
+            --font-body:    'Source Sans 3', 'Segoe UI', sans-serif;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: var(--font-body);
+            background: var(--neutral-100);
+            color: var(--neutral-900);
+            font-size: 15px;
+            line-height: 1.6;
+        }
+
+        /* Smooth scrolling for the whole page */
+        html {
+            scroll-behavior: smooth;
+        }
+
+        /* Floating effect with glow on hover */
+        .floating-image {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        .floating-image:hover {
+            transform: scale(1.02);
+            box-shadow: 0 0 25px rgba(255, 193, 7, 0.6), 0 0 15px rgba(255, 193, 7, 0.4);
+            filter: brightness(1.05);
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-8px); }
+            100% { transform: translateY(0px); }
+        }
+
+        /* Carousel glow effect */
+        #heroCarousel {
+            transition: all 0.3s ease;
+        }
+
+        #heroCarousel:hover {
+            box-shadow: 0 0 30px rgba(255, 193, 7, 0.4), 0 8px 25px rgba(0,0,0,0.2) !important;
+        }
+
+        .carousel-item img {
+            transition: all 0.3s ease;
+        }
+
+        .carousel-item:hover img {
+            filter: brightness(1.05);
+        }
+
+        /* Gallery card hover effect */
+        .gallery-card {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .gallery-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 0 20px rgba(255, 193, 7, 0.4);
+        }
+
+        /* Navbar */
+        .main-navbar {
+            background: #053312;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+        .main-navbar .container {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            height: 42px;
+        }
+        .nav-brand {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            text-decoration: none;
+            flex-shrink: 0;
+        }
+        .nav-brand-seal {
+            width: 26px;
+            height: 26px;
+            background: var(--green-500);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .nav-brand-seal i { font-size: 11px; color: #cbf3cc; }
+        .nav-brand-name {
+            font-family: var(--font-body);
+            font-size: 13px;
+            font-weight: 600;
+            color: #cbf3cc;
+        }
+        .nav-links {
+            display: flex;
+            align-items: center;
+            height: 100%;
+        }
+        .nav-dropdown {
+            position: relative;
+            height: 100%;
+            display: flex;
+            align-items: center;
+        }
+        .nav-dropbtn {
+            background: transparent;
+            color: rgb(203, 230, 190);
+            padding: 0 12px;
+            height: 42px;
+            font-size: 12.5px;
+            font-family: var(--font-body);
+            font-weight: 400;
+            border: none;
+            cursor: pointer;
+            white-space: nowrap;
+            transition: color 0.15s;
+        }
+        .nav-dropbtn:hover,
+        .nav-dropdown:hover .nav-dropbtn { color: #efefef; }
+        .nav-dropbtn.emergency { color: rgba(255,140,130,0.9); }
+
+        .nav-dropdown-content {
+            display: none;
+            position: absolute;
+            top: 42px;
+            left: 0;
+            background: var(--white);
+            min-width: 220px;
+            box-shadow: var(--shadow-lg);
+            z-index: 200;
+            border-radius: 0 0 var(--radius-md) var(--radius-md);
+            border-top: 3px solid var(--green-500);
+            overflow: hidden;
+        }
+        .nav-dropdown-content a {
+            color: var(--neutral-700);
+            padding: 10px 16px;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 13px;
+            transition: all 0.15s;
+            border-left: 3px solid transparent;
+        }
+        .nav-dropdown-content a i { color: var(--green-500); width: 15px; text-align: center; }
+        .nav-dropdown-content a:hover {
+            background: var(--green-50);
+            color: var(--green-700);
+            border-left-color: var(--green-500);
+            padding-left: 20px;
+        }
+        .nav-dropdown:hover .nav-dropdown-content { display: block; }
+
+        /* Search Button */
+        .nav-search-btn {
+            background: transparent;
+            border: none;
+            color: rgba(255,255,255,0.55);
+            padding: 0 12px;
+            height: 42px;
+            cursor: pointer;
+            font-size: 13px;
+            flex-shrink: 0;
+            transition: color 0.15s;
+        }
+        .nav-search-btn:hover { color: #ffffff; }
+
+        /* Search Modal */
+        .search-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.85);
+            z-index: 10000;
+            align-items: center;
+            justify-content: center;
+        }
+        .search-modal-content {
+            background: white;
+            width: 90%;
+            max-width: 600px;
+            border-radius: 12px;
+            overflow: hidden;
+            animation: slideDown 0.3s ease;
+        }
+        @keyframes slideDown {
+            from { opacity: 0; transform: translateY(-50px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .search-modal-header {
+            background: #1a5228;
+            color: white;
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .search-modal-header h5 { margin: 0; font-size: 16px; }
+        .close-modal {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 24px;
+            cursor: pointer;
+        }
+        .search-modal-body {
+            padding: 20px;
+            max-height: 500px;
+            overflow-y: auto;
+        }
+        .search-input-group {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        .search-input-field {
+            flex: 1;
+            padding: 12px 15px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 14px;
+            outline: none;
+        }
+        .search-input-field:focus {
+            border-color: #1a5228;
+        }
+        .search-submit-btn {
+            background: #1a5228;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+        .search-result-item {
+            padding: 12px;
+            border-bottom: 1px solid #eee;
+            cursor: pointer;
+            text-decoration: none;
+            display: block;
+        }
+        .search-result-item:hover {
+            background: #f0f9f0;
+        }
+        .search-result-title {
+            font-weight: 600;
+            color: #1a5228;
+            font-size: 14px;
+        }
+        .search-result-desc {
+            font-size: 12px;
+            color: #666;
+            margin-top: 4px;
+        }
+        .no-results {
+            text-align: center;
+            padding: 40px;
+            color: #666;
+        }
+
+        /* mobile */
+        .mobile-menu-btn {
+            display: none;
+            background: transparent;
+            color: rgba(255,255,255,0.8);
+            padding: 5px 10px;
+            border: 1px solid rgba(255,255,255,0.2);
+            font-size: 13px;
+            cursor: pointer;
+            border-radius: var(--radius-sm);
+        }
+        @media (max-width: 992px) {
+            .nav-links { display: none; }
+            .mobile-menu-btn { display: block; }
+            .nav-links.show {
+                display: flex;
+                flex-direction: column;
+                position: absolute;
+                top: 42px; left: 0; right: 0;
+                background: #111813;
+                padding: 6px 0;
+                border-top: 1px solid rgba(255,255,255,0.08);
+                height: auto;
+                z-index: 999;
+            }
+            .nav-dropdown { width: 100%; flex-direction: column; align-items: flex-start; height: auto; }
+            .nav-dropbtn { width: 100%; height: 40px; padding-left: 16px; text-align: left; }
+            .nav-dropdown-content { position: static; box-shadow: none; border-radius: 0; border-top: none; background: rgba(255,255,255,0.04); }
+            .nav-dropdown-content a { color: rgba(255,255,255,0.65); }
+            .nav-dropdown-content a:hover { background: rgba(255,255,255,0.07); color: #fff; }
+        }
+
+        /* Hero Section */
+        .hero-section {
+            background: linear-gradient(145deg, var(--green-900) 0%, var(--green-700) 50%, var(--green-500) 100%);
+            padding: 52px 0 44px;
+            position: relative;
+            overflow: hidden;
+        }
+        .hero-section::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(ellipse at 72% 50%, rgb(39, 121, 61) 0%, transparent 65%);
+        }
+        .hero-tag {
+            display: inline-block;
+            background: rgba(255,255,255,0.12);
+            border: 1px solid rgba(255,255,255,0.25);
+            color: rgb(186, 238, 171);
+            font-size: 10px;
+            font-weight: 700;
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
+            padding: 4px 12px;
+            border-radius: 20px;
+            margin-bottom: 14px;
+        }
+        .hero-title {
+            font-family: var(--font-display);
+            font-size: 38px;
+            font-weight: 700;
+            color: var(--white);
+            line-height: 1.18;
+            margin-bottom: 14px;
+        }
+        .hero-desc {
+            font-size: 13.5px;
+            color: rgb(204, 244, 166);
+            margin-bottom: 24px;
+            max-width: 420px;
+            line-height: 1.65;
+        }
+        .hero-btn {
+            display: inline-block;
+            background: transparent;
+            color: rgb(206, 250, 169);
+            border: 1.5px solid rgba(255,255,255,0.35);
+            padding: 9px 22px;
+            border-radius: var(--radius-sm);
+            font-size: 13px;
+            font-weight: 500;
+            text-decoration: none;
+            transition: all 0.2s;
+        }
+        .hero-btn:hover {
+            border-color: rgba(255,255,255,0.7);
+            color: #fff;
+            background: rgba(255,255,255,0.08);
+        }
+
+        /* Stats Bar */
+        .stats-bar { background: var(--white); box-shadow: var(--shadow-md); }
+        .stat-item {
+            padding: 20px 16px;
+            border-right: 1px solid var(--neutral-100);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .stat-item:last-child { border-right: none; }
+        .stat-icon {
+            width: 40px; height: 40px;
+            background: var(--green-200);
+            border-radius: var(--radius-sm);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+        .stat-icon i { font-size: 17px; color: var(--green-600); }
+        .stat-number {
+            font-family: var(--font-display);
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--neutral-900);
+            line-height: 1;
+        }
+        .stat-label {
+            font-size: 11px;
+            color: var(--neutral-500);
+            font-weight: 500;
+            margin-top: 3px;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+        }
+        @media (max-width: 768px) {
+            .stat-item { border-right: none; border-bottom: 1px solid var(--neutral-100); }
+        }
+
+        /* Resource Hub */
+        .resource-section { background: var(--green-50); padding: 36px 0; }
+        .resource-card {
+            background: var(--white);
+            border-radius: var(--radius-md);
+            padding: 20px;
+            height: 100%;
+            box-shadow: var(--shadow-sm);
+            border: 1px solid rgba(0,0,0,0.05);
+            border-top: 3px solid var(--green-400);
+            transition: transform 0.2s, box-shadow 0.2s;
+            text-decoration: none;
+            display: block;
+        }
+        .resource-card:hover { transform: translateY(-3px); box-shadow: var(--shadow-md); }
+        .resource-card-icon {
+            width: 36px; height: 36px;
+            background: var(--green-100);
+            border-radius: var(--radius-sm);
+            display: flex; align-items: center; justify-content: center;
+            margin-bottom: 11px;
+        }
+        .resource-card-icon i { color: var(--green-600); font-size: 16px; }
+        .resource-card-icon.emergency { background: #ffebee; }
+        .resource-card-icon.emergency i { color: var(--red-600); }
+        .resource-card h6 {
+            font-weight: 700; font-size: 14px;
+            color: var(--neutral-900); margin-bottom: 5px;
+        }
+        .resource-card h6.emergency { color: var(--red-600); }
+        .resource-card p { font-size: 12.5px; color: var(--neutral-500); margin: 0 0 10px; line-height: 1.5; }
+        .resource-card-link { font-size: 12px; font-weight: 600; color: var(--green-600); text-decoration: none; }
+        .resource-card-link.emergency { color: var(--red-600); }
+
+        /* News Section */
+        .news-section { background: var(--neutral-100); padding: 40px 0 48px; }
+        .news-featured {
+            background: var(--white);
+            border-radius: var(--radius-md);
+            overflow: hidden;
+            box-shadow: var(--shadow-sm);
+            margin-bottom: 18px;
+            transition: box-shadow 0.2s;
+        }
+        .news-featured:hover { box-shadow: var(--shadow-md); }
+        .news-featured-img { width: 100%; height: 175px; object-fit: cover; display: block; }
+        .news-featured-img-placeholder { width: 100%; height: 175px; background: var(--green-800); display: flex; align-items: center; justify-content: center; }
+        .news-featured-body { padding: 16px 18px; }
+        .news-tag {
+            display: inline-block;
+            background: var(--green-200);
+            color: var(--green-700);
+            font-size: 10px; font-weight: 700;
+            letter-spacing: 0.1em; text-transform: uppercase;
+            padding: 3px 9px; border-radius: 20px; margin-bottom: 8px;
+        }
+        .news-title {
+            font-family: var(--font-display);
+            font-size: 16px; font-weight: 600;
+            color: var(--neutral-900); line-height: 1.3; margin-bottom: 6px;
+        }
+        .news-date {
+            font-size: 11.5px; color: var(--neutral-500); font-weight: 500;
+            display: flex; align-items: center; gap: 5px; margin-bottom: 7px;
+        }
+        .news-excerpt { font-size: 13px; color: var(--neutral-700); margin-bottom: 10px; line-height: 1.55; }
+        .read-more-link {
+            color: var(--green-600); font-size: 12.5px; font-weight: 600;
+            text-decoration: none; display: inline-flex; align-items: center; gap: 4px;
+        }
+        .read-more-link:hover { color: var(--green-700); }
+
+        .news-item-small {
+            background: var(--white);
+            border-radius: var(--radius-md);
+            padding: 14px 16px; margin-bottom: 12px;
+            box-shadow: var(--shadow-sm);
+            border-left: 3px solid var(--green-400);
+            transition: transform 0.2s;
+        }
+        .news-item-small:hover { transform: translateX(2px); }
+        .news-item-small .news-title { font-size: 14px; margin-bottom: 4px; }
+        .news-item-small .news-excerpt { font-size: 12.5px; margin-bottom: 6px; }
+
+        /* Sidebar */
+        .sidebar-card {
+            background: var(--green-700);
+            border-radius: var(--radius-md);
+            padding: 18px 20px;
+            color: var(--white);
+            margin-bottom: 16px;
+            position: relative; overflow: hidden;
+        }
+        .sidebar-card .sc-heading {
+            font-size: 10.5px; font-weight: 700;
+            letter-spacing: 0.15em; text-transform: uppercase;
+            color: rgba(255,255,255,0.6); margin-bottom: 14px;
+            display: flex; align-items: center; gap: 6px;
+        }
+        .quick-fact-item { margin-bottom: 11px; }
+        .quick-fact-label {
+            font-size: 10px; font-weight: 700;
+            letter-spacing: 0.1em; text-transform: uppercase;
+            color: rgba(255,255,255,0.5); margin-bottom: 2px;
+        }
+        .quick-fact-value { font-size: 12.5px; color: rgba(255,255,255,0.85); line-height: 1.45; }
+
+        .events-card {
+            background: var(--white);
+            border-radius: var(--radius-md);
+            padding: 18px 20px;
+            box-shadow: var(--shadow-sm);
+            border: 1px solid rgba(0,0,0,0.05);
+        }
+        .events-card .ec-heading {
+            font-size: 10.5px; font-weight: 700;
+            letter-spacing: 0.15em; text-transform: uppercase;
+            color: var(--green-700); margin-bottom: 14px;
+            display: flex; align-items: center; gap: 6px;
+        }
+        .event-item {
+            display: flex; gap: 11px;
+            padding: 9px 0;
+            border-bottom: 1px solid var(--neutral-100);
+        }
+        .event-item:last-child { border-bottom: none; padding-bottom: 0; }
+        .event-date-badge {
+            background: var(--green-100);
+            border: 1px solid var(--green-100);
+            border-radius: var(--radius-sm);
+            text-align: center;
+            padding: 5px 9px; flex-shrink: 0; min-width: 42px;
+        }
+        .event-date-badge .day {
+            font-family: var(--font-display);
+            font-size: 17px; font-weight: 700;
+            color: var(--green-700); line-height: 1; display: block;
+        }
+        .event-date-badge .month {
+            font-size: 9.5px; font-weight: 700;
+            text-transform: uppercase; color: var(--neutral-500);
+            letter-spacing: 0.06em; display: block;
+        }
+        .event-info-title { font-size: 12.5px; font-weight: 600; color: var(--neutral-800); margin-bottom: 2px; line-height: 1.3; }
+        .event-info-sub { font-size: 11px; color: var(--neutral-500); }
+        .view-calendar-btn {
+            display: block; text-align: center; margin-top: 13px;
+            padding: 8px;
+            border: 1.5px solid var(--neutral-200);
+            border-radius: var(--radius-sm);
+            color: var(--neutral-700); font-size: 12px; font-weight: 600;
+            text-decoration: none; transition: all 0.2s;
+        }
+        .view-calendar-btn:hover { border-color: var(--green-400); color: var(--green-700); background: var(--green-50); }
+
+        /* Gallery */
+        .gallery-card {
+            overflow: hidden;
+            border-radius: var(--radius-md);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            cursor: pointer;
+            background: var(--white);
+            box-shadow: var(--shadow-sm);
+        }
+        .gallery-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 0 20px rgba(255, 193, 7, 0.4);
+        }
+        .gallery-card img { width: 100%; height: 190px; object-fit: cover; display: block; }
+        .gallery-card p { padding: 10px 14px; margin: 0; color: var(--green-700); font-size: 13.5px; font-weight: 600; }
+
+        /* Buttons */
+        .btn-custom {
+            background: var(--green-700); color: var(--white);
+            padding: 9px 26px; border: 2px solid var(--green-700);
+            border-radius: var(--radius-sm); font-weight: 600; font-size: 13px;
+            text-decoration: none; display: inline-block;
+            transition: all 0.2s;
+        }
+        .btn-custom:hover { background: transparent; color: var(--green-700); }
+
+        /* Footer */
+        .footer {
+            background: var(--green-800);
+            color: rgba(255,255,255,0.7);
+            padding: 44px 0 22px;
+            border-top: 3px solid var(--green-600);
+        }
+        .footer-col-title {
+            font-size: 12.5px; font-weight: 700;
+            color: var(--white); margin-bottom: 14px;
+            letter-spacing: 0.04em; text-transform: uppercase;
+        }
+        .footer-brand-name {
+            font-family: var(--font-display);
+            font-size: 14px; font-weight: 700; color: var(--white);
+        }
+        .footer p { font-size: 12.5px; line-height: 1.65; }
+        .footer a { color: rgba(255,255,255,0.6); text-decoration: none; font-size: 12.5px; transition: color 0.15s; }
+        .footer a:hover { color: var(--white); }
+        .footer ul { list-style: none; padding: 0; margin: 0; }
+        .footer ul li { margin-bottom: 7px; font-size: 12.5px; }
+        .footer-icon { color: rgba(255,255,255,0.45); margin-right: 7px; font-size: 11px; }
+        .footer-social-btn {
+            width: 30px; height: 30px;
+            background: rgba(255,255,255,0.09);
+            border-radius: 50%;
+            display: inline-flex; align-items: center; justify-content: center;
+            color: rgba(255,255,255,0.65); font-size: 12px;
+            text-decoration: none; transition: background 0.2s;
+        }
+        .footer-social-btn:hover { background: rgba(255,255,255,0.18); color: var(--white); }
+        .footer-divider { border-color: rgba(255,255,255,0.08); margin: 26px 0 18px; }
+
+        .copyright {
+            background: var(--green-950);
+            padding: 11px 0; text-align: center;
+            color: rgba(255,255,255,0.3); font-size: 11.5px;
+        }
+
+        .section-title {
+            font-family: var(--font-display);
+            font-size: 22px;
+            font-weight: 700;
+            color: var(--neutral-900);
+            margin-bottom: 0;
+        }
+        .section-title-line {
+            width: 36px;
+            height: 3px;
+            background: var(--green-500);
+            border-radius: 2px;
+            margin: 8px 0 20px;
+        }
+        .section-subtitle {
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
+            color: var(--green-600);
+            margin-bottom: 4px;
+        }
+        .section-header-row {
+            display: flex;
+            align-items: flex-end;
+            justify-content: space-between;
+            margin-bottom: 6px;
+        }
+        .view-all-link {
+            font-size: 12.5px;
+            font-weight: 600;
+            color: var(--green-600);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        /* Page Header for inner pages */
+        .page-header {
+            background: linear-gradient(135deg, var(--green-800) 0%, var(--green-600) 100%);
+            color: var(--white);
+            padding: 44px 0 38px;
+            margin-bottom: 36px;
+            position: relative;
+            overflow: hidden;
+        }
+        .page-header h1 {
+            font-family: var(--font-display);
+            font-size: 34px;
+            font-weight: 700;
+            margin-bottom: 6px;
+        }
+        .page-header p {
+            color: rgba(255,255,255,0.78);
+            font-size: 14.5px;
+            margin: 0;
+        }
+        
+        /* Info Card */
+        .info-card {
+            background: var(--white);
+            border-radius: var(--radius-md);
+            padding: 25px;
+            box-shadow: var(--shadow-sm);
+            border: 1px solid rgba(0,0,0,0.05);
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ── NAVBAR ───────────────────────────────────────── -->
+    <nav class="main-navbar">
+        <div class="container">
+            <a class="nav-brand" href="{{ url_for('index') }}">
+                <div class="nav-brand-seal"><i class="fas fa-leaf"></i></div>
+                <span class="nav-brand-name">Las Nieves</span>
+            </a>
+            <button class="mobile-menu-btn" onclick="document.getElementById('navLinks').classList.toggle('show')">
+                <i class="fas fa-bars"></i>
+            </button>
+            <div class="nav-links" id="navLinks">
+                <div class="nav-dropdown">
+                    <button class="nav-dropbtn">About Municipality</button>
+                    <div class="nav-dropdown-content">
+                        <a href="{{ url_for('history') }}"><i class="fas fa-scroll"></i> History of Las Nieves</a>
+                        <a href="{{ url_for('vision_mission') }}"><i class="fas fa-bullseye"></i> Vision, Mission, Goals</a>
+                        <a href="{{ url_for('municipal_seal') }}"><i class="fas fa-shield-alt"></i> Municipal Seal / Logo</a>
+                        <a href="{{ url_for('geography') }}"><i class="fas fa-map"></i> Geographic Information</a>
+                        <a href="{{ url_for('population') }}"><i class="fas fa-users"></i> Population Statistics</a>
+                        <a href="{{ url_for('contact') }}"><i class="fas fa-address-book"></i> Contact Information</a>
+                    </div>
+                </div>
+                <div class="nav-dropdown">
+                    <button class="nav-dropbtn">Government</button>
+                    <div class="nav-dropdown-content">
+                        <a href="{{ url_for('officials') }}"><i class="fas fa-id-badge"></i> Municipal Officials</a>
+                        <a href="{{ url_for('barangay_directory') }}"><i class="fas fa-map-pin"></i> Barangay Directory</a>
+                        <a href="{{ url_for('services') }}"><i class="fas fa-building"></i> Offices and Services</a>
+                    </div>
+                </div>
+                <div class="nav-dropdown">
+                    <button class="nav-dropbtn">Information</button>
+                    <div class="nav-dropdown-content">
+                        <a href="{{ url_for('announcements') }}"><i class="fas fa-newspaper"></i> Announcements &amp; News</a>
+                        <a href="{{ url_for('projects') }}"><i class="fas fa-project-diagram"></i> Projects &amp; Programs</a>
+                        <a href="{{ url_for('emergency') }}"><i class="fas fa-exclamation-triangle"></i> Emergency Information</a>
+                        <a href="{{ url_for('calendar') }}"><i class="fas fa-calendar-alt"></i> Calendar of Activities</a>
+                    </div>
+                </div>
+                <div class="nav-dropdown">
+                    <button class="nav-dropbtn">Media</button>
+                    <div class="nav-dropdown-content">
+                        <a href="{{ url_for('gallery') }}"><i class="fas fa-images"></i> Photo Gallery</a>
+                    </div>
+                </div>
+                <div class="nav-dropdown">
+                    <button class="nav-dropbtn emergency">Emergency</button>
+                    <div class="nav-dropdown-content">
+                        <a href="{{ url_for('emergency_services') }}"><i class="fas fa-first-aid"></i> Emergency Services</a>
+                        <a href="#"><i class="fas fa-fire-extinguisher"></i> Fire Station</a>
+                        <a href="#"><i class="fas fa-water"></i> PDRRMO</a>
+                        <a href="#"><i class="fas fa-clinic-medical"></i> RHU's</a>
+                        <a href="#"><i class="fas fa-hospital"></i> Hospitals</a>
+                    </div>
+                </div>
+            </div>
+            <button class="nav-search-btn" onclick="openSearchModal()">
+                <i class="fas fa-search"></i>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Search Modal -->
+    <div id="searchModal" class="search-modal">
+        <div class="search-modal-content">
+            <div class="search-modal-header">
+                <h5><i class="fas fa-search"></i> Search Las Nieves</h5>
+                <button class="close-modal" onclick="closeSearchModal()">&times;</button>
+            </div>
+            <div class="search-modal-body">
+                <div class="search-input-group">
+                    <input type="text" id="searchQuery" class="search-input-field" placeholder="Type your search here..." onkeypress="if(event.key==='Enter') performSearch()">
+                    <button class="search-submit-btn" onclick="performSearch()">
+                        <i class="fas fa-search"></i> Search
+                    </button>
+                </div>
+                <div id="searchResults">
+                    <div class="text-center p-4 text-muted">
+                        <i class="fas fa-search" style="font-size: 36px; margin-bottom: 10px; opacity: 0.5;"></i>
+                        <p>Type something to search announcements, officials, projects, and more...</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            {% for category, message in messages %}
+                <div class="alert alert-{{ category if category != 'error' else 'danger' }} alert-dismissible fade show m-3" role="alert">
+                    {{ message }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                </div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+
+    {% block content %}{% endblock %}
+
+    <!-- ── FOOTER ───────────────────────────────────────── -->
+    <footer class="footer">
+        <div class="container">
+            <div class="row g-4">
+                <div class="col-lg-4 col-md-6">
+                    <div style="display:flex;align-items:center;gap:8px;margin-bottom:12px;">
+                        <div style="width:26px;height:26px;background:var(--green-600);border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+                            <i class="fas fa-leaf" style="font-size:11px;color:rgba(255,255,255,0.9);"></i>
+                        </div>
+                        <span class="footer-brand-name">Las Nieves</span>
+                    </div>
+                    <p style="color:rgba(255,255,255,0.55);">Dedicated to sustainable growth, transparent governance, and the preservation of our natural heritage for the people of Las Nieves.</p>
+                    <div style="display:flex;gap:7px;margin-top:13px;">
+                        <a href="#" class="footer-social-btn"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" class="footer-social-btn"><i class="fab fa-twitter"></i></a>
+                    </div>
+                </div>
+                <div class="col-lg-2 col-md-6">
+                    <div class="footer-col-title">Helpful Links</div>
+                    <ul>
+                        <li><a href="#">Privacy Policy</a></li>
+                        <li><a href="#">Terms of Service</a></li>
+                        <li><a href="#">Transparency Seal</a></li>
+                        <li><a href="#">Accessibility</a></li>
+                        <li><a href="{{ url_for('emergency_services') }}">Emergency Hotlines</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <div class="footer-col-title">Emergency Numbers</div>
+                    <ul>
+                        <li><i class="fas fa-phone footer-icon"></i> Police: (088) 813-0114</li>
+                        <li><i class="fas fa-fire footer-icon"></i> Fire: (088) 813-0116</li>
+                        <li><i class="fas fa-ambulance footer-icon"></i> RHU: (088) 813-0118</li>
+                        <li><i class="fas fa-envelope footer-icon"></i> info@lasnieves.gov.ph</li>
+                    </ul>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <div class="footer-col-title">Contact Us</div>
+                    <ul>
+                        <li><i class="fas fa-map-marker-alt footer-icon"></i> Poblacion, Las Nieves</li>
+                        <li><i class="fas fa-globe footer-icon"></i> Agusan del Norte, Philippines</li>
+                    </ul>
+                </div>
+            </div>
+            <hr class="footer-divider">
+            <div style="display:flex;justify-content:space-between;flex-wrap:wrap;gap:6px;">
+                <p style="font-size:11px;color:rgba(255,255,255,0.28);margin:0;">© 2026 Municipality of Las Nieves, Agusan del Norte. All Rights Reserved.</p>
+                <p style="font-size:11px;color:rgba(255,255,255,0.28);margin:0;">Official Government Website of the Republic of the Philippines</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        document.addEventListener('click', function(e) {
+            var nav = document.getElementById('navLinks');
+            var btn = document.querySelector('.mobile-menu-btn');
+            if (nav && nav.classList.contains('show') && !nav.contains(e.target) && btn && !btn.contains(e.target)) {
+                nav.classList.remove('show');
+            }
+        });
+
+        // Search functionality
+        function openSearchModal() {
+            document.getElementById('searchModal').style.display = 'flex';
+            document.getElementById('searchQuery').focus();
+        }
+        
+        function closeSearchModal() {
+            document.getElementById('searchModal').style.display = 'none';
+        }
+        
+        function performSearch() {
+            const query = document.getElementById('searchQuery').value.trim();
+            if (query === '') {
+                document.getElementById('searchResults').innerHTML = '<div class="text-center p-4 text-muted"><i class="fas fa-exclamation-circle" style="font-size: 24px;"></i><p class="mt-2">Please enter a search term</p></div>';
+                return;
+            }
+            
+            document.getElementById('searchResults').innerHTML = '<div class="text-center p-4"><i class="fas fa-spinner fa-spin" style="font-size: 24px;"></i><p class="mt-2">Searching...</p></div>';
+            
+            fetch(`/api/search?q=${encodeURIComponent(query)}`)
+                .then(response => response.json())
+                .then(data => {
+                    displaySearchResults(data, query);
+                })
+                .catch(error => {
+                    console.error('Search error:', error);
+                    document.getElementById('searchResults').innerHTML = '<div class="text-center p-4 text-danger"><i class="fas fa-exclamation-triangle" style="font-size: 24px;"></i><p class="mt-2">Search error. Please try again.</p></div>';
+                });
+        }
+        
+        function displaySearchResults(results, query) {
+            const resultsDiv = document.getElementById('searchResults');
+            
+            if (!results || (results.announcements.length === 0 && results.officials.length === 0 && results.projects.length === 0 && results.events.length === 0)) {
+                resultsDiv.innerHTML = `<div class="no-results">
+                    <i class="fas fa-search" style="font-size: 48px; opacity: 0.3; margin-bottom: 15px;"></i>
+                    <p>No results found for "<strong>${escapeHtml(query)}</strong>"</p>
+                    <small class="text-muted">Try different keywords or browse our pages</small>
+                </div>`;
+                return;
+            }
+            
+            let html = '';
+            
+            if (results.announcements && results.announcements.length > 0) {
+                html += `<div style="margin-bottom: 15px;"><strong style="color: #1a5228;"><i class="fas fa-newspaper"></i> Announcements (${results.announcements.length})</strong></div>`;
+                results.announcements.forEach(item => {
+                    html += `<a href="${item.url}" class="search-result-item" onclick="closeSearchModal()">
+                        <div class="search-result-title">📢 ${escapeHtml(item.title)}</div>
+                        <div class="search-result-desc">${escapeHtml(item.content.substring(0, 100))}${item.content.length > 100 ? '...' : ''}</div>
+                    </a>`;
+                });
+            }
+            
+            if (results.officials && results.officials.length > 0) {
+                html += `<div style="margin: 15px 0 10px;"><strong style="color: #1a5228;"><i class="fas fa-users"></i> Officials (${results.officials.length})</strong></div>`;
+                results.officials.forEach(item => {
+                    html += `<a href="${item.url}" class="search-result-item" onclick="closeSearchModal()">
+                        <div class="search-result-title">👤 ${escapeHtml(item.full_name)}</div>
+                        <div class="search-result-desc">${escapeHtml(item.position)}${item.office ? ' | ' + escapeHtml(item.office) : ''}</div>
+                    </a>`;
+                });
+            }
+            
+            if (results.projects && results.projects.length > 0) {
+                html += `<div style="margin: 15px 0 10px;"><strong style="color: #1a5228;"><i class="fas fa-hard-hat"></i> Projects (${results.projects.length})</strong></div>`;
+                results.projects.forEach(item => {
+                    html += `<a href="${item.url}" class="search-result-item" onclick="closeSearchModal()">
+                        <div class="search-result-title">🏗️ ${escapeHtml(item.title)}</div>
+                        <div class="search-result-desc">${escapeHtml(item.description.substring(0, 100))}${item.description.length > 100 ? '...' : ''} | Status: ${item.status}</div>
+                    </a>`;
+                });
+            }
+            
+            if (results.events && results.events.length > 0) {
+                html += `<div style="margin: 15px 0 10px;"><strong style="color: #1a5228;"><i class="fas fa-calendar-alt"></i> Events (${results.events.length})</strong></div>`;
+                results.events.forEach(item => {
+                    html += `<a href="${item.url}" class="search-result-item" onclick="closeSearchModal()">
+                        <div class="search-result-title">📅 ${escapeHtml(item.title)}</div>
+                        <div class="search-result-desc">${escapeHtml(item.event_date)} at ${escapeHtml(item.location || 'TBD')}</div>
+                    </a>`;
+                });
+            }
+            
+            resultsDiv.innerHTML = html;
+        }
+        
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+        
+        window.onclick = function(event) {
+            const modal = document.getElementById('searchModal');
+            if (event.target === modal) {
+                closeSearchModal();
+            }
+        }
+    </script>
+</body>
+</html>

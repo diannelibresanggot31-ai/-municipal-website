@@ -1,0 +1,210 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<!-- ── PAGE HEADER ───────────────────────────────────────── -->
+<div class="page-header">
+    <div class="container">
+        <h1><i class="fas fa-newspaper"></i> All Announcements</h1>
+        <p>Latest news, advisories, and updates from the Municipality of Las Nieves</p>
+    </div>
+</div>
+
+<style>
+    .announcements-container {
+        max-width: 1000px;
+        margin: 0 auto;
+    }
+    
+    .announcement-card {
+        background: var(--white);
+        border-radius: var(--radius-md);
+        box-shadow: var(--shadow-sm);
+        padding: 28px 30px;
+        margin-bottom: 25px;
+        transition: transform 0.2s, box-shadow 0.2s;
+        border-left: 4px solid var(--green-500);
+    }
+    
+    .announcement-card:hover {
+        transform: translateY(-3px);
+        box-shadow: var(--shadow-md);
+    }
+    
+    .announcement-title {
+        font-family: var(--font-display);
+        font-size: 22px;
+        font-weight: 700;
+        color: var(--green-700);
+        margin-bottom: 12px;
+    }
+    
+    .announcement-meta {
+        display: flex;
+        align-items: center;
+        gap: 20px;
+        flex-wrap: wrap;
+        margin-bottom: 18px;
+        padding-bottom: 12px;
+        border-bottom: 1px solid var(--green-100);
+    }
+    
+    .announcement-date {
+        font-size: 13px;
+        color: var(--neutral-500);
+        display: flex;
+        align-items: center;
+        gap: 6px;
+    }
+    
+    .announcement-date i {
+        color: var(--green-500);
+        font-size: 12px;
+    }
+    
+    .announcement-category {
+        background: var(--green-100);
+        color: var(--green-700);
+        font-size: 11px;
+        font-weight: 600;
+        padding: 3px 10px;
+        border-radius: 20px;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }
+    
+    .announcement-content {
+        font-size: 15px;
+        line-height: 1.8;
+        color: var(--neutral-700);
+        margin-bottom: 20px;
+        white-space: pre-line;
+    }
+    
+    .announcement-footer {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        gap: 10px;
+        padding-top: 12px;
+        border-top: 1px solid var(--green-100);
+    }
+    
+    .announcement-author {
+        font-size: 12px;
+        color: var(--neutral-500);
+        display: flex;
+        align-items: center;
+        gap: 6px;
+    }
+    
+    .announcement-author i {
+        color: var(--green-500);
+        font-size: 11px;
+    }
+    
+    .read-more-btn {
+        background: transparent;
+        border: 1.5px solid var(--green-400);
+        color: var(--green-600);
+        padding: 6px 18px;
+        border-radius: 30px;
+        font-size: 12px;
+        font-weight: 600;
+        text-decoration: none;
+        transition: all 0.2s;
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+    }
+    
+    .read-more-btn:hover {
+        background: var(--green-500);
+        border-color: var(--green-500);
+        color: var(--white);
+    }
+    
+    .no-announcements {
+        background: var(--white);
+        border-radius: var(--radius-md);
+        box-shadow: var(--shadow-sm);
+        padding: 50px 30px;
+        text-align: center;
+    }
+    
+    .no-announcements i {
+        font-size: 64px;
+        color: var(--green-300);
+        margin-bottom: 20px;
+    }
+    
+    .no-announcements h3 {
+        font-family: var(--font-display);
+        font-size: 22px;
+        color: var(--neutral-700);
+        margin-bottom: 10px;
+    }
+    
+    .no-announcements p {
+        color: var(--neutral-500);
+    }
+    
+    @media (max-width: 768px) {
+        .announcement-card {
+            padding: 20px;
+        }
+        .announcement-title {
+            font-size: 18px;
+        }
+        .announcement-content {
+            font-size: 14px;
+        }
+    }
+</style>
+
+<div class="container mb-5">
+    <div class="announcements-container">
+        
+        {% if announcements and announcements|length > 0 %}
+            {% for announcement in announcements %}
+            <div class="announcement-card">
+                <div class="announcement-title">{{ announcement.title }}</div>
+                
+                <div class="announcement-meta">
+                    <div class="announcement-date">
+                        <i class="far fa-calendar-alt"></i> 
+                        {{ announcement.date_posted.strftime('%B %d, %Y at %I:%M %p') if announcement.date_posted else 'Recent' }}
+                    </div>
+                    <div class="announcement-category">
+                        <i class="fas fa-bullhorn"></i> Announcement
+                    </div>
+                </div>
+                
+                <div class="announcement-content">
+                    {{ announcement.content }}
+                </div>
+                
+                <div class="announcement-footer">
+                    <div class="announcement-author">
+                        <i class="fas fa-user-circle"></i> Posted by: {{ announcement.posted_by if announcement.posted_by else 'Administrator' }}
+                    </div>
+                    <a href="#" class="read-more-btn" onclick="return false;">
+                        Read Full <i class="fas fa-arrow-right"></i>
+                    </a>
+                </div>
+            </div>
+            {% endfor %}
+        {% else %}
+            <div class="no-announcements">
+                <i class="fas fa-newspaper"></i>
+                <h3>No Announcements Yet</h3>
+                <p>There are no announcements available at this time.</p>
+                <p class="text-muted small">Please check back later for updates from the Municipal Government.</p>
+            </div>
+        {% endif %}
+        
+    </div>
+</div>
+
+{% endblock %}

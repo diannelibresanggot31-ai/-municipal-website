@@ -1,0 +1,527 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<!-- ── PAGE HEADER ───────────────────────────────────────── -->
+<div class="page-header">
+    <div class="container">
+        <h1><i class="fas fa-building"></i> Offices and Services</h1>
+        <p>Government offices and public services offered by the Municipality of Las Nieves</p>
+    </div>
+</div>
+
+<style>
+    .services-container {
+        max-width: 1200px;
+        margin: 0 auto;
+    }
+    
+    .stats-summary {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+        gap: 20px;
+        margin-bottom: 35px;
+    }
+    
+    .stat-summary-card {
+        background: var(--white);
+        border-radius: var(--radius-md);
+        box-shadow: var(--shadow-sm);
+        padding: 20px;
+        text-align: center;
+        border-top: 3px solid var(--green-500);
+    }
+    
+    .stat-summary-number {
+        font-family: var(--font-display);
+        font-size: 28px;
+        font-weight: 700;
+        color: var(--green-600);
+    }
+    
+    .stat-summary-label {
+        font-size: 11px;
+        color: var(--neutral-500);
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }
+    
+    .office-category {
+        margin-bottom: 35px;
+    }
+    
+    .category-header {
+        background: linear-gradient(135deg, var(--green-700), var(--green-600));
+        color: var(--white);
+        padding: 12px 20px;
+        border-radius: var(--radius-md) var(--radius-md) 0 0;
+        margin-bottom: 0;
+        font-weight: 700;
+        font-size: 18px;
+    }
+    
+    .category-header i {
+        margin-right: 10px;
+    }
+    
+    .office-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+        gap: 20px;
+        margin-top: 0;
+    }
+    
+    .office-card {
+        background: var(--white);
+        border-radius: var(--radius-md);
+        box-shadow: var(--shadow-sm);
+        overflow: hidden;
+        transition: transform 0.2s, box-shadow 0.2s;
+    }
+    
+    .office-card:hover {
+        transform: translateY(-3px);
+        box-shadow: var(--shadow-md);
+    }
+    
+    .office-header {
+        background: var(--green-50);
+        padding: 15px 20px;
+        border-bottom: 2px solid var(--green-200);
+    }
+    
+    .office-name {
+        font-weight: 700;
+        font-size: 16px;
+        color: var(--green-700);
+        margin: 0;
+    }
+    
+    .office-body {
+        padding: 20px;
+    }
+    
+    .service-list {
+        list-style: none;
+        padding: 0;
+        margin: 0 0 15px 0;
+    }
+    
+    .service-list li {
+        padding: 8px 0;
+        border-bottom: 1px solid var(--green-50);
+        display: flex;
+        align-items: flex-start;
+        gap: 10px;
+        font-size: 13px;
+        color: var(--neutral-700);
+    }
+    
+    .service-list li:last-child {
+        border-bottom: none;
+    }
+    
+    .service-list li i {
+        color: var(--green-500);
+        font-size: 12px;
+        margin-top: 2px;
+        min-width: 16px;
+    }
+    
+    .office-contact {
+        margin-top: 15px;
+        padding-top: 12px;
+        border-top: 1px solid var(--green-100);
+        font-size: 12px;
+        color: var(--neutral-500);
+        display: flex;
+        align-items: center;
+        gap: 15px;
+        flex-wrap: wrap;
+    }
+    
+    .office-contact span {
+        display: inline-flex;
+        align-items: center;
+        gap: 5px;
+    }
+    
+    .office-contact i {
+        color: var(--green-500);
+        width: 14px;
+    }
+    
+    .emergency-badge {
+        background: var(--red-600);
+        color: white;
+        font-size: 10px;
+        padding: 2px 8px;
+        border-radius: 20px;
+        margin-left: 10px;
+    }
+    
+    @media (max-width: 768px) {
+        .office-grid {
+            grid-template-columns: 1fr;
+        }
+        .stats-summary {
+            grid-template-columns: repeat(2, 1fr);
+        }
+    }
+</style>
+
+<div class="container mb-5">
+    <div class="services-container">
+        
+        <!-- Statistics Summary -->
+        <div class="stats-summary">
+            <div class="stat-summary-card">
+                <div class="stat-summary-number">15+</div>
+                <div class="stat-summary-label">Municipal Offices</div>
+            </div>
+            <div class="stat-summary-card">
+                <div class="stat-summary-number">50+</div>
+                <div class="stat-summary-label">Public Services</div>
+            </div>
+            <div class="stat-summary-card">
+                <div class="stat-summary-number">8AM-5PM</div>
+                <div class="stat-summary-label">Office Hours (Mon-Fri)</div>
+            </div>
+        </div>
+        
+        <!-- Executive Offices -->
+        <div class="office-category">
+            <div class="category-header">
+                <i class="fas fa-gavel"></i> Executive Offices
+            </div>
+            <div class="office-grid">
+                <div class="office-card">
+                    <div class="office-header">
+                        <div class="office-name">Office of the Mayor</div>
+                    </div>
+                    <div class="office-body">
+                        <ul class="service-list">
+                            <li><i class="fas fa-check-circle"></i> Overall governance and administration</li>
+                            <li><i class="fas fa-check-circle"></i> Policy formulation and implementation</li>
+                            <li><i class="fas fa-check-circle"></i> Issuance of Executive Orders</li>
+                            <li><i class="fas fa-check-circle"></i> Public announcements and directives</li>
+                        </ul>
+                        <div class="office-contact">
+                            <span><i class="fas fa-phone"></i> (088) 813-0110</span>
+                            <span><i class="fas fa-envelope"></i> mayor@lasnieves.gov.ph</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="office-card">
+                    <div class="office-header">
+                        <div class="office-name">Office of the Vice Mayor</div>
+                    </div>
+                    <div class="office-body">
+                        <ul class="service-list">
+                            <li><i class="fas fa-check-circle"></i> Sangguniang Bayan leadership</li>
+                            <li><i class="fas fa-check-circle"></i> Legislative affairs</li>
+                            <li><i class="fas fa-check-circle"></i> Ordinance review and enactment</li>
+                            <li><i class="fas fa-check-circle"></i> Committee oversight</li>
+                        </ul>
+                        <div class="office-contact">
+                            <span><i class="fas fa-phone"></i> (088) 813-0111</span>
+                            <span><i class="fas fa-envelope"></i> vicemayor@lasnieves.gov.ph</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="office-card">
+                    <div class="office-header">
+                        <div class="office-name">Sangguniang Bayan</div>
+                    </div>
+                    <div class="office-body">
+                        <ul class="service-list">
+                            <li><i class="fas fa-check-circle"></i> Municipal legislation</li>
+                            <li><i class="fas fa-check-circle"></i> Enactment of ordinances and resolutions</li>
+                            <li><i class="fas fa-check-circle"></i> Budget approval and review</li>
+                            <li><i class="fas fa-check-circle"></i> Public consultations</li>
+                        </ul>
+                        <div class="office-contact">
+                            <span><i class="fas fa-phone"></i> (088) 813-0112</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Administrative Offices -->
+        <div class="office-category">
+            <div class="category-header">
+                <i class="fas fa-file-alt"></i> Administrative & Support Offices
+            </div>
+            <div class="office-grid">
+                <div class="office-card">
+                    <div class="office-header">
+                        <div class="office-name">Municipal Human Resource Management Office</div>
+                    </div>
+                    <div class="office-body">
+                        <ul class="service-list">
+                            <li><i class="fas fa-check-circle"></i> Employee recruitment and hiring</li>
+                            <li><i class="fas fa-check-circle"></i> Staff development and training</li>
+                            <li><i class="fas fa-check-circle"></i> Employee records and benefits</li>
+                            <li><i class="fas fa-check-circle"></i> Job application processing</li>
+                        </ul>
+                        <div class="office-contact">
+                            <span><i class="fas fa-phone"></i> (088) 813-0113</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="office-card">
+                    <div class="office-header">
+                        <div class="office-name">Municipal Budget Office</div>
+                    </div>
+                    <div class="office-body">
+                        <ul class="service-list">
+                            <li><i class="fas fa-check-circle"></i> Annual budget preparation</li>
+                            <li><i class="fas fa-check-circle"></i> Financial planning and control</li>
+                            <li><i class="fas fa-check-circle"></i> Budget execution monitoring</li>
+                        </ul>
+                        <div class="office-contact">
+                            <span><i class="fas fa-phone"></i> (088) 813-0114</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="office-card">
+                    <div class="office-header">
+                        <div class="office-name">Municipal Accounting Office</div>
+                    </div>
+                    <div class="office-body">
+                        <ul class="service-list">
+                            <li><i class="fas fa-check-circle"></i> Financial record keeping</li>
+                            <li><i class="fas fa-check-circle"></i> Disbursement processing</li>
+                            <li><i class="fas fa-check-circle"></i> Financial reporting</li>
+                        </ul>
+                        <div class="office-contact">
+                            <span><i class="fas fa-phone"></i> (088) 813-0115</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Public Services Offices -->
+        <div class="office-category">
+            <div class="category-header">
+                <i class="fas fa-hand-holding-heart"></i> Public Services Offices
+            </div>
+            <div class="office-grid">
+                <div class="office-card">
+                    <div class="office-header">
+                        <div class="office-name">Municipal Civil Registry Office</div>
+                    </div>
+                    <div class="office-body">
+                        <ul class="service-list">
+                            <li><i class="fas fa-check-circle"></i> Birth certificate registration</li>
+                            <li><i class="fas fa-check-circle"></i> Marriage certificate issuance</li>
+                            <li><i class="fas fa-check-circle"></i> Death certificate processing</li>
+                            <li><i class="fas fa-check-circle"></i> Legal documents and affidavits</li>
+                        </ul>
+                        <div class="office-contact">
+                            <span><i class="fas fa-phone"></i> (088) 813-0116</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="office-card">
+                    <div class="office-header">
+                        <div class="office-name">Municipal Treasury Office</div>
+                    </div>
+                    <div class="office-body">
+                        <ul class="service-list">
+                            <li><i class="fas fa-check-circle"></i> Real property tax payment</li>
+                            <li><i class="fas fa-check-circle"></i> Business permit issuance</li>
+                            <li><i class="fas fa-check-circle"></i> Tax declaration processing</li>
+                            <li><i class="fas fa-check-circle"></i> Community tax certificate (cedula)</li>
+                        </ul>
+                        <div class="office-contact">
+                            <span><i class="fas fa-phone"></i> (088) 813-0117</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="office-card">
+                    <div class="office-header">
+                        <div class="office-name">Municipal Planning and Development Office</div>
+                    </div>
+                    <div class="office-body">
+                        <ul class="service-list">
+                            <li><i class="fas fa-check-circle"></i> Comprehensive Land Use Plan</li>
+                            <li><i class="fas fa-check-circle"></i> Zoning regulations</li>
+                            <li><i class="fas fa-check-circle"></i> Development projects monitoring</li>
+                            <li><i class="fas fa-check-circle"></i> Building permit processing</li>
+                        </ul>
+                        <div class="office-contact">
+                            <span><i class="fas fa-phone"></i> (088) 813-0118</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="office-card">
+                    <div class="office-header">
+                        <div class="office-name">Municipal Engineering Office</div>
+                    </div>
+                    <div class="office-body">
+                        <ul class="service-list">
+                            <li><i class="fas fa-check-circle"></i> Infrastructure project implementation</li>
+                            <li><i class="fas fa-check-circle"></i> Road and bridge maintenance</li>
+                            <li><i class="fas fa-check-circle"></i> Building inspection</li>
+                            <li><i class="fas fa-check-circle"></i> Fencing and occupancy permits</li>
+                        </ul>
+                        <div class="office-contact">
+                            <span><i class="fas fa-phone"></i> (088) 813-0119</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Health and Social Services -->
+        <div class="office-category">
+            <div class="category-header">
+                <i class="fas fa-heartbeat"></i> Health and Social Services
+            </div>
+            <div class="office-grid">
+                <div class="office-card">
+                    <div class="office-header">
+                        <div class="office-name">Rural Health Unit (RHU)</div>
+                    </div>
+                    <div class="office-body">
+                        <ul class="service-list">
+                            <li><i class="fas fa-check-circle"></i> Outpatient consultation</li>
+                            <li><i class="fas fa-check-circle"></i> Maternal and child health care</li>
+                            <li><i class="fas fa-check-circle"></i> Immunization programs</li>
+                            <li><i class="fas fa-check-circle"></i> Family planning services</li>
+                            <li><i class="fas fa-check-circle"></i> Dental services</li>
+                        </ul>
+                        <div class="office-contact">
+                            <span><i class="fas fa-phone"></i> (088) 813-0120</span>
+                            <span><i class="fas fa-ambulance"></i> Emergency: 911</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="office-card">
+                    <div class="office-header">
+                        <div class="office-name">Municipal Social Welfare and Development Office</div>
+                    </div>
+                    <div class="office-body">
+                        <ul class="service-list">
+                            <li><i class="fas fa-check-circle"></i> 4Ps program implementation</li>
+                            <li><i class="fas fa-check-circle"></i> Senior citizen assistance</li>
+                            <li><i class="fas fa-check-circle"></i> PWD registration and benefits</li>
+                            <li><i class="fas fa-check-circle"></i> Daycare services</li>
+                            <li><i class="fas fa-check-circle"></i> Crisis intervention</li>
+                        </ul>
+                        <div class="office-contact">
+                            <span><i class="fas fa-phone"></i> (088) 813-0121</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Agriculture and Environment -->
+        <div class="office-category">
+            <div class="category-header">
+                <i class="fas fa-tractor"></i> Agriculture and Environment
+            </div>
+            <div class="office-grid">
+                <div class="office-card">
+                    <div class="office-header">
+                        <div class="office-name">Municipal Agriculture Office</div>
+                    </div>
+                    <div class="office-body">
+                        <ul class="service-list">
+                            <li><i class="fas fa-check-circle"></i> Farmer assistance programs</li>
+                            <li><i class="fas fa-check-circle"></i> Agricultural extension services</li>
+                            <li><i class="fas fa-check-circle"></i> Livestock and poultry services</li>
+                            <li><i class="fas fa-check-circle"></i> Crop production support</li>
+                        </ul>
+                        <div class="office-contact">
+                            <span><i class="fas fa-phone"></i> (088) 813-0122</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="office-card">
+                    <div class="office-header">
+                        <div class="office-name">Municipal Environment and Natural Resources Office</div>
+                    </div>
+                    <div class="office-body">
+                        <ul class="service-list">
+                            <li><i class="fas fa-check-circle"></i> Environmental protection programs</li>
+                            <li><i class="fas fa-check-circle"></i> Solid waste management</li>
+                            <li><i class="fas fa-check-circle"></i> Reforestation projects</li>
+                            <li><i class="fas fa-check-circle"></i> Tree planting activities</li>
+                        </ul>
+                        <div class="office-contact">
+                            <span><i class="fas fa-phone"></i> (088) 813-0123</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Peace and Order -->
+        <div class="office-category">
+            <div class="category-header">
+                <i class="fas fa-shield-alt"></i> Peace and Order
+            </div>
+            <div class="office-grid">
+                <div class="office-card">
+                    <div class="office-header">
+                        <div class="office-name">Las Nieves Police Station</div>
+                    </div>
+                    <div class="office-body">
+                        <ul class="service-list">
+                            <li><i class="fas fa-check-circle"></i> Public safety and security</li>
+                            <li><i class="fas fa-check-circle"></i> Crime prevention</li>
+                            <li><i class="fas fa-check-circle"></i> Police clearance processing</li>
+                            <li><i class="fas fa-check-circle"></i> Emergency response</li>
+                        </ul>
+                        <div class="office-contact">
+                            <span><i class="fas fa-phone"></i> (088) 813-0124</span>
+                            <span><i class="fas fa-phone-alt"></i> Hotline: 117</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="office-card">
+                    <div class="office-header">
+                        <div class="office-name">Bureau of Fire Protection</div>
+                    </div>
+                    <div class="office-body">
+                        <ul class="service-list">
+                            <li><i class="fas fa-check-circle"></i> Fire suppression and prevention</li>
+                            <li><i class="fas fa-check-circle"></i> Fire safety inspection</li>
+                            <li><i class="fas fa-check-circle"></i> Fire clearance issuance</li>
+                            <li><i class="fas fa-check-circle"></i> Emergency rescue</li>
+                        </ul>
+                        <div class="office-contact">
+                            <span><i class="fas fa-phone"></i> (088) 813-0125</span>
+                            <span><i class="fas fa-fire-extinguisher"></i> Hotline: 160</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="text-center mt-4">
+            <p class="text-muted">
+                <i class="fas fa-clock"></i> Office Hours: Monday to Friday, 8:00 AM - 5:00 PM<br>
+                <i class="fas fa-info-circle"></i> For inquiries, please call or visit the respective office.
+            </p>
+        </div>
+        
+    </div>
+</div>
+
+{% endblock %}

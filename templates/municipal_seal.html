@@ -1,0 +1,316 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<!-- ── PAGE HEADER ───────────────────────────────────────── -->
+<div class="page-header">
+    <div class="container">
+        <h1><i class="fas fa-shield-alt"></i> Municipal Seal & Logo</h1>
+        <p>The official symbols representing the identity and heritage of Las Nieves</p>
+    </div>
+</div>
+
+<style>
+    .seal-container {
+        max-width: 1200px;
+        margin: 0 auto;
+    }
+    
+    .seal-card {
+        background: var(--white);
+        border-radius: var(--radius-md);
+        box-shadow: var(--shadow-sm);
+        padding: 40px;
+        margin-bottom: 30px;
+        text-align: center;
+    }
+    
+    .seal-image {
+        margin: 0 auto 25px;
+    }
+    
+    .seal-image img {
+        width: 100%;
+        max-width: 250px;
+        border-radius: 50%;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        transition: transform 0.3s;
+        border: 3px solid var(--green-100);
+    }
+    
+    .seal-image img:hover {
+        transform: scale(1.05);
+        box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+    }
+    
+    .seal-title {
+        font-family: var(--font-display);
+        font-size: 28px;
+        font-weight: 700;
+        color: var(--green-700);
+        margin-bottom: 15px;
+    }
+    
+    .seal-subtitle {
+        font-size: 14px;
+        color: var(--neutral-500);
+        margin-bottom: 30px;
+        letter-spacing: 2px;
+    }
+    
+    .section-title {
+        font-family: var(--font-display);
+        font-size: 22px;
+        font-weight: 700;
+        color: var(--green-700);
+        margin-bottom: 20px;
+        padding-bottom: 10px;
+        border-bottom: 3px solid var(--green-500);
+        display: inline-block;
+    }
+    
+    .symbol-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+        gap: 25px;
+        margin-top: 25px;
+    }
+    
+    .symbol-card {
+        background: var(--green-50);
+        border-radius: var(--radius-md);
+        padding: 25px;
+        text-align: center;
+        transition: transform 0.2s, box-shadow 0.2s;
+    }
+    
+    .symbol-card:hover {
+        transform: translateY(-5px);
+        box-shadow: var(--shadow-md);
+    }
+    
+    .symbol-icon {
+        width: 70px;
+        height: 70px;
+        background: var(--white);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto 15px;
+    }
+    
+    .symbol-icon i {
+        font-size: 32px;
+        color: var(--green-500);
+    }
+    
+    .symbol-title {
+        font-size: 18px;
+        font-weight: 700;
+        color: var(--green-700);
+        margin-bottom: 10px;
+    }
+    
+    .symbol-desc {
+        font-size: 13px;
+        color: var(--neutral-600);
+        line-height: 1.6;
+    }
+    
+    .meaning-box {
+        background: var(--white);
+        border-radius: var(--radius-md);
+        box-shadow: var(--shadow-sm);
+        padding: 30px;
+        margin-top: 30px;
+    }
+    
+    .meaning-list {
+        list-style: none;
+        padding: 0;
+        margin: 20px 0 0 0;
+    }
+    
+    .meaning-list li {
+        padding: 12px 0;
+        border-bottom: 1px solid var(--green-100);
+        display: flex;
+        align-items: flex-start;
+        gap: 15px;
+        font-size: 14px;
+        color: var(--neutral-700);
+    }
+    
+    .meaning-list li:last-child {
+        border-bottom: none;
+    }
+    
+    .meaning-list li i {
+        color: var(--green-500);
+        font-size: 18px;
+        margin-top: 2px;
+        min-width: 25px;
+    }
+    
+    .logo-section {
+        background: var(--white);
+        border-radius: var(--radius-md);
+        box-shadow: var(--shadow-sm);
+        padding: 40px;
+        margin-top: 30px;
+        text-align: center;
+    }
+    
+    .logo-image {
+        margin-bottom: 20px;
+    }
+    
+    .logo-image img {
+        max-width: 200px;
+        border-radius: 15px;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        transition: transform 0.3s;
+        border: 2px solid var(--green-100);
+    }
+    
+    .logo-image img:hover {
+        transform: scale(1.05);
+        box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+    }
+    
+    @media (max-width: 768px) {
+        .seal-card {
+            padding: 25px;
+        }
+        .seal-card {
+            padding: 20px;
+        }
+        .seal-title {
+            font-size: 22px;
+        }
+        .symbol-grid {
+            grid-template-columns: 1fr;
+            gap: 15px;
+        }
+        .meaning-list li {
+            flex-direction: column;
+            gap: 5px;
+        }
+    }
+</style>
+
+<div class="container mb-5">
+    <div class="seal-container">
+        
+        <!-- Municipal Seal Section -->
+        <div class="seal-card">
+            <div class="seal-image">
+                <img src="{{ url_for('static', filename='images/las-nieves-logo.jpg') }}" 
+                     alt="Municipal Seal of Las Nieves">
+            </div>
+            <h2 class="seal-title">Municipal Seal of Las Nieves</h2>
+            <p class="seal-subtitle">OFFICIAL SEAL • REPUBLIC OF THE PHILIPPINES</p>
+            
+            <div class="text-center">
+                <h3 class="section-title">Symbolism</h3>
+            </div>
+            
+            <div class="symbol-grid">
+                <div class="symbol-card">
+                    <div class="symbol-icon">
+                        <i class="fas fa-leaf"></i>
+                    </div>
+                    <div class="symbol-title">The Leaf</div>
+                    <div class="symbol-desc">Represents the rich agricultural resources and lush forests of Las Nieves, as well as the municipality's commitment to environmental sustainability.</div>
+                </div>
+                <div class="symbol-card">
+                    <div class="symbol-icon">
+                        <i class="fas fa-water"></i>
+                    </div>
+                    <div class="symbol-title">The River</div>
+                    <div class="symbol-desc">Symbolizes the Agusan River, the lifeblood of the municipality, providing transportation, livelihood, and natural beauty to the people.</div>
+                </div>
+                <div class="symbol-card">
+                    <div class="symbol-icon">
+                        <i class="fas fa-mountain"></i>
+                    </div>
+                    <div class="symbol-title">The Mountains</div>
+                    <div class="symbol-desc">Represents the ancestral domain of the Manobo and Higaonon people, and the municipality's rich cultural heritage.</div>
+                </div>
+                <div class="symbol-card">
+                    <div class="symbol-icon">
+                        <i class="fas fa-handshake"></i>
+                    </div>
+                    <div class="symbol-title">The Unity</div>
+                    <div class="symbol-desc">Symbolizes the unity and cooperation between the indigenous communities and the local government for peace and progress.</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Meaning of Elements -->
+        <div class="meaning-box">
+            <div class="text-center">
+                <h3 class="section-title">Meaning of Elements</h3>
+            </div>
+            <ul class="meaning-list">
+                <li>
+                    <i class="fas fa-circle"></i>
+                    <span><strong>Circular Shape</strong> - Represents the continuous development and unity of the municipality.</span>
+                </li>
+                <li>
+                    <i class="fas fa-star"></i>
+                    <span><strong>Stars</strong> - Represent the 20 barangays that comprise the Municipality of Las Nieves.</span>
+                </li>
+                <li>
+                    <i class="fas fa-calendar-alt"></i>
+                    <span><strong>Year 1963</strong> - Marks the official founding year of Las Nieves as a municipality.</span>
+                </li>
+                <li>
+                    <i class="fas fa-snowflake"></i>
+                    <span><strong>White Colors</strong> - Represents "The Snows" (Las Nieves in Spanish), referring to the cold fog that early missionaries encountered.</span>
+                </li>
+                <li>
+                    <i class="fas fa-tractor"></i>
+                    <span><strong>Agricultural Symbols</strong> - Represent the primary livelihood of the people - farming and fishing.</span>
+                </li>
+                <li>
+                    <i class="fas fa-church"></i>
+                    <span><strong>Church Icon</strong> - Honors the municipality's patroness, Nuestra Señora de Las Nieves (Our Lady of the Snow).</span>
+                </li>
+            </ul>
+        </div>
+        
+        <!-- Official Logo Section -->
+        <div class="logo-section">
+            <div class="logo-image">
+                <img src="{{ url_for('static', filename='images/las-nieves-logo.jpg') }}" 
+                     alt="Official Logo of Las Nieves">
+            </div>
+            <h2 class="seal-title" style="font-size: 24px;">Official Municipal Logo</h2>
+            <p class="seal-subtitle">LAS NIEVES • AGUSAN DEL NORTE</p>
+            
+            <ul class="meaning-list" style="margin-top: 20px; text-align: left;">
+                <li>
+                    <i class="fas fa-leaf"></i>
+                    <span><strong>Green Color</strong> - Represents agriculture, environment, and the lush natural resources of Las Nieves.</span>
+                </li>
+                <li>
+                    <i class="fas fa-city"></i>
+                    <span><strong>Municipal Hall Icon</strong> - Symbolizes governance and public service to the community.</span>
+                </li>
+                <li>
+                    <i class="fas fa-hand-peace"></i>
+                    <span><strong>Peace Symbol</strong> - Represents the municipality's commitment to peace and order.</span>
+                </li>
+                <li>
+                    <i class="fas fa-calendar-alt"></i>
+                    <span><strong>Year 1963</strong> - The official founding year of Las Nieves as a municipality.</span>
+                </li>
+            </ul>
+        </div>
+        
+    </div>
+</div>
+
+{% endblock %}

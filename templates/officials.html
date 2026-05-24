@@ -1,0 +1,238 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<!-- ── PAGE HEADER ───────────────────────────────────────── -->
+<div class="page-header">
+    <div class="container">
+        <h1><i class="fas fa-users"></i> Municipal Officials</h1>
+        <p>Your dedicated public servants serving the community of Las Nieves</p>
+    </div>
+</div>
+
+<style>
+    .officials-container {
+        max-width: 1400px;
+        margin: 0 auto;
+    }
+    
+    .official-card {
+        background: var(--white);
+        border-radius: var(--radius-md);
+        box-shadow: var(--shadow-sm);
+        padding: 25px 20px;
+        text-align: center;
+        transition: transform 0.3s, box-shadow 0.3s;
+        height: 100%;
+        border-top: 4px solid var(--green-500);
+        position: relative;
+        overflow: hidden;
+    }
+    
+    .official-card:hover {
+        transform: translateY(-8px);
+        box-shadow: var(--shadow-lg);
+    }
+    
+    .official-icon {
+        width: 90px;
+        height: 90px;
+        background: linear-gradient(135deg, var(--green-50), var(--green-100));
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto 15px;
+        border: 3px solid var(--green-500);
+    }
+    
+    .official-icon i {
+        font-size: 45px;
+        color: var(--green-600);
+    }
+    
+    .official-card h4 {
+        font-family: var(--font-display);
+        font-size: 18px;
+        font-weight: 700;
+        color: var(--green-700);
+        margin-bottom: 5px;
+    }
+    
+    .official-position {
+        display: inline-block;
+        background: var(--green-500);
+        color: var(--white);
+        font-size: 11px;
+        font-weight: 600;
+        padding: 4px 12px;
+        border-radius: 20px;
+        margin-bottom: 15px;
+        letter-spacing: 0.5px;
+    }
+    
+    .official-detail {
+        margin-top: 15px;
+        padding-top: 10px;
+        border-top: 1px solid var(--green-100);
+        text-align: left;
+    }
+    
+    .official-detail p {
+        margin-bottom: 8px;
+        font-size: 12px;
+        color: var(--neutral-600);
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+    
+    .official-detail p i {
+        width: 20px;
+        color: var(--green-500);
+        font-size: 12px;
+    }
+    
+    .official-status {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+    }
+    
+    .status-badge {
+        display: inline-block;
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+    }
+    
+    .status-badge.active {
+        background: #2ecc71;
+        box-shadow: 0 0 5px #2ecc71;
+    }
+    
+    .status-badge.inactive {
+        background: #e74c3c;
+    }
+    
+    .no-data-card {
+        background: var(--white);
+        border-radius: var(--radius-md);
+        box-shadow: var(--shadow-sm);
+        padding: 40px;
+        text-align: center;
+    }
+    
+    .no-data-card i {
+        font-size: 64px;
+        color: var(--green-300);
+        margin-bottom: 20px;
+    }
+    
+    .sample-list {
+        text-align: left;
+        max-width: 400px;
+        margin: 20px auto 0;
+        background: var(--green-50);
+        padding: 20px;
+        border-radius: var(--radius-md);
+    }
+    
+    .sample-list h5 {
+        color: var(--green-700);
+        margin-bottom: 15px;
+    }
+    
+    .sample-list ul {
+        list-style: none;
+        padding: 0;
+    }
+    
+    .sample-list li {
+        padding: 8px 0;
+        border-bottom: 1px solid var(--green-100);
+        font-size: 13px;
+    }
+    
+    .sample-list li:last-child {
+        border-bottom: none;
+    }
+    
+    .sample-list li strong {
+        color: var(--green-600);
+    }
+    
+    @media (max-width: 768px) {
+        .official-card {
+            padding: 18px;
+        }
+        .official-icon {
+            width: 70px;
+            height: 70px;
+        }
+        .official-icon i {
+            font-size: 35px;
+        }
+        .official-card h4 {
+            font-size: 16px;
+        }
+    }
+</style>
+
+<div class="container mb-5">
+    <div class="officials-container">
+        <div class="row g-4">
+            {% if officials and officials|length > 0 %}
+                {% for official in officials %}
+                <div class="col-md-6 col-lg-4">
+                    <div class="official-card">
+                        <div class="official-status">
+                            {% if official.status == 'active' %}
+                            <span class="status-badge active" title="Active"></span>
+                            {% else %}
+                            <span class="status-badge inactive" title="Inactive"></span>
+                            {% endif %}
+                        </div>
+                        <div class="official-icon">
+                            <i class="fas fa-user-circle"></i>
+                        </div>
+                        <h4>{{ official.full_name }}</h4>
+                        <span class="official-position">{{ official.position }}</span>
+                        <div class="official-detail">
+                            {% if official.office %}
+                            <p><i class="fas fa-building"></i> {{ official.office }}</p>
+                            {% endif %}
+                            {% if official.contact_number %}
+                            <p><i class="fas fa-phone"></i> {{ official.contact_number }}</p>
+                            {% endif %}
+                            {% if official.email %}
+                            <p><i class="fas fa-envelope"></i> {{ official.email }}</p>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            {% else %}
+                <div class="col-12">
+                    <div class="no-data-card">
+                        <i class="fas fa-users-slash"></i>
+                        <h3>No Officials Data Available</h3>
+                        <p>Please check back later for the complete list of municipal officials.</p>
+                        <div class="sample-list">
+                            <h5><i class="fas fa-info-circle"></i> Sample Officials</h5>
+                            <ul>
+                                <li><strong>Juan Dela Cruz</strong> - Municipal Mayor</li>
+                                <li><strong>Maria Santos</strong> - Vice Mayor</li>
+                                <li><strong>Jose Rizal</strong> - Municipal Councilor</li>
+                                <li><strong>Andres Bonifacio</strong> - SB Member</li>
+                            </ul>
+                            <p class="text-muted small mt-2">Add officials through the admin panel.</p>
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+{% endblock %}

@@ -1,0 +1,7 @@
+# Never upload these to GitHub!
+.env
+__pycache__/
+*.pyc
+static/images/
+venv/
+.DS_Store

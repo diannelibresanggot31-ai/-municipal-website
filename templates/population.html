@@ -1,0 +1,386 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<!-- ── PAGE HEADER ───────────────────────────────────────── -->
+<div class="page-header">
+    <div class="container">
+        <h1><i class="fas fa-chart-bar"></i> Population Statistics</h1>
+        <p>Demographic data and population trends of Las Nieves</p>
+    </div>
+</div>
+
+<style>
+    .population-container {
+        max-width: 1200px;
+        margin: 0 auto;
+    }
+    
+    .stats-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 25px;
+        margin-bottom: 30px;
+    }
+    
+    .stat-card {
+        background: var(--white);
+        border-radius: var(--radius-md);
+        box-shadow: var(--shadow-sm);
+        padding: 30px 20px;
+        text-align: center;
+        transition: transform 0.2s, box-shadow 0.2s;
+        border-top: 4px solid var(--green-500);
+    }
+    
+    .stat-card:hover {
+        transform: translateY(-5px);
+        box-shadow: var(--shadow-md);
+    }
+    
+    .stat-number-large {
+        font-family: var(--font-display);
+        font-size: 42px;
+        font-weight: 700;
+        color: var(--green-600);
+        margin-bottom: 8px;
+    }
+    
+    .stat-label {
+        font-size: 14px;
+        color: var(--neutral-500);
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }
+    
+    .info-card {
+        background: var(--white);
+        border-radius: var(--radius-md);
+        box-shadow: var(--shadow-sm);
+        padding: 28px 30px;
+        margin-bottom: 25px;
+        transition: box-shadow 0.2s;
+    }
+    
+    .info-card:hover {
+        box-shadow: var(--shadow-md);
+    }
+    
+    .section-title {
+        font-family: var(--font-display);
+        font-size: 22px;
+        font-weight: 700;
+        color: var(--green-700);
+        margin-bottom: 20px;
+        padding-bottom: 10px;
+        border-bottom: 3px solid var(--green-500);
+        display: inline-block;
+    }
+    
+    .population-table-wrapper {
+        overflow-x: auto;
+        margin: 20px 0;
+    }
+    
+    .population-table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 13px;
+    }
+    
+    .population-table th {
+        background: var(--green-700);
+        color: var(--white);
+        padding: 12px 15px;
+        text-align: center;
+        font-weight: 600;
+    }
+    
+    .population-table td {
+        padding: 10px 15px;
+        text-align: center;
+        border-bottom: 1px solid var(--green-100);
+        color: var(--neutral-700);
+    }
+    
+    .population-table tr:hover {
+        background: var(--green-50);
+    }
+    
+    .growth-positive {
+        color: var(--green-600);
+        font-weight: 600;
+    }
+    
+    .growth-negative {
+        color: var(--red-600);
+        font-weight: 600;
+    }
+    
+    .barangay-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 12px;
+        margin: 20px 0;
+    }
+    
+    .barangay-item {
+        background: var(--green-50);
+        border-radius: var(--radius-sm);
+        padding: 10px 15px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        transition: transform 0.2s;
+    }
+    
+    .barangay-item:hover {
+        transform: translateX(3px);
+        background: var(--green-100);
+    }
+    
+    .barangay-name {
+        font-weight: 600;
+        color: var(--neutral-700);
+        font-size: 13px;
+    }
+    
+    .barangay-pop {
+        font-weight: 700;
+        color: var(--green-600);
+        font-size: 13px;
+    }
+    
+    .barangay-percent {
+        font-size: 11px;
+        color: var(--neutral-500);
+        margin-left: 5px;
+    }
+    
+    .demographic-list {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+    }
+    
+    .demographic-list li {
+        padding: 12px 0;
+        border-bottom: 1px solid var(--green-100);
+        display: flex;
+        align-items: flex-start;
+        gap: 12px;
+        font-size: 14px;
+        color: var(--neutral-700);
+    }
+    
+    .demographic-list li:last-child {
+        border-bottom: none;
+    }
+    
+    .demographic-list li i {
+        color: var(--green-500);
+        font-size: 16px;
+        margin-top: 2px;
+        min-width: 25px;
+    }
+    
+    .highlight-number {
+        font-size: 18px;
+        font-weight: 700;
+        color: var(--green-600);
+    }
+    
+    @media (max-width: 768px) {
+        .stats-grid {
+            grid-template-columns: 1fr;
+            gap: 15px;
+        }
+        .barangay-grid {
+            grid-template-columns: 1fr;
+        }
+        .info-card {
+            padding: 18px;
+        }
+        .section-title {
+            font-size: 18px;
+        }
+        .population-table th,
+        .population-table td {
+            padding: 8px 10px;
+            font-size: 11px;
+        }
+    }
+</style>
+
+<div class="container mb-5">
+    <div class="population-container">
+        
+        <!-- Stats Cards -->
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-number-large">30,240</div>
+                <div class="stat-label">Population (2020 Census)</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number-large">32,402</div>
+                <div class="stat-label">Population (2024 Estimate)</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number-large">20</div>
+                <div class="stat-label">Number of Barangays</div>
+            </div>
+        </div>
+        
+        <!-- Population Growth Table -->
+        <div class="info-card">
+            <h3 class="section-title"><i class="fas fa-chart-line" style="margin-right: 10px;"></i> Population Growth</h3>
+            <div class="population-table-wrapper">
+                <table class="population-table">
+                    <thead>
+                        <tr>
+                            <th>Year</th>
+                            <th>Population</th>
+                            <th>Growth Rate</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>1918</td><td>388</td><td>—</td></tr>
+                        <tr><td>1939</td><td>803</td><td class="growth-positive">+3.52%</td></tr>
+                        <tr><td>1948</td><td>1,888</td><td class="growth-positive">+9.96%</td></tr>
+                        <tr><td>1960</td><td>4,262</td><td class="growth-positive">+7.02%</td></tr>
+                        <tr><td>1970</td><td>6,782</td><td class="growth-positive">+4.75%</td></tr>
+                        <tr><td>1975</td><td>8,609</td><td class="growth-positive">+4.90%</td></tr>
+                        <tr><td>1980</td><td>10,757</td><td class="growth-positive">+4.55%</td></tr>
+                        <tr><td>1990</td><td>15,409</td><td class="growth-positive">+3.66%</td></tr>
+                        <tr><td>1995</td><td>22,966</td><td class="growth-positive">+7.76%</td></tr>
+                        <tr><td>2000</td><td>21,530</td><td class="growth-negative">-1.37%</td></tr>
+                        <tr><td>2007</td><td>25,203</td><td class="growth-positive">+2.20%</td></tr>
+                        <tr><td>2010</td><td>26,856</td><td class="growth-positive">+2.34%</td></tr>
+                        <tr><td>2015</td><td>28,414</td><td class="growth-positive">+1.08%</td></tr>
+                        <tr><td>2020</td><td>30,240</td><td class="growth-positive">+1.32%</td></tr>
+                        <tr><td>2024</td><td>32,402</td><td class="growth-positive">+1.67%</td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <p style="margin-top: 15px;"><i class="fas fa-chart-simple"></i> <strong>Population Density:</strong> <span class="highlight-number">52</span> inhabitants per square kilometre</p>
+        </div>
+        
+        <!-- Population by Barangay -->
+        <div class="info-card">
+            <h3 class="section-title"><i class="fas fa-map-pin" style="margin-right: 10px;"></i> Population by Barangay (2024 Estimate)</h3>
+            <div class="barangay-grid">
+                <div class="barangay-item">
+                    <span class="barangay-name">Lingayao</span>
+                    <span><span class="barangay-pop">2,687</span><span class="barangay-percent">(8.3%)</span></span>
+                </div>
+                <div class="barangay-item">
+                    <span class="barangay-name">Durian</span>
+                    <span><span class="barangay-pop">2,085</span><span class="barangay-percent">(6.4%)</span></span>
+                </div>
+                <div class="barangay-item">
+                    <span class="barangay-name">Casiklan</span>
+                    <span><span class="barangay-pop">2,066</span><span class="barangay-percent">(6.4%)</span></span>
+                </div>
+                <div class="barangay-item">
+                    <span class="barangay-name">Mat-i</span>
+                    <span><span class="barangay-pop">2,081</span><span class="barangay-percent">(6.4%)</span></span>
+                </div>
+                <div class="barangay-item">
+                    <span class="barangay-name">Bonifacio</span>
+                    <span><span class="barangay-pop">1,585</span><span class="barangay-percent">(4.9%)</span></span>
+                </div>
+                <div class="barangay-item">
+                    <span class="barangay-name">Pinana-an</span>
+                    <span><span class="barangay-pop">1,515</span><span class="barangay-percent">(4.7%)</span></span>
+                </div>
+                <div class="barangay-item">
+                    <span class="barangay-name">Maningalao</span>
+                    <span><span class="barangay-pop">1,527</span><span class="barangay-percent">(4.7%)</span></span>
+                </div>
+                <div class="barangay-item">
+                    <span class="barangay-name">Rosario</span>
+                    <span><span class="barangay-pop">1,484</span><span class="barangay-percent">(4.6%)</span></span>
+                </div>
+                <div class="barangay-item">
+                    <span class="barangay-name">Poblacion</span>
+                    <span><span class="barangay-pop">1,428</span><span class="barangay-percent">(4.4%)</span></span>
+                </div>
+                <div class="barangay-item">
+                    <span class="barangay-name">Ambacon</span>
+                    <span><span class="barangay-pop">1,395</span><span class="barangay-percent">(4.3%)</span></span>
+                </div>
+                <div class="barangay-item">
+                    <span class="barangay-name">Eduardo G. Montilla</span>
+                    <span><span class="barangay-pop">1,372</span><span class="barangay-percent">(4.2%)</span></span>
+                </div>
+                <div class="barangay-item">
+                    <span class="barangay-name">Consorcia</span>
+                    <span><span class="barangay-pop">1,276</span><span class="barangay-percent">(3.9%)</span></span>
+                </div>
+                <div class="barangay-item">
+                    <span class="barangay-name">San Isidro</span>
+                    <span><span class="barangay-pop">1,195</span><span class="barangay-percent">(3.7%)</span></span>
+                </div>
+                <div class="barangay-item">
+                    <span class="barangay-name">Ibuan</span>
+                    <span><span class="barangay-pop">1,134</span><span class="barangay-percent">(3.5%)</span></span>
+                </div>
+                <div class="barangay-item">
+                    <span class="barangay-name">Marcos Calo</span>
+                    <span><span class="barangay-pop">1,100</span><span class="barangay-percent">(3.4%)</span></span>
+                </div>
+                <div class="barangay-item">
+                    <span class="barangay-name">Malicato</span>
+                    <span><span class="barangay-pop">1,084</span><span class="barangay-percent">(3.3%)</span></span>
+                </div>
+                <div class="barangay-item">
+                    <span class="barangay-name">Katipunan</span>
+                    <span><span class="barangay-pop">1,031</span><span class="barangay-percent">(3.2%)</span></span>
+                </div>
+                <div class="barangay-item">
+                    <span class="barangay-name">Tinucoran</span>
+                    <span><span class="barangay-pop">1,004</span><span class="barangay-percent">(3.1%)</span></span>
+                </div>
+                <div class="barangay-item">
+                    <span class="barangay-name">Balungagan</span>
+                    <span><span class="barangay-pop">814</span><span class="barangay-percent">(2.5%)</span></span>
+                </div>
+                <div class="barangay-item">
+                    <span class="barangay-name">San Roque</span>
+                    <span><span class="barangay-pop">551</span><span class="barangay-percent">(1.7%)</span></span>
+                </div>
+            </div>
+            <p class="mt-3"><small><i class="fas fa-calculator"></i> Total: <strong>32,402</strong> residents across 20 barangays</small></p>
+        </div>
+        
+        <!-- Demographic Profile -->
+        <div class="info-card">
+            <h3 class="section-title"><i class="fas fa-users" style="margin-right: 10px;"></i> Demographic Profile</h3>
+            <ul class="demographic-list">
+                <li>
+                    <i class="fas fa-tribal"></i>
+                    <span><strong>Majority Ethnic Groups:</strong> Manobo, Higaonon</span>
+                </li>
+                <li>
+                    <i class="fas fa-tractor"></i>
+                    <span><strong>Primary Livelihood:</strong> Agriculture, Fishing, Trading</span>
+                </li>
+                <li>
+                    <i class="fas fa-apple-alt"></i>
+                    <span><strong>Main Products:</strong> Rice, Corn, Vegetables, Fish</span>
+                </li>
+                <li>
+                    <i class="fas fa-church"></i>
+                    <span><strong>Major Religion:</strong> Roman Catholicism</span>
+                </li>
+                <li>
+                    <i class="fas fa-language"></i>
+                    <span><strong>Languages Spoken:</strong> Cebuano, Manobo, Higaonon, Tagalog, English</span>
+                </li>
+            </ul>
+        </div>
+        
+    </div>
+</div>
+
+{% endblock %}

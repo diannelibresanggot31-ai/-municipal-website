@@ -1,0 +1,314 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<!-- ── PAGE HEADER ───────────────────────────────────────── -->
+<div class="page-header">
+    <div class="container">
+        <h1><i class="fas fa-map-pin"></i> Barangay Directory</h1>
+        <p>List of all 20 barangays in the Municipality of Las Nieves</p>
+    </div>
+</div>
+
+<style>
+    .barangay-container {
+        max-width: 1200px;
+        margin: 0 auto;
+    }
+    
+    .stats-summary {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 20px;
+        margin-bottom: 30px;
+    }
+    
+    .stat-summary-card {
+        background: var(--white);
+        border-radius: var(--radius-md);
+        box-shadow: var(--shadow-sm);
+        padding: 20px;
+        text-align: center;
+        border-top: 3px solid var(--green-500);
+    }
+    
+    .stat-summary-number {
+        font-family: var(--font-display);
+        font-size: 32px;
+        font-weight: 700;
+        color: var(--green-600);
+    }
+    
+    .stat-summary-label {
+        font-size: 12px;
+        color: var(--neutral-500);
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }
+    
+    .barangay-table-wrapper {
+        background: var(--white);
+        border-radius: var(--radius-md);
+        box-shadow: var(--shadow-sm);
+        overflow: hidden;
+    }
+    
+    .barangay-table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 14px;
+    }
+    
+    .barangay-table th {
+        background: var(--green-700);
+        color: var(--white);
+        padding: 14px 16px;
+        text-align: left;
+        font-weight: 600;
+    }
+    
+    .barangay-table td {
+        padding: 12px 16px;
+        border-bottom: 1px solid var(--green-100);
+        color: var(--neutral-700);
+    }
+    
+    .barangay-table tr:hover {
+        background: var(--green-50);
+    }
+    
+    .barangay-name {
+        font-weight: 700;
+        color: var(--green-700);
+    }
+    
+    .no-data {
+        text-align: center;
+        padding: 40px;
+        background: var(--white);
+        border-radius: var(--radius-md);
+        box-shadow: var(--shadow-sm);
+    }
+    
+    .no-data i {
+        font-size: 48px;
+        color: var(--green-300);
+        margin-bottom: 15px;
+    }
+    
+    .sample-list {
+        max-width: 500px;
+        margin: 20px auto 0;
+        background: var(--green-50);
+        padding: 20px;
+        border-radius: var(--radius-md);
+        text-align: left;
+    }
+    
+    .sample-list h5 {
+        color: var(--green-700);
+        margin-bottom: 15px;
+    }
+    
+    .sample-list ul {
+        list-style: none;
+        padding: 0;
+    }
+    
+    .sample-list li {
+        padding: 8px 0;
+        border-bottom: 1px solid var(--green-100);
+    }
+    
+    .sample-list li:last-child {
+        border-bottom: none;
+    }
+    
+    @media (max-width: 768px) {
+        .barangay-table th,
+        .barangay-table td {
+            padding: 10px 12px;
+            font-size: 12px;
+        }
+        .stats-summary {
+            grid-template-columns: repeat(2, 1fr);
+        }
+    }
+</style>
+
+<div class="container mb-5">
+    <div class="barangay-container">
+        
+        <!-- Statistics Summary -->
+        <div class="stats-summary">
+            <div class="stat-summary-card">
+                <div class="stat-summary-number">20</div>
+                <div class="stat-summary-label">Total Barangays</div>
+            </div>
+            <div class="stat-summary-card">
+                <div class="stat-summary-number">32,402</div>
+                <div class="stat-summary-label">Total Population</div>
+            </div>
+            <div class="stat-summary-card">
+                <div class="stat-summary-number">20</div>
+                <div class="stat-summary-label">Barangay Captains</div>
+            </div>
+        </div>
+        
+        <!-- Barangay Table -->
+        <div class="barangay-table-wrapper">
+            <table class="barangay-table">
+                <thead>
+                    <tr>
+                        <th>Barangay Name</th>
+                        <th>Barangay Captain</th>
+                        <th>Contact Number</th>
+                        <th>Population (2024)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% if barangays and barangays|length > 0 %}
+                        {% for barangay in barangays %}
+                        <tr>
+                            <td class="barangay-name">{{ barangay.name }}</td>
+                            <td>{{ barangay.captain }}</td>
+                            <td>{{ barangay.contact_number }}</td>
+                            <td>{{ barangay.population }}</td>
+                        </tr>
+                        {% endfor %}
+                    {% else %}
+                        <!-- Sample data when database is empty -->
+                        <tr>
+                            <td class="barangay-name">Poblacion</td>
+                            <td>Juan Dela Cruz</td>
+                            <td>0912-345-6789</td>
+                            <td>2,500</td>
+                        </tr>
+                        <tr>
+                            <td class="barangay-name">Lingayao</td>
+                            <td>Maria Santos</td>
+                            <td>0912-345-6790</td>
+                            <td>2,687</td>
+                        </tr>
+                        <tr>
+                            <td class="barangay-name">Casiklan</td>
+                            <td>Jose Rizal</td>
+                            <td>0912-345-6791</td>
+                            <td>2,066</td>
+                        </tr>
+                        <tr>
+                            <td class="barangay-name">Durian</td>
+                            <td>Ana Reyes</td>
+                            <td>0912-345-6792</td>
+                            <td>2,085</td>
+                        </tr>
+                        <tr>
+                            <td class="barangay-name">Mat-i</td>
+                            <td>Pedro Lopez</td>
+                            <td>0912-345-6793</td>
+                            <td>2,081</td>
+                        </tr>
+                        <tr>
+                            <td class="barangay-name">Bonifacio</td>
+                            <td>Rosa Santos</td>
+                            <td>0912-345-6794</td>
+                            <td>1,585</td>
+                        </tr>
+                        <tr>
+                            <td class="barangay-name">Pinana-an</td>
+                            <td>Ramon Magsaysay</td>
+                            <td>0912-345-6795</td>
+                            <td>1,515</td>
+                        </tr>
+                        <tr>
+                            <td class="barangay-name">Maningalao</td>
+                            <td>Jose P. Rizal</td>
+                            <td>0912-345-6796</td>
+                            <td>1,527</td>
+                        </tr>
+                        <tr>
+                            <td class="barangay-name">Rosario</td>
+                            <td>Manuel Quezon</td>
+                            <td>0912-345-6797</td>
+                            <td>1,484</td>
+                        </tr>
+                        <tr>
+                            <td class="barangay-name">Ambacon</td>
+                            <td>Andres Bonifacio</td>
+                            <td>0912-345-6798</td>
+                            <td>1,395</td>
+                        </tr>
+                        <tr>
+                            <td class="barangay-name">Eduardo G. Montilla</td>
+                            <td>Emilio Aguinaldo</td>
+                            <td>0912-345-6799</td>
+                            <td>1,372</td>
+                        </tr>
+                        <tr>
+                            <td class="barangay-name">Consorcia</td>
+                            <td>Apolinario Mabini</td>
+                            <td>0912-345-6800</td>
+                            <td>1,276</td>
+                        </tr>
+                        <tr>
+                            <td class="barangay-name">San Isidro</td>
+                            <td>Melchora Aquino</td>
+                            <td>0912-345-6801</td>
+                            <td>1,195</td>
+                        </tr>
+                        <tr>
+                            <td class="barangay-name">Ibuan</td>
+                            <td>Gabriela Silang</td>
+                            <td>0912-345-6802</td>
+                            <td>1,134</td>
+                        </tr>
+                        <tr>
+                            <td class="barangay-name">Marcos Calo</td>
+                            <td>Francisco Balagtas</td>
+                            <td>0912-345-6803</td>
+                            <td>1,100</td>
+                        </tr>
+                        <tr>
+                            <td class="barangay-name">Malicato</td>
+                            <td>Lapu-Lapu</td>
+                            <td>0912-345-6804</td>
+                            <td>1,084</td>
+                        </tr>
+                        <tr>
+                            <td class="barangay-name">Katipunan</td>
+                            <td>Gregorio del Pilar</td>
+                            <td>0912-345-6805</td>
+                            <td>1,031</td>
+                        </tr>
+                        <tr>
+                            <td class="barangay-name">Tinucoran</td>
+                            <td>Antonio Luna</td>
+                            <td>0912-345-6806</td>
+                            <td>1,004</td>
+                        </tr>
+                        <tr>
+                            <td class="barangay-name">Balungagan</td>
+                            <td>Diego Silang</td>
+                            <td>0912-345-6807</td>
+                            <td>814</td>
+                        </tr>
+                        <tr>
+                            <td class="barangay-name">San Roque</td>
+                            <td>Josefa Llanes Escoda</td>
+                            <td>0912-345-6808</td>
+                            <td>551</td>
+                        </tr>
+                    {% endif %}
+                </tbody>
+            </table>
+        </div>
+        
+        <p class="text-muted mt-3">
+            <i class="fas fa-info-circle"></i> Total of 20 barangays in the Municipality of Las Nieves, Agusan del Norte.
+            To update barangay information, please contact the Municipal Planning and Development Office.
+        </p>
+        
+    </div>
+</div>
+
+{% endblock %}

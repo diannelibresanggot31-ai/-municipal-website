@@ -1,0 +1,19 @@
+# =============================================
+# LOCAL DEVELOPMENT ENVIRONMENT VARIABLES
+# DO NOT SHARE OR COMMIT THIS FILE TO GITHUB!
+# Add .env to your .gitignore file
+# =============================================
+
+# Database (local)
+DB_HOST=localhost
+DB_USER=root
+DB_PASSWORD=dianne2005
+DB_NAME=municipal_db
+
+# Cloudinary (Municipal Site Key)
+CLOUDINARY_CLOUD_NAME=dycblkudt
+CLOUDINARY_API_KEY=943494719821294
+CLOUDINARY_API_SECRET=7FK57v3WJwLwrdLdF8iug99LMbE
+
+# App
+SECRET_KEY=admin_secret_key_2026

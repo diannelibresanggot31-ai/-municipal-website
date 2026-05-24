@@ -1,0 +1,606 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<!-- ── PAGE HEADER ───────────────────────────────────────── -->
+<div class="page-header">
+    <div class="container">
+        <h1><i class="fas fa-calendar-alt"></i> Calendar of Activities</h1>
+        <p>Stay updated with upcoming events, programs, and activities in Las Nieves.</p>
+    </div>
+</div>
+
+<style>
+    .calendar-container {
+        background: white;
+        border-radius: 10px;
+        box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+        overflow: hidden;
+    }
+    
+    .calendar-header {
+        background: linear-gradient(135deg, #1a5228, #2a7a3b);
+        color: white;
+        padding: 6px 12px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+    
+    .calendar-nav-btn {
+        background: rgba(255,255,255,0.15);
+        border: none;
+        color: white;
+        padding: 3px 8px;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 10px;
+        transition: all 0.2s;
+    }
+    
+    .calendar-nav-btn:hover {
+        background: rgba(255,255,255,0.25);
+    }
+    
+    .calendar-month-year {
+        font-size: 12px;
+        font-weight: 600;
+    }
+    
+    .calendar-weekdays {
+        display: grid;
+        grid-template-columns: repeat(7, 1fr);
+        background: #f8faf8;
+        border-bottom: 1px solid #e8ede9;
+    }
+    
+    .calendar-weekday {
+        padding: 4px;
+        text-align: center;
+        font-weight: 600;
+        font-size: 9px;
+        color: #1a5228;
+        text-transform: uppercase;
+    }
+    
+    .calendar-days {
+        display: grid;
+        grid-template-columns: repeat(7, 1fr);
+    }
+    
+    .calendar-day {
+        min-height: 35px;
+        border-right: 1px solid #f0f4f1;
+        border-bottom: 1px solid #f0f4f1;
+        padding: 2px;
+        background: white;
+        text-align: center;
+        position: relative;
+    }
+    
+    .calendar-day:hover {
+        background: #f9fff9;
+    }
+    
+    .calendar-day.empty {
+        background: #fafbfa;
+    }
+    
+    .day-number {
+        font-size: 10px;
+        font-weight: 500;
+        color: #555;
+        display: inline-block;
+        width: 20px;
+        height: 20px;
+        line-height: 20px;
+        text-align: center;
+        border-radius: 50%;
+    }
+    
+    .calendar-day.today .day-number {
+        background: #2a7a3b;
+        color: white;
+        font-weight: 600;
+    }
+    
+    /* Event indicator - a simple dot */
+    .event-dot {
+        display: inline-block;
+        width: 6px;
+        height: 6px;
+        background: #2a7a3b;
+        border-radius: 50%;
+        position: absolute;
+        bottom: 2px;
+        left: 50%;
+        transform: translateX(-50%);
+    }
+    
+    .calendar-day.has-event {
+        cursor: pointer;
+        position: relative;
+    }
+    
+    /* Upcoming Events List - MAIN HIGHLIGHT */
+    .upcoming-list {
+        background: white;
+        border-radius: 10px;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+        overflow: hidden;
+        position: sticky;
+        top: 60px;
+    }
+    
+    .upcoming-header {
+        background: linear-gradient(135deg, #1a5228, #2a7a3b);
+        color: white;
+        padding: 15px 20px;
+        font-weight: 700;
+        font-size: 16px;
+    }
+    
+    .upcoming-header i {
+        margin-right: 10px;
+    }
+    
+    .upcoming-item {
+        display: flex;
+        align-items: center;
+        padding: 15px 20px;
+        border-bottom: 1px solid #f0f4f1;
+        transition: background 0.2s;
+        cursor: pointer;
+    }
+    
+    .upcoming-item:hover {
+        background: #f9fff9;
+    }
+    
+    .upcoming-date {
+        background: linear-gradient(135deg, #e8f5eb, #dff0e3);
+        border-radius: 10px;
+        padding: 10px 15px;
+        text-align: center;
+        min-width: 70px;
+        margin-right: 15px;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+    }
+    
+    .upcoming-day {
+        font-size: 24px;
+        font-weight: 700;
+        color: #1a5228;
+        line-height: 1;
+    }
+    
+    .upcoming-month {
+        font-size: 10px;
+        text-transform: uppercase;
+        color: #666;
+        letter-spacing: 0.5px;
+        margin-top: 3px;
+    }
+    
+    .upcoming-details {
+        flex: 1;
+    }
+    
+    .upcoming-title {
+        font-weight: 700;
+        color: #1a5228;
+        margin-bottom: 5px;
+        font-size: 15px;
+    }
+    
+    .upcoming-location {
+        font-size: 12px;
+        color: #777;
+    }
+    
+    .upcoming-location i {
+        margin-right: 5px;
+        color: #c62828;
+        font-size: 11px;
+    }
+    
+    .upcoming-arrow {
+        color: #ccc;
+        font-size: 12px;
+        transition: transform 0.2s;
+    }
+    
+    .upcoming-item:hover .upcoming-arrow {
+        transform: translateX(5px);
+        color: #2a7a3b;
+    }
+    
+    .no-events {
+        text-align: center;
+        padding: 40px 20px;
+        color: #999;
+        font-size: 13px;
+    }
+    
+    .no-events i {
+        font-size: 40px;
+        margin-bottom: 10px;
+        display: block;
+        opacity: 0.5;
+    }
+    
+    /* Event Details Modal */
+    .event-modal {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0,0,0,0.5);
+        z-index: 9999;
+        align-items: center;
+        justify-content: center;
+    }
+    
+    .event-modal-content {
+        background: white;
+        border-radius: 12px;
+        max-width: 380px;
+        width: 90%;
+        overflow: hidden;
+        animation: modalFade 0.3s ease;
+    }
+    
+    @keyframes modalFade {
+        from {
+            opacity: 0;
+            transform: translateY(-20px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+    
+    .event-modal-header {
+        background: linear-gradient(135deg, #1a5228, #2a7a3b);
+        color: white;
+        padding: 15px 20px;
+        font-size: 16px;
+        font-weight: 700;
+    }
+    
+    .event-modal-body {
+        padding: 20px;
+    }
+    
+    .event-modal-detail {
+        margin-bottom: 12px;
+        display: flex;
+        align-items: center;
+    }
+    
+    .event-modal-detail i {
+        width: 30px;
+        color: #2a7a3b;
+        font-size: 14px;
+    }
+    
+    .event-modal-detail span {
+        flex: 1;
+        color: #333;
+        font-size: 14px;
+    }
+    
+    .event-modal-close {
+        background: #1a5228;
+        color: white;
+        border: none;
+        padding: 10px;
+        width: 100%;
+        font-size: 13px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: background 0.2s;
+    }
+    
+    .event-modal-close:hover {
+        background: #0d2b16;
+    }
+    
+    .calendar-day.has-event {
+        background-color: #f0faf2;
+        cursor: pointer;
+    }
+    
+    @media (max-width: 768px) {
+        .calendar-day {
+            min-height: 30px;
+        }
+        .day-number {
+            font-size: 9px;
+            width: 18px;
+            height: 18px;
+            line-height: 18px;
+        }
+        .upcoming-item {
+            padding: 10px 15px;
+        }
+        .upcoming-date {
+            padding: 6px 10px;
+            min-width: 55px;
+            margin-right: 10px;
+        }
+        .upcoming-day {
+            font-size: 18px;
+        }
+        .upcoming-title {
+            font-size: 13px;
+        }
+        .upcoming-location {
+            font-size: 10px;
+        }
+    }
+</style>
+
+<div class="container mb-4">
+    <div class="row">
+        <!-- Calendar Grid - VERY SMALL -->
+        <div class="col-lg-4">
+            <div class="calendar-container">
+                <div class="calendar-header">
+                    <button class="calendar-nav-btn" onclick="changeMonth(-1)">
+                        <i class="fas fa-chevron-left"></i>
+                    </button>
+                    <span class="calendar-month-year" id="currentMonthYear">{{ current_month }} {{ current_year }}</span>
+                    <button class="calendar-nav-btn" onclick="changeMonth(1)">
+                        <i class="fas fa-chevron-right"></i>
+                    </button>
+                </div>
+                
+                <div class="calendar-weekdays">
+                    <div class="calendar-weekday">S</div>
+                    <div class="calendar-weekday">M</div>
+                    <div class="calendar-weekday">T</div>
+                    <div class="calendar-weekday">W</div>
+                    <div class="calendar-weekday">T</div>
+                    <div class="calendar-weekday">F</div>
+                    <div class="calendar-weekday">S</div>
+                </div>
+                
+                <div class="calendar-days" id="calendarDays"></div>
+            </div>
+        </div>
+        
+        <!-- Upcoming Events Sidebar - LARGER (MAIN FOCUS) -->
+        <div class="col-lg-8">
+            <div class="upcoming-list">
+                <div class="upcoming-header">
+                    <i class="fas fa-calendar-week"></i> Upcoming Events
+                </div>
+                <div id="upcomingEventsList">
+                    <div class="text-center p-4">
+                        <i class="fas fa-spinner fa-spin"></i> Loading events...
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Event Details Modal -->
+<div id="eventModal" class="event-modal" onclick="closeModalOnOutside(event)">
+    <div class="event-modal-content">
+        <div class="event-modal-header" id="modalTitle">Event Details</div>
+        <div class="event-modal-body">
+            <div class="event-modal-detail">
+                <i class="fas fa-calendar-day"></i>
+                <span id="modalDate">Date</span>
+            </div>
+            <div class="event-modal-detail">
+                <i class="fas fa-map-marker-alt"></i>
+                <span id="modalLocation">Location</span>
+            </div>
+        </div>
+        <button class="event-modal-close" onclick="closeModal()">Close</button>
+    </div>
+</div>
+
+<script>
+    /* eslint-disable */
+    // Calendar data
+    var eventsData = {{ events_json|safe }};
+    /* eslint-enable */
+    var currentDate = new Date();
+    var today = new Date();
+    today.setHours(0, 0, 0, 0);
+    
+    function formatDate(date) {
+        var year = date.getFullYear();
+        var month = String(date.getMonth() + 1).padStart(2, '0');
+        var day = String(date.getDate()).padStart(2, '0');
+        return year + '-' + month + '-' + day;
+    }
+    
+    function getEventsForDate(dateStr) {
+        var result = [];
+        if (!eventsData) return result;
+        for (var i = 0; i < eventsData.length; i++) {
+            if (eventsData[i].event_date === dateStr) {
+                result.push(eventsData[i]);
+            }
+        }
+        return result;
+    }
+    
+    function renderCalendar() {
+        var year = currentDate.getFullYear();
+        var month = currentDate.getMonth();
+        
+        var monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+        document.getElementById('currentMonthYear').textContent = monthNames[month] + ' ' + year;
+        
+        var firstDayOfMonth = new Date(year, month, 1);
+        var lastDayOfMonth = new Date(year, month + 1, 0);
+        var startingDayIndex = firstDayOfMonth.getDay();
+        var daysInMonth = lastDayOfMonth.getDate();
+        
+        var calendarDays = document.getElementById('calendarDays');
+        calendarDays.innerHTML = '';
+        
+        var todayStr = formatDate(today);
+        
+        for (var i = 0; i < startingDayIndex; i++) {
+            var emptyDay = document.createElement('div');
+            emptyDay.className = 'calendar-day empty';
+            emptyDay.innerHTML = '&nbsp;';
+            calendarDays.appendChild(emptyDay);
+        }
+        
+        for (var day = 1; day <= daysInMonth; day++) {
+            var monthNum = String(month + 1).padStart(2, '0');
+            var dayNum = String(day).padStart(2, '0');
+            var dateStr = year + '-' + monthNum + '-' + dayNum;
+            var events = getEventsForDate(dateStr);
+            var isToday = (dateStr === todayStr);
+            var hasEvents = (events && events.length > 0);
+            
+            var dayCell = document.createElement('div');
+            dayCell.className = 'calendar-day';
+            if (isToday) {
+                dayCell.classList.add('today');
+            }
+            if (hasEvents) {
+                dayCell.classList.add('has-event');
+            }
+            
+            var dayHtml = '<div class="day-number">' + day + '</div>';
+            
+            if (hasEvents) {
+                dayHtml += '<div class="event-dot" onclick="showEventDetails(' + events[0].id + ')"></div>';
+                dayCell.setAttribute('onclick', 'showEventDetails(' + events[0].id + ')');
+            }
+            
+            dayCell.innerHTML = dayHtml;
+            calendarDays.appendChild(dayCell);
+        }
+        
+        var totalCells = startingDayIndex + daysInMonth;
+        var remainingCells = 42 - totalCells;
+        for (var i = 0; i < remainingCells; i++) {
+            var emptyDay = document.createElement('div');
+            emptyDay.className = 'calendar-day empty';
+            emptyDay.innerHTML = '&nbsp;';
+            calendarDays.appendChild(emptyDay);
+        }
+    }
+    
+    function changeMonth(delta) {
+        currentDate.setMonth(currentDate.getMonth() + delta);
+        renderCalendar();
+    }
+    
+    function showEventDetails(eventId) {
+        var event = null;
+        if (!eventsData) return;
+        for (var i = 0; i < eventsData.length; i++) {
+            if (eventsData[i].id === eventId) {
+                event = eventsData[i];
+                break;
+            }
+        }
+        if (event) {
+            document.getElementById('modalTitle').innerHTML = '<i class="fas fa-calendar-alt"></i> ' + escapeHtml(event.title);
+            document.getElementById('modalDate').innerHTML = formatDisplayDate(event.event_date);
+            document.getElementById('modalLocation').innerHTML = event.location || 'Venue TBD';
+            document.getElementById('eventModal').style.display = 'flex';
+        }
+    }
+    
+    function formatDisplayDate(dateStr) {
+        var months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+        var parts = dateStr.split('-');
+        var year = parts[0];
+        var month = parseInt(parts[1]) - 1;
+        var day = parseInt(parts[2]);
+        return months[month] + ' ' + day + ', ' + year;
+    }
+    
+    function closeModal() {
+        document.getElementById('eventModal').style.display = 'none';
+    }
+    
+    function closeModalOnOutside(event) {
+        if (event.target === document.getElementById('eventModal')) {
+            closeModal();
+        }
+    }
+    
+    function escapeHtml(text) {
+        if (!text) return '';
+        return String(text).replace(/[&<>]/g, function(m) {
+            if (m === '&') return '&amp;';
+            if (m === '<') return '&lt;';
+            if (m === '>') return '&gt;';
+            return m;
+        });
+    }
+    
+    function renderUpcomingEvents() {
+        var upcomingList = document.getElementById('upcomingEventsList');
+        if (!upcomingList) return;
+        
+        var upcomingEvents = [];
+        if (eventsData) {
+            for (var i = 0; i < eventsData.length; i++) {
+                var eventDate = new Date(eventsData[i].event_date);
+                if (eventDate >= today) {
+                    upcomingEvents.push(eventsData[i]);
+                }
+            }
+        }
+        
+        upcomingEvents.sort(function(a, b) {
+            return new Date(a.event_date) - new Date(b.event_date);
+        });
+        
+        upcomingEvents = upcomingEvents.slice(0, 10);
+        
+        if (upcomingEvents.length === 0) {
+            upcomingList.innerHTML = '<div class="no-events"><i class="fas fa-calendar-check"></i>No upcoming events scheduled.<br><small>Check back later for updates</small></div>';
+            return;
+        }
+        
+        var html = '';
+        for (var i = 0; i < upcomingEvents.length; i++) {
+            var event = upcomingEvents[i];
+            var eventDate = new Date(event.event_date);
+            var day = eventDate.getDate();
+            var monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+            var month = monthNames[eventDate.getMonth()];
+            
+            html += '<div class="upcoming-item" onclick="showEventDetails(' + event.id + ')">';
+            html += '<div class="upcoming-date">';
+            html += '<div class="upcoming-day">' + day + '</div>';
+            html += '<div class="upcoming-month">' + month + '</div>';
+            html += '</div>';
+            html += '<div class="upcoming-details">';
+            html += '<div class="upcoming-title">' + escapeHtml(event.title) + '</div>';
+            html += '<div class="upcoming-location"><i class="fas fa-map-marker-alt"></i> ' + escapeHtml(event.location || 'Venue TBD') + '</div>';
+            html += '</div>';
+            html += '<div class="upcoming-arrow"><i class="fas fa-chevron-right"></i></div>';
+            html += '</div>';
+        }
+        
+        upcomingList.innerHTML = html;
+    }
+    
+    // Initialize when page loads
+    document.addEventListener('DOMContentLoaded', function() {
+        renderCalendar();
+        renderUpcomingEvents();
+    });
+</script>
+
+{% endblock %}
