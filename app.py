@@ -378,7 +378,7 @@ def admin_dashboard():
 # ==================== BARANGAY MANAGEMENT ====================
 
 @app.route('/admin/barangays')
-@login_required
+@admin_required
 def admin_barangays():
     db = get_db()
     cursor = db.cursor(dictionary=True)
@@ -388,7 +388,7 @@ def admin_barangays():
     return render_template('admin_barangays.html', barangays=barangays)
 
 @app.route('/admin/barangays/new', methods=['GET', 'POST'])
-@login_required
+@admin_required
 def admin_barangay_new():
     if request.method == 'POST':
         name = request.form['name']
@@ -409,7 +409,7 @@ def admin_barangay_new():
     return render_template('admin_barangays_form.html', barangay=None)
 
 @app.route('/admin/barangays/edit/<int:id>', methods=['GET', 'POST'])
-@login_required
+@admin_required
 def admin_barangay_edit(id):
     db = get_db()
     cursor = db.cursor(dictionary=True)
@@ -435,7 +435,7 @@ def admin_barangay_edit(id):
     return render_template('admin_barangays_form.html', barangay=barangay)
 
 @app.route('/admin/barangays/delete/<int:id>')
-@login_required
+@admin_required
 def admin_barangay_delete(id):
     db = get_db()
     cursor = db.cursor()
