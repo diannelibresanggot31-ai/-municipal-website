@@ -125,9 +125,9 @@
                     </div>
                 </div>
                 
-                <!-- Short preview (first 300 characters) -->
+                <!-- Short preview (first 250 characters only) -->
                 <div class="short-preview" id="short-{{ loop.index }}">
-                    {{ announcement.content[:300] }}{% if announcement.content|length > 300 %}...{% endif %}
+                    {{ announcement.content[:250] }}{% if announcement.content|length > 250 %}...{% endif %}
                 </div>
                 
                 <!-- Full content (hidden initially) -->
@@ -139,7 +139,7 @@
                     <div class="announcement-author">
                         <i class="fas fa-user-circle"></i> Posted by: {{ announcement.posted_by if announcement.posted_by else 'Administrator' }}
                     </div>
-                    {% if announcement.content|length > 300 %}
+                    {% if announcement.content|length > 250 %}
                     <button class="read-more-btn" onclick="toggleReadFull({{ loop.index }})">
                         Read Full <i class="fas fa-arrow-right"></i>
                     </button>
@@ -165,12 +165,31 @@ function toggleReadFull(id) {
     var btn = event.target;
     
     if (shortDiv.style.display === 'none') {
-        // Show short, hide full
+        // Switch back to short/preview mode
         shortDiv.style.display = 'block';
         fullDiv.style.display = 'none';
         btn.innerHTML = 'Read Full <i class="fas fa-arrow-right"></i>';
     } else {
-        // Show full, hide short
+        // Switch to full content mode
+        shortDiv.style.display = 'none';
+        fullDiv.style.display = 'block';
+        btn.innerHTML = 'Show Less <i class="fas fa-arrow-up"></i>';
+    }
+}
+</script>
+
+{% endblock %}
+<script>
+function toggleReadFull(id) {
+    var shortDiv = document.getElementById('short-' + id);
+    var fullDiv = document.getElementById('full-' + id);
+    var btn = event.target;
+    
+    if (shortDiv.style.display === 'none') {
+        shortDiv.style.display = 'block';
+        fullDiv.style.display = 'none';
+        btn.innerHTML = 'Read Full <i class="fas fa-arrow-right"></i>';
+    } else {
         shortDiv.style.display = 'none';
         fullDiv.style.display = 'block';
         btn.innerHTML = 'Show Less <i class="fas fa-arrow-up"></i>';
