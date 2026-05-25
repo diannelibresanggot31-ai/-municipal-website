@@ -4,6 +4,7 @@ from datetime import datetime
 from functools import wraps
 import os
 import json
+from werkzeug.utils import secure_filename
 
 app = Flask(__name__, template_folder='templates')
 app.secret_key = os.environ.get('SECRET_KEY', 'municipal_secret_key_2026')
@@ -128,7 +129,7 @@ def population():
 def officials():
     db = get_db()
     cursor = db.cursor(dictionary=True)
-    cursor.execute("SELECT * FROM officials ORDER BY rank_order ASC, full_name ASC")
+    cursor.execute("SELECT id, full_name, position, office, email, rank_order, status FROM officials ORDER BY rank_order ASC, full_name ASC")
     officials = cursor.fetchall()
     db.close()
     return render_template('officials.html', officials=officials)
@@ -486,7 +487,7 @@ def admin_contact_settings():
     
     return render_template('admin_contact.html', settings=settings)
 
-# ==================== GEMENT ====================
+# ==================== IMAGE MANAGEMENT ====================
 
 @app.route('/admin/images')
 @admin_required
@@ -578,7 +579,7 @@ def admin_delete_image(filename):
     
     return jsonify({'success': True})
 
-# ==================== EXISTING ADMIN ROUTES ====================
+# ==================== ANNOUNCEMENTS MANAGEMENT ====================
 
 @app.route('/admin/announcements')
 @admin_required
@@ -637,12 +638,14 @@ def admin_announcement_delete(id):
     flash('Announcement deleted.', 'success')
     return redirect(url_for('admin_announcements'))
 
+# ==================== OFFICIALS MANAGEMENT (UPDATED - NO CONTACT/PHOTO) ====================
+
 @app.route('/admin/officials')
 @admin_required
 def admin_officials():
     db = get_db()
     cursor = db.cursor(dictionary=True)
-    cursor.execute("SELECT * FROM officials ORDER BY position")
+    cursor.execute("SELECT id, full_name, position, office, email, order_num, status, rank_order FROM officials ORDER BY rank_order ASC, full_name ASC")
     officials = cursor.fetchall()
     db.close()
     return render_template('admin_officials.html', officials=officials)
@@ -654,18 +657,17 @@ def admin_official_new():
         full_name = request.form['full_name']
         position = request.form['position']
         office = request.form.get('office', '')
-        contact_number = request.form.get('contact_number', '')
         email = request.form.get('email', '')
-        photo_url = request.form.get('photo_url', '')
         order_num = request.form.get('order_num', 0)
         status = request.form.get('status', 'active')
+        rank_order = request.form.get('rank_order', 0)
         
         db = get_db()
         cursor = db.cursor()
         cursor.execute("""
-            INSERT INTO officials (full_name, position, office, contact_number, email, photo_url, order_num, status) 
-            VALUES (%s, %s, %s, %s, %s, %s, %s, %s)
-        """, (full_name, position, office, contact_number, email, photo_url, order_num, status))
+            INSERT INTO officials (full_name, position, office, email, order_num, status, rank_order) 
+            VALUES (%s, %s, %s, %s, %s, %s, %s)
+        """, (full_name, position, office, email, order_num, status, rank_order))
         db.commit()
         db.close()
         flash('Official added!', 'success')
@@ -681,17 +683,16 @@ def admin_official_edit(id):
         full_name = request.form['full_name']
         position = request.form['position']
         office = request.form.get('office', '')
-        contact_number = request.form.get('contact_number', '')
         email = request.form.get('email', '')
-        photo_url = request.form.get('photo_url', '')
         order_num = request.form.get('order_num', 0)
         status = request.form.get('status', 'active')
+        rank_order = request.form.get('rank_order', 0)
         
         cursor.execute("""
             UPDATE officials 
-            SET full_name=%s, position=%s, office=%s, contact_number=%s, email=%s, photo_url=%s, order_num=%s, status=%s 
+            SET full_name=%s, position=%s, office=%s, email=%s, order_num=%s, status=%s, rank_order=%s 
             WHERE id=%s
-        """, (full_name, position, office, contact_number, email, photo_url, order_num, status, id))
+        """, (full_name, position, office, email, order_num, status, rank_order, id))
         db.commit()
         db.close()
         flash('Official updated!', 'success')
@@ -712,6 +713,8 @@ def admin_official_delete(id):
     db.close()
     flash('Official removed.', 'success')
     return redirect(url_for('admin_officials'))
+
+# ==================== PROJECTS MANAGEMENT ====================
 
 @app.route('/admin/projects')
 @admin_required
@@ -775,6 +778,8 @@ def admin_project_delete(id):
     flash('Project deleted.', 'success')
     return redirect(url_for('admin_projects'))
 
+# ==================== EVENTS MANAGEMENT ====================
+
 @app.route('/admin/events')
 @admin_required
 def admin_events():
@@ -837,6 +842,8 @@ def admin_event_delete(id):
     flash('Event deleted.', 'success')
     return redirect(url_for('admin_events'))
 
+# ==================== INQUIRIES MANAGEMENT ====================
+
 @app.route('/admin/inquiries')
 @admin_required
 def admin_inquiries():
@@ -857,6 +864,8 @@ def admin_inquiry_mark_read(id):
     db.close()
     flash('Inquiry marked as read.', 'success')
     return redirect(url_for('admin_inquiries'))
+
+# ==================== EMERGENCY SETTINGS ====================
 
 @app.route('/admin/emergency')
 @admin_required

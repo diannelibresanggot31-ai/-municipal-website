@@ -146,13 +146,13 @@ def delete_announcement(id):
     flash('Announcement deleted successfully!', 'success')
     return redirect(url_for('announcements'))
 
-# ==================== OFFICIALS ====================
+# ==================== OFFICIALS (UPDATED - NO CONTACT/PHOTO) ====================
 @app.route('/admin/officials')
 @login_required
 def officials():
     db = get_db()
     cursor = db.cursor(dictionary=True)
-    cursor.execute("SELECT * FROM officials ORDER BY rank_order ASC, full_name ASC")
+    cursor.execute("SELECT id, full_name, position, office, email, order_num, rank_order, status FROM officials ORDER BY rank_order ASC, full_name ASC")
     officials = cursor.fetchall()
     db.close()
     return render_template('admin_officials.html', officials=officials)
@@ -164,9 +164,7 @@ def add_official():
         full_name = request.form['full_name']
         position = request.form['position']
         office = request.form.get('office', '')
-        contact_number = request.form.get('contact_number', '')
         email = request.form.get('email', '')
-        photo_url = request.form.get('photo_url', '')
         order_num = request.form.get('order_num', 0)
         rank_order = request.form.get('rank_order', 0)
         status = request.form.get('status', 'active')
@@ -174,9 +172,9 @@ def add_official():
         db = get_db()
         cursor = db.cursor()
         cursor.execute("""
-            INSERT INTO officials (full_name, position, office, contact_number, email, photo_url, order_num, rank_order, status) 
-            VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)
-        """, (full_name, position, office, contact_number, email, photo_url, order_num, rank_order, status))
+            INSERT INTO officials (full_name, position, office, email, order_num, rank_order, status) 
+            VALUES (%s, %s, %s, %s, %s, %s, %s)
+        """, (full_name, position, office, email, order_num, rank_order, status))
         db.commit()
         db.close()
         flash('Official added successfully!', 'success')
@@ -192,18 +190,16 @@ def edit_official(id):
         full_name = request.form['full_name']
         position = request.form['position']
         office = request.form.get('office', '')
-        contact_number = request.form.get('contact_number', '')
         email = request.form.get('email', '')
-        photo_url = request.form.get('photo_url', '')
         order_num = request.form.get('order_num', 0)
         rank_order = request.form.get('rank_order', 0)
         status = request.form.get('status', 'active')
         
         cursor.execute("""
             UPDATE officials 
-            SET full_name=%s, position=%s, office=%s, contact_number=%s, email=%s, photo_url=%s, order_num=%s, rank_order=%s, status=%s 
+            SET full_name=%s, position=%s, office=%s, email=%s, order_num=%s, rank_order=%s, status=%s 
             WHERE id=%s
-        """, (full_name, position, office, contact_number, email, photo_url, order_num, rank_order, status, id))
+        """, (full_name, position, office, email, order_num, rank_order, status, id))
         db.commit()
         db.close()
         flash('Official updated successfully!', 'success')

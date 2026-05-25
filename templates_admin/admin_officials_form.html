@@ -241,23 +241,12 @@
                             <label>Office/Department</label>
                             <input type="text" name="office" class="form-control" value="{{ official.office if official else '' }}">
                         </div>
-                        <div class="row-equal">
-                            <div class="form-group">
-                                <label>Contact Number</label>
-                                <input type="text" name="contact_number" class="form-control" value="{{ official.contact_number if official else '' }}">
-                            </div>
-                            <div class="form-group">
-                                <label>Email Address</label>
-                                <input type="email" name="email" class="form-control" value="{{ official.email if official else '' }}">
-                            </div>
-                        </div>
                         <div class="form-group">
-                            <label>Photo URL</label>
-                            <input type="text" name="photo_url" class="form-control" placeholder="https://..." value="{{ official.photo_url if official else '' }}">
-                            <small class="text-muted">Enter a direct link to the official's photo</small>
+                            <label>Email Address</label>
+                            <input type="email" name="email" class="form-control" value="{{ official.email if official else '' }}">
                         </div>
                         
-                        <!-- RANK / HIERARCHY - ADD THIS SECTION -->
+                        <!-- RANK / HIERARCHY SECTION -->
                         <div class="form-group">
                             <label>Rank / Hierarchy *</label>
                             <select name="rank_order" class="form-select">
