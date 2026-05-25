@@ -1,5 +1,7 @@
 {% extends "admin_base.html" %}
 
+{% block title %}Dashboard{% endblock %}
+
 {% block content %}
 <style>
     .stat-card {
@@ -9,194 +11,98 @@
         padding: 25px;
         margin-bottom: 20px;
         box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-        transition: transform 0.2s;
-        border: none;
     }
-    .stat-card:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 8px 20px rgba(0,0,0,0.15);
-    }
-    .stat-card-icon {
-        font-size: 32px;
-        opacity: 0.7;
-        margin-bottom: 10px;
-    }
-    .stat-card-number {
-        font-size: 36px;
-        font-weight: 700;
-        margin-bottom: 5px;
-    }
-    .stat-card-label {
-        font-size: 14px;
-        opacity: 0.9;
-    }
-    .content-card {
-        background: white;
-        border-radius: 12px;
-        box-shadow: 0 1px 6px rgba(0,0,0,0.05);
-        border: 1px solid rgba(0,0,0,0.05);
-        overflow: hidden;
-        margin-bottom: 24px;
-    }
-    .card-header-custom {
-        background: #f8faf8;
-        padding: 20px;
-        border-bottom: 1px solid rgba(0,0,0,0.05);
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-    }
-    .card-header-custom h4 {
-        margin: 0;
-        color: #1a5228;
-        font-weight: 600;
-        font-size: 18px;
-    }
-    .card-body-custom { padding: 20px; }
-    .recent-item {
-        padding: 15px 0;
-        border-bottom: 1px solid rgba(0,0,0,0.05);
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-    }
-    .recent-item:last-child { border-bottom: none; }
-    .recent-item-title { font-weight: 500; color: #333; }
-    .recent-item-date { font-size: 12px; color: #999; }
-    .welcome-section {
-        background: linear-gradient(135deg, #1a5228 0%, #2a7a3b 100%);
-        color: white;
-        padding: 30px;
-        border-radius: 12px;
-        margin-bottom: 30px;
-    }
-    .welcome-section h1 { margin: 0; font-size: 28px; }
-    .welcome-section p { margin: 10px 0 0 0; opacity: 0.9; font-size: 14px; }
+    .stat-card h3 { margin: 0; font-size: 32px; }
+    .stat-card p { margin: 10px 0 0 0; font-size: 14px; }
 </style>
 
-<div class="welcome-section">
-    <h1>Welcome back, {{ current_user }}!</h1>
-    <p>Today is {{ current_date.strftime('%A, %B %d, %Y') }} • System Status: <span style="color: #4caf50;">✓ Online</span></p>
-</div>
-
-<!-- Stats Grid -->
-<div class="row">
-    <div class="col-md-4">
-        <div class="stat-card">
-            <div class="stat-card-icon"><i class="fas fa-bullhorn"></i></div>
-            <div class="stat-card-number">{{ announcements_count }}</div>
-            <div class="stat-card-label">Announcements</div>
-        </div>
-    </div>
-    <div class="col-md-4">
-        <div class="stat-card">
-            <div class="stat-card-icon"><i class="fas fa-hard-hat"></i></div>
-            <div class="stat-card-number">{{ projects_count }}</div>
-            <div class="stat-card-label">Projects</div>
-        </div>
-    </div>
-    <div class="col-md-4">
-        <div class="stat-card">
-            <div class="stat-card-icon"><i class="fas fa-id-badge"></i></div>
-            <div class="stat-card-number">{{ officials_count }}</div>
-            <div class="stat-card-label">Officials</div>
-        </div>
-    </div>
-</div>
+<h1>Dashboard</h1>
+<p>Welcome, {{ current_user }}!</p>
 
 <div class="row">
     <div class="col-md-4">
         <div class="stat-card">
-            <div class="stat-card-icon"><i class="fas fa-calendar-alt"></i></div>
-            <div class="stat-card-number">{{ events_count }}</div>
-            <div class="stat-card-label">Events</div>
+            <h3>{{ announcements_count }}</h3>
+            <p>Announcements</p>
         </div>
     </div>
     <div class="col-md-4">
         <div class="stat-card">
-            <div class="stat-card-icon"><i class="fas fa-map-pin"></i></div>
-            <div class="stat-card-number">{{ barangays_count }}</div>
-            <div class="stat-card-label">Barangays</div>
+            <h3>{{ projects_count }}</h3>
+            <p>Projects</p>
         </div>
     </div>
     <div class="col-md-4">
         <div class="stat-card">
-            <div class="stat-card-icon"><i class="fas fa-images"></i></div>
-            <div class="stat-card-number">{{ images_count }}</div>
-            <div class="stat-card-label">Images</div>
+            <h3>{{ officials_count }}</h3>
+            <p>Officials</p>
         </div>
     </div>
 </div>
 
-<!-- Recent Items -->
-<div class="row">
+<div class="row mt-4">
+    <div class="col-md-4">
+        <div class="stat-card">
+            <h3>{{ events_count }}</h3>
+            <p>Events</p>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="stat-card">
+            <h3>{{ barangays_count }}</h3>
+            <p>Barangays</p>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="stat-card">
+            <h3>{{ images_count }}</h3>
+            <p>Images</p>
+        </div>
+    </div>
+</div>
+
+<div class="row mt-5">
     <div class="col-md-6">
-        <div class="content-card">
-            <div class="card-header-custom">
-                <h4><i class="fas fa-bullhorn" style="color: #1a5228;"></i> Recent Announcements</h4>
-                <a href="/admin/announcements" class="btn btn-sm btn-outline-secondary">View All</a>
+        <div class="card">
+            <div class="card-header">
+                <h5>Recent Announcements</h5>
             </div>
-            <div class="card-body-custom">
+            <div class="card-body">
                 {% if recent_announcements %}
-                    {% for announcement in recent_announcements %}
-                    <div class="recent-item">
-                        <div>
-                            <div class="recent-item-title">{{ announcement.title }}</div>
-                            <div class="recent-item-date">{{ announcement.date_posted.strftime('%b %d, %Y') if announcement.date_posted else 'No date' }}</div>
-                        </div>
-                        <a href="/admin/announcements/edit/{{ announcement.id }}" class="btn btn-xs btn-link">Edit</a>
-                    </div>
+                    <ul class="list-group list-group-flush">
+                    {% for item in recent_announcements %}
+                        <li class="list-group-item">
+                            <strong>{{ item.title }}</strong>
+                            {% if item.date_posted %}<br><small class="text-muted">{{ item.date_posted }}</small>{% endif %}
+                        </li>
                     {% endfor %}
+                    </ul>
                 {% else %}
                     <p class="text-muted">No announcements yet.</p>
                 {% endif %}
             </div>
         </div>
     </div>
-
+    
     <div class="col-md-6">
-        <div class="content-card">
-            <div class="card-header-custom">
-                <h4><i class="fas fa-hard-hat" style="color: #1a5228;"></i> Recent Projects</h4>
-                <a href="/admin/projects" class="btn btn-sm btn-outline-secondary">View All</a>
+        <div class="card">
+            <div class="card-header">
+                <h5>Recent Projects</h5>
             </div>
-            <div class="card-body-custom">
+            <div class="card-body">
                 {% if recent_projects %}
-                    {% for project in recent_projects %}
-                    <div class="recent-item">
-                        <div>
-                            <div class="recent-item-title">{{ project.title }}</div>
-                            <div class="recent-item-date">Project ID: {{ project.id }}</div>
-                        </div>
-                        <a href="/admin/projects/edit/{{ project.id }}" class="btn btn-xs btn-link">Edit</a>
-                    </div>
+                    <ul class="list-group list-group-flush">
+                    {% for item in recent_projects %}
+                        <li class="list-group-item">
+                            <strong>{{ item.title }}</strong>
+                        </li>
                     {% endfor %}
+                    </ul>
                 {% else %}
                     <p class="text-muted">No projects yet.</p>
                 {% endif %}
             </div>
         </div>
-    </div>
-</div>
-
-<!-- Quick Actions -->
-<div class="content-card">
-    <div class="card-header-custom">
-        <h4><i class="fas fa-flash" style="color: #1a5228;"></i> Quick Actions</h4>
-    </div>
-    <div class="card-body-custom">
-        <a href="/admin/announcements/new" class="btn btn-sm btn-success me-2" style="background: #1a5228; border: none;">
-            <i class="fas fa-plus"></i> New Announcement
-        </a>
-        <a href="/admin/projects/new" class="btn btn-sm btn-success me-2" style="background: #1a5228; border: none;">
-            <i class="fas fa-plus"></i> New Project
-        </a>
-        <a href="/admin/events/new" class="btn btn-sm btn-success me-2" style="background: #1a5228; border: none;">
-            <i class="fas fa-plus"></i> New Event
-        </a>
-        <a href="/admin/images" class="btn btn-sm btn-success" style="background: #1a5228; border: none;">
-            <i class="fas fa-image"></i> Manage Images
-        </a>
     </div>
 </div>
 
