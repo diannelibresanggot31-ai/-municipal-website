@@ -492,22 +492,18 @@ def admin_upload_image():
 
     try:
         upload_preset = os.environ.get('CLOUDINARY_UPLOAD_PRESET', '')
+        if not upload_preset:
+            return jsonify({
+                'success': False, 
+                'error': 'Upload preset not configured. Set CLOUDINARY_UPLOAD_PRESET environment variable.'
+            })
         
-        if upload_preset:
-            # Use unsigned upload preset (client-side, no API key needed)
-            upload_result = cloudinary.uploader.upload(
-                file,
-                folder=f"municipal-site/{category}",
-                resource_type="image",
-                upload_preset=upload_preset
-            )
-        else:
-            # Fallback to signed upload with full credentials
-            upload_result = cloudinary.uploader.upload(
-                file,
-                folder=f"municipal-site/{category}",
-                resource_type="image"
-            )
+        upload_result = cloudinary.uploader.upload(
+            file,
+            folder=f"municipal-site/{category}",
+            resource_type="image",
+            upload_preset=upload_preset
+        )
         image_url = upload_result['secure_url']
     except Exception as e:
         return jsonify({'success': False, 'error': f'Upload failed: {str(e)}'})
