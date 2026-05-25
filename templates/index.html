@@ -15,18 +15,39 @@
                 </p>
                 <a href="{{ url_for('calendar') }}" class="hero-btn">Learn More</a>
             </div>
-            
-            <!-- Right: Smooth Image Carousel -->
+
+            <!-- Right: Smooth Image Carousel — uses images from admin/database -->
             <div class="col-lg-6 d-flex justify-content-center justify-content-lg-end">
                 <div id="heroCarousel" class="carousel slide floating-image" data-bs-ride="carousel" data-bs-interval="3000" data-bs-wrap="true" style="width:320px;height:240px;border-radius:12px;overflow:hidden;box-shadow:0 8px 25px rgba(0,0,0,0.15);">
-                    
+
+                    {% if carousel_images and carousel_images|length > 0 %}
+                    <!-- Images from admin panel (Cloudinary) -->
+                    <div class="carousel-indicators" style="margin-bottom:5px;">
+                        {% for image in carousel_images %}
+                        <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="{{ loop.index0 }}" {% if loop.first %}class="active"{% endif %}></button>
+                        {% endfor %}
+                    </div>
+                    <div class="carousel-inner" style="height:240px;">
+                        {% for image in carousel_images %}
+                        <div class="carousel-item {% if loop.first %}active{% endif %}" data-bs-interval="3000">
+                            <img src="{{ image.filename }}" class="d-block w-100" alt="{{ image.caption or 'Las Nieves' }}" style="height:240px;width:100%;object-fit:cover;">
+                            {% if image.caption %}
+                            <div class="carousel-caption d-none d-md-block" style="bottom:10px; left:0; right:0; padding:0;">
+                                <small style="font-size:10px; background:rgba(0,0,0,0.4); display:inline-block; padding:4px 10px; border-radius:20px;">{{ image.caption }}</small>
+                            </div>
+                            {% endif %}
+                        </div>
+                        {% endfor %}
+                    </div>
+
+                    {% else %}
+                    <!-- Default static images when no admin images uploaded yet -->
                     <div class="carousel-indicators" style="margin-bottom:5px;">
                         <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="0" class="active"></button>
                         <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="1"></button>
                         <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="2"></button>
                         <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="3"></button>
                     </div>
-                    
                     <div class="carousel-inner" style="height:240px;">
                         <div class="carousel-item active" data-bs-interval="3000">
                             <img src="{{ url_for('static', filename='images/walk-for-cause.jpg') }}" class="d-block w-100" alt="Walk for a Cause" style="height:240px;width:100%;object-fit:cover;">
@@ -53,7 +74,8 @@
                             </div>
                         </div>
                     </div>
-                    
+                    {% endif %}
+
                     <button class="carousel-control-prev" type="button" data-bs-target="#heroCarousel" data-bs-slide="prev" style="width:8%;opacity:0.7;">
                         <span class="carousel-control-prev-icon" aria-hidden="true" style="background-color:rgba(0,0,0,0.5);border-radius:50%;padding:8px;"></span>
                     </button>
@@ -121,31 +143,7 @@
             <a href="{{ url_for('barangay_directory') }}" class="view-all-link">View Directory <i class="fas fa-arrow-right"></i></a>
         </div>
         <div class="row g-3 mt-1">
-            <div class="col-6 col-md-3">
-                <a href="{{ url_for('officials') }}" class="resource-card">
-                    <div class="resource-card-icon"><i class="fas fa-user-tie"></i></div>
-                    <h6>Municipal Officials</h6>
-                    <p>Meet the elected and appointed officials serving the people of Las Nieves.</p>
-                    <span class="resource-card-link">Learn More <i class="fas fa-chevron-right" style="font-size:10px;"></i></span>
-                </a>
-            </div>
-            <div class="col-6 col-md-3">
-                <a href="{{ url_for('barangay_directory') }}" class="resource-card">
-                    <div class="resource-card-icon"><i class="fas fa-map-pin"></i></div>
-                    <h6>Barangay Directory</h6>
-                    <p>Contact details and information for all 20 barangays in the municipality.</p>
-                    <span class="resource-card-link">Learn More <i class="fas fa-chevron-right" style="font-size:10px;"></i></span>
-                </a>
-            </div>
-            <div class="col-6 col-md-3">
-                <a href="{{ url_for('emergency_services') }}" class="resource-card">
-                    <div class="resource-card-icon emergency"><i class="fas fa-first-aid"></i></div>
-                    <h6 class="emergency">Emergency Services</h6>
-                    <p>Essential hotlines for police, fire, and medical emergency response.</p>
-                    <span class="resource-card-link emergency">Contact Now <i class="fas fa-chevron-right" style="font-size:10px;"></i></span>
-                </a>
-            </div>
-        </div>
+            
     </div>
 </section>
 
@@ -153,7 +151,6 @@
 <section class="news-section">
     <div class="container">
         <div class="row g-4">
-
             <!-- LEFT: News & Announcements -->
             <div class="col-lg-8">
                 <div class="section-subtitle"><i class="fas fa-newspaper me-1"></i> News &amp; Announcements</div>
@@ -246,6 +243,18 @@
             <div class="section-title-line" style="margin: 8px auto 0;"></div>
         </div>
         <div class="row g-3 mt-2">
+            {% if gallery_images and gallery_images|length > 0 %}
+            <!-- Show gallery images uploaded from admin -->
+            {% for image in gallery_images[:4] %}
+            <div class="col-6 col-md-3">
+                <div class="gallery-card floating-image">
+                    <img src="{{ image.filename }}" alt="{{ image.caption or 'Las Nieves' }}">
+                    <p>{{ image.caption or 'Las Nieves' }}</p>
+                </div>
+            </div>
+            {% endfor %}
+            {% else %}
+            <!-- Default static images -->
             <div class="col-6 col-md-3">
                 <div class="gallery-card floating-image">
                     <img src="{{ url_for('static', filename='images/municipal-hall.jpg') }}" alt="Municipal Hall">
@@ -270,6 +279,7 @@
                     <p>Agusan River</p>
                 </div>
             </div>
+            {% endif %}
         </div>
         <div class="text-center mt-4">
             <a href="{{ url_for('gallery') }}" class="btn-custom">View Full Gallery →</a>
