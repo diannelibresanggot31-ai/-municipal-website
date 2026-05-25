@@ -54,13 +54,6 @@
         border-radius: 20px;
     }
     
-    .announcement-content {
-        font-size: 15px;
-        line-height: 1.8;
-        color: #444;
-        margin-bottom: 20px;
-    }
-    
     .announcement-footer {
         display: flex;
         align-items: center;
@@ -97,6 +90,21 @@
         background: white;
         border-radius: 12px;
     }
+    
+    .short-preview {
+        font-size: 15px;
+        line-height: 1.8;
+        color: #444;
+        margin-bottom: 20px;
+    }
+    
+    .full-content {
+        font-size: 15px;
+        line-height: 1.8;
+        color: #444;
+        margin-bottom: 20px;
+        display: none;
+    }
 </style>
 
 <div class="container mb-5">
@@ -117,13 +125,13 @@
                     </div>
                 </div>
                 
-                <!-- Short content (shown by default) -->
-                <div class="announcement-content" id="short-{{ loop.index }}">
-                    {{ announcement.content[:200] }}{% if announcement.content|length > 200 %}...{% endif %}
+                <!-- Short preview (first 300 characters) -->
+                <div class="short-preview" id="short-{{ loop.index }}">
+                    {{ announcement.content[:300] }}{% if announcement.content|length > 300 %}...{% endif %}
                 </div>
                 
-                <!-- Full content (hidden by default) -->
-                <div class="announcement-content" id="full-{{ loop.index }}" style="display: none;">
+                <!-- Full content (hidden initially) -->
+                <div class="full-content" id="full-{{ loop.index }}">
                     {{ announcement.content }}
                 </div>
                 
@@ -131,7 +139,7 @@
                     <div class="announcement-author">
                         <i class="fas fa-user-circle"></i> Posted by: {{ announcement.posted_by if announcement.posted_by else 'Administrator' }}
                     </div>
-                    {% if announcement.content|length > 200 %}
+                    {% if announcement.content|length > 300 %}
                     <button class="read-more-btn" onclick="toggleReadFull({{ loop.index }})">
                         Read Full <i class="fas fa-arrow-right"></i>
                     </button>
@@ -157,12 +165,12 @@ function toggleReadFull(id) {
     var btn = event.target;
     
     if (shortDiv.style.display === 'none') {
-        // Currently showing full - switch back to short
+        // Show short, hide full
         shortDiv.style.display = 'block';
         fullDiv.style.display = 'none';
         btn.innerHTML = 'Read Full <i class="fas fa-arrow-right"></i>';
     } else {
-        // Currently showing short - switch to full
+        // Show full, hide short
         shortDiv.style.display = 'none';
         fullDiv.style.display = 'block';
         btn.innerHTML = 'Show Less <i class="fas fa-arrow-up"></i>';
