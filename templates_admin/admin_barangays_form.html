@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% if barangay %}Edit{% else %}Add{% endif %} Barangay</title>
+    <title>{% if barangay %}Edit{% else %}Add{% endif %} Barangay - Las Nieves Admin</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Source+Sans+3:wght@300;400;500;600&display=swap" rel="stylesheet">
@@ -14,99 +14,104 @@
             background: #f0f4f1;
             display: flex;
         }
+        /* Sidebar Styles */
         .sidebar {
-            width: 240px;
-            background: #0d2b16;
+            width: 260px;
+            background: #0a2412;
             min-height: 100vh;
             position: fixed;
             top: 0; left: 0; bottom: 0;
+            z-index: 100;
+            box-shadow: 2px 0 10px rgba(0,0,0,0.05);
         }
         .sidebar-brand {
-            padding: 22px 20px 18px;
-            border-bottom: 1px solid rgba(255,255,255,0.07);
-            display: flex;
-            align-items: center;
-            gap: 10px;
+            padding: 25px 20px 20px;
+            border-bottom: 1px solid rgba(255,255,255,0.08);
+            margin-bottom: 15px;
         }
-        .sidebar-brand-seal {
-            width: 34px; height: 34px;
-            background: rgba(255,255,255,0.1);
-            border: 1.5px solid rgba(255,255,255,0.2);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        .sidebar-brand-seal i { font-size: 14px; color: rgba(255,255,255,0.85); }
-        .sidebar-brand-name {
+        .sidebar-brand h3 {
+            color: white;
             font-family: 'Playfair Display', serif;
-            font-size: 14px; font-weight: 700;
-            color: #fff;
+            font-size: 20px;
+            margin: 0;
         }
-        .sidebar-brand-sub {
-            font-size: 10px; color: rgba(255,255,255,0.4);
+        .sidebar-brand p {
+            color: rgba(255,255,255,0.5);
+            font-size: 11px;
+            margin: 5px 0 0;
             text-transform: uppercase;
+            letter-spacing: 1px;
         }
-        .sidebar-nav { padding: 14px 0; flex: 1; overflow-y: auto; }
-        .nav-section-label {
-            font-size: 9.5px; font-weight: 700;
+        .sidebar-nav { padding: 0 0 20px; }
+        .nav-section {
+            font-size: 11px;
             text-transform: uppercase;
-            color: rgba(255,255,255,0.28);
-            padding: 12px 20px 6px;
+            color: rgba(255,255,255,0.3);
+            padding: 15px 20px 5px;
+            letter-spacing: 1px;
         }
         .nav-item {
             display: flex;
             align-items: center;
-            gap: 10px;
-            padding: 10px 20px;
+            gap: 12px;
+            padding: 11px 20px;
             color: rgba(255,255,255,0.65);
             text-decoration: none;
-            font-size: 13.5px;
+            font-size: 14px;
+            transition: all 0.2s;
             border-left: 3px solid transparent;
         }
-        .nav-item i { width: 18px; font-size: 13px; }
+        .nav-item i { width: 20px; font-size: 15px; }
         .nav-item:hover {
-            color: #fff;
-            background: rgba(255,255,255,0.06);
+            color: white;
+            background: rgba(255,255,255,0.05);
         }
         .nav-item.active {
-            color: #fff;
-            background: rgba(42,122,59,0.35);
+            color: white;
+            background: rgba(61,153,80,0.2);
             border-left-color: #3d9950;
-            font-weight: 600;
+            font-weight: 500;
         }
-        .nav-item.danger { color: rgba(255,140,130,0.75); }
+        .nav-item.danger { color: rgba(255,100,100,0.7); }
         .sidebar-footer {
-            padding: 14px 20px;
-            border-top: 1px solid rgba(255,255,255,0.07);
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            padding: 20px;
+            border-top: 1px solid rgba(255,255,255,0.08);
         }
-        .sidebar-footer-user {
+        .user-info {
             display: flex;
             align-items: center;
-            gap: 9px;
+            gap: 10px;
         }
-        .sidebar-footer-avatar {
-            width: 30px; height: 30px;
-            background: rgba(255,255,255,0.12);
+        .user-avatar {
+            width: 32px;
+            height: 32px;
+            background: rgba(255,255,255,0.1);
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
         }
-        .sidebar-footer-name { font-size: 12.5px; color: rgba(255,255,255,0.75); }
+        .user-name {
+            color: rgba(255,255,255,0.8);
+            font-size: 13px;
+        }
+        /* Main Content */
         .main-content {
-            margin-left: 240px;
+            margin-left: 260px;
             flex: 1;
-            width: calc(100% - 240px);
+            width: calc(100% - 260px);
         }
         .topbar {
-            background: #fff;
-            height: 56px;
+            background: white;
+            padding: 15px 30px;
+            border-bottom: 1px solid #e2e8e6;
             display: flex;
-            align-items: center;
             justify-content: space-between;
-            padding: 0 28px;
-            border-bottom: 1px solid #e8ede9;
+            align-items: center;
             position: sticky;
             top: 0;
             z-index: 50;
@@ -115,79 +120,134 @@
             font-family: 'Playfair Display', serif;
             font-size: 18px;
             font-weight: 600;
-            color: #1a1a1a;
+            color: #1a2e1f;
         }
-        .page-content { padding: 28px; }
-        .form-card {
-            background: #fff;
-            border-radius: 12px;
-            border: 1px solid rgba(0,0,0,0.05);
-            box-shadow: 0 1px 6px rgba(0,0,0,0.05);
-            overflow: hidden;
-            max-width: 900px;
+        .online-status {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 12px;
+            color: #2a7a3b;
+        }
+        /* Page Content */
+        .page-content {
+            padding: 30px;
+        }
+        .form-container {
+            max-width: 700px;
             margin: 0 auto;
         }
-        .card-header-custom {
-            padding: 20px 24px;
-            border-bottom: 1px solid #f0f4f1;
-            background: #f8faf8;
+        .form-card {
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            overflow: hidden;
         }
-        .card-header-custom h4 {
-            font-family: 'Playfair Display', serif;
-            font-size: 18px;
+        .card-header {
+            padding: 20px 28px;
+            background: #f9fbf9;
+            border-bottom: 1px solid #e9ece7;
+        }
+        .card-header h3 {
             margin: 0;
-            color: #1a1a1a;
+            font-family: 'Playfair Display', serif;
+            font-size: 20px;
+            color: #1a2e1f;
         }
-        .card-body-custom { padding: 30px; }
-        .form-group { margin-bottom: 25px; }
+        .card-header h3 i {
+            color: #2a7a3b;
+            margin-right: 10px;
+        }
+        .card-body {
+            padding: 30px 28px;
+        }
+        .form-group {
+            margin-bottom: 24px;
+        }
         .form-group label {
+            display: block;
             font-weight: 600;
+            font-size: 13px;
             color: #333;
             margin-bottom: 8px;
-            display: block;
+        }
+        .form-group label i {
+            color: #2a7a3b;
+            width: 20px;
+        }
+        .form-group label .required {
+            color: #dc3545;
+        }
+        .form-control {
+            width: 100%;
+            padding: 11px 15px;
+            border: 1px solid #d4dad5;
+            border-radius: 10px;
+            font-size: 14px;
+            transition: all 0.2s;
+            font-family: inherit;
+        }
+        .form-control:focus {
+            outline: none;
+            border-color: #2a7a3b;
+            box-shadow: 0 0 0 3px rgba(42,122,59,0.1);
+        }
+        .form-control-sm {
+            padding: 8px 12px;
             font-size: 13px;
         }
-        .form-control, .form-select {
-            border: 1px solid #ddd;
-            border-radius: 8px;
-            padding: 10px 15px;
-            font-size: 14px;
-            width: 100%;
+        .row-equal {
+            display: flex;
+            gap: 20px;
         }
-        .form-control:focus, .form-select:focus {
-            border-color: #2a7a3b;
-            box-shadow: 0 0 0 0.2rem rgba(42,122,59,0.25);
-            outline: none;
+        .row-equal .form-group {
+            flex: 1;
+        }
+        .form-actions {
+            display: flex;
+            gap: 15px;
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid #e9ece7;
         }
         .btn-save {
             background: #1a5228;
-            border: none;
-            padding: 10px 24px;
-            border-radius: 8px;
-            font-weight: 600;
             color: white;
+            border: none;
+            padding: 11px 28px;
+            border-radius: 10px;
+            font-weight: 600;
+            font-size: 14px;
             cursor: pointer;
+            transition: background 0.2s;
         }
-        .btn-save:hover { background: #0d2b16; }
+        .btn-save:hover {
+            background: #0d2b16;
+        }
         .btn-cancel {
             background: #6c757d;
-            border: none;
-            padding: 10px 24px;
-            border-radius: 8px;
-            font-weight: 600;
             color: white;
+            border: none;
+            padding: 11px 28px;
+            border-radius: 10px;
+            font-weight: 600;
+            font-size: 14px;
             text-decoration: none;
             display: inline-block;
+            text-align: center;
+            transition: background 0.2s;
         }
-        .row-equal { display: flex; gap: 20px; }
-        .row-equal .form-group { flex: 1; }
-        @media (max-width: 768px) {
-            .row-equal { flex-direction: column; gap: 0; }
+        .btn-cancel:hover {
+            background: #5a6268;
+            color: white;
         }
         .flash-message {
-            padding: 12px 20px;
-            border-radius: 8px;
+            padding: 14px 18px;
+            border-radius: 12px;
             margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
         }
         .flash-success {
             background: #d4edda;
@@ -199,86 +259,144 @@
             color: #721c24;
             border: 1px solid #f5c6cb;
         }
+        small.text-muted {
+            font-size: 11px;
+            color: #6c757d;
+            margin-top: 5px;
+            display: block;
+        }
+        hr {
+            margin: 20px 0;
+            border-color: #e9ece7;
+        }
+        @media (max-width: 768px) {
+            .sidebar { width: 70px; }
+            .sidebar-brand h3, .sidebar-brand p, .nav-section, .sidebar-footer .user-info span { display: none; }
+            .nav-item { justify-content: center; padding: 12px; }
+            .nav-item i { margin: 0; }
+            .main-content { margin-left: 70px; width: calc(100% - 70px); }
+            .row-equal { flex-direction: column; gap: 0; }
+            .card-header h3 { font-size: 18px; }
+        }
     </style>
 </head>
 <body>
     <aside class="sidebar">
         <div class="sidebar-brand">
-            <div class="sidebar-brand-seal"><i class="fas fa-leaf"></i></div>
-            <div>
-                <div class="sidebar-brand-name">Las Nieves</div>
-                <div class="sidebar-brand-sub">Admin CMS</div>
-            </div>
+            <h3><i class="fas fa-leaf"></i> Las Nieves</h3>
+            <p>Municipal Admin CMS</p>
         </div>
         <nav class="sidebar-nav">
-            <div class="nav-section-label">Main</div>
+            <div class="nav-section">Main</div>
             <a href="/dashboard" class="nav-item"><i class="fas fa-th-large"></i> Dashboard</a>
-            <div class="nav-section-label">Content</div>
+            <div class="nav-section">Content</div>
             <a href="/admin/announcements" class="nav-item"><i class="fas fa-bullhorn"></i> Announcements</a>
             <a href="/admin/projects" class="nav-item"><i class="fas fa-hard-hat"></i> Projects</a>
             <a href="/admin/officials" class="nav-item"><i class="fas fa-id-badge"></i> Officials</a>
             <a href="/admin/events" class="nav-item"><i class="fas fa-calendar-alt"></i> Events</a>
-            <div class="nav-section-label">Directory</div>
+            <div class="nav-section">Directory</div>
             <a href="/admin/barangays" class="nav-item active"><i class="fas fa-map-marker-alt"></i> Barangays</a>
-            <div class="nav-section-label">Operations</div>
+            <div class="nav-section">Settings</div>
             <a href="/admin/emergency" class="nav-item"><i class="fas fa-ambulance"></i> Emergency Info</a>
-            <div class="nav-section-label">Account</div>
+            <a href="/admin/contact-settings" class="nav-item"><i class="fas fa-envelope"></i> Contact Settings</a>
+            <div class="nav-section">Account</div>
             <a href="/admin/logout" class="nav-item danger"><i class="fas fa-sign-out-alt"></i> Logout</a>
         </nav>
         <div class="sidebar-footer">
-            <div class="sidebar-footer-user">
-                <div class="sidebar-footer-avatar"><i class="fas fa-user"></i></div>
-                <div class="sidebar-footer-name">{{ session['admin_username'] }}</div>
+            <div class="user-info">
+                <div class="user-avatar"><i class="fas fa-user"></i></div>
+                <span class="user-name">{{ session.get('admin_username', 'Admin') }}</span>
             </div>
         </div>
     </aside>
 
     <div class="main-content">
         <div class="topbar">
-            <div class="topbar-title">{% if barangay %}Edit{% else %}Add{% endif %} Barangay</div>
-            <div><i class="fas fa-circle" style="color:#2a7a3b; font-size:10px;"></i> System Online</div>
+            <div class="topbar-title">
+                <i class="fas fa-map-marker-alt" style="color:#2a7a3b;"></i> 
+                {% if barangay %}Edit Barangay{% else %}Add New Barangay{% endif %}
+            </div>
+            <div class="online-status">
+                <i class="fas fa-circle" style="color:#2a7a3b; font-size: 8px;"></i>
+                System Online
+            </div>
         </div>
 
         <div class="page-content">
-            <div class="form-card">
-                <div class="card-header-custom">
-                    <h4><i class="fas fa-{% if barangay %}edit{% else %}plus{% endif %}"></i> {% if barangay %}Edit Barangay{% else %}Add New Barangay{% endif %}</h4>
-                </div>
-                <div class="card-body-custom">
-                    {% with messages = get_flashed_messages(with_categories=true) %}
-                        {% if messages %}
-                            {% for category, message in messages %}
-                                <div class="flash-message flash-{{ category }}">{{ message }}</div>
-                            {% endfor %}
-                        {% endif %}
-                    {% endwith %}
-                    
-                    <form method="POST">
-                        <div class="form-group">
-                            <label>Barangay Name *</label>
-                            <input type="text" name="name" class="form-control" value="{{ barangay.name if barangay else '' }}" required>
-                        </div>
-                        <div class="form-group">
-                            <label>Barangay Captain</label>
-                            <input type="text" name="captain" class="form-control" value="{{ barangay.captain if barangay else '' }}">
-                        </div>
-                        <div class="form-group">
-                            <label>Contact Number</label>
-                            <input type="text" name="contact_number" class="form-control" value="{{ barangay.contact_number if barangay else '' }}">
-                        </div>
-                        <div class="form-group">
-                            <label>Population</label>
-                            <input type="number" name="population" class="form-control" value="{{ barangay.population if barangay else 0 }}">
-                        </div>
-                        <div class="form-group">
-                            <button type="submit" class="btn-save">
-                                <i class="fas fa-save"></i> {% if barangay %}Update{% else %}Save{% endif %} Barangay
-                            </button>
-                            <a href="/admin/barangays" class="btn-cancel">
-                                <i class="fas fa-times"></i> Cancel
-                            </a>
-                        </div>
-                    </form>
+            <div class="form-container">
+                <div class="form-card">
+                    <div class="card-header">
+                        <h3>
+                            <i class="fas fa-{% if barangay %}edit{% else %}plus-circle{% endif %}"></i>
+                            {% if barangay %}Edit Barangay Information{% else %}Register New Barangay{% endif %}
+                        </h3>
+                    </div>
+                    <div class="card-body">
+                        {% with messages = get_flashed_messages(with_categories=true) %}
+                            {% if messages %}
+                                {% for category, message in messages %}
+                                    <div class="flash-message flash-{{ category }}">
+                                        <i class="fas fa-{% if category == 'success' %}check-circle{% else %}exclamation-circle{% endif %}"></i>
+                                        {{ message }}
+                                    </div>
+                                {% endfor %}
+                            {% endif %}
+                        {% endwith %}
+
+                        <form method="POST">
+                            <div class="form-group">
+                                <label><i class="fas fa-map-marker-alt"></i> Barangay Name <span class="required">*</span></label>
+                                <input type="text" name="name" class="form-control" 
+                                       value="{{ barangay.name if barangay else '' }}" 
+                                       placeholder="Enter barangay name" required>
+                                <small class="text-muted">Example: Poblacion, Ambacon, etc.</small>
+                            </div>
+
+                            <div class="form-group">
+                                <label><i class="fas fa-user-tie"></i> Barangay Captain / Punong Barangay</label>
+                                <input type="text" name="captain" class="form-control" 
+                                       value="{{ barangay.captain if barangay else '' }}" 
+                                       placeholder="Full name of Barangay Captain">
+                                <small class="text-muted">Current elected Barangay Captain</small>
+                            </div>
+
+                            <div class="row-equal">
+                                <div class="form-group">
+                                    <label><i class="fas fa-phone"></i> Contact Number</label>
+                                    <input type="text" name="contact_number" class="form-control" 
+                                           value="{{ barangay.contact_number if barangay else '' }}" 
+                                           placeholder="e.g., 0912-345-6789">
+                                </div>
+
+                                <div class="form-group">
+                                    <label><i class="fas fa-users"></i> Population</label>
+                                    <input type="number" name="population" class="form-control" 
+                                           value="{{ barangay.population if barangay else 0 }}" 
+                                           placeholder="Number of residents">
+                                </div>
+                            </div>
+
+                            {% if barangay and barangay.id %}
+                            <hr>
+                            <div class="form-group">
+                                <label><i class="fas fa-info-circle"></i> System Information</label>
+                                <div style="background: #f8f9fa; padding: 12px; border-radius: 8px; font-size: 13px;">
+                                    <strong>Barangay ID:</strong> {{ barangay.id }}<br>
+                                    <strong>Created:</strong> {{ barangay.created_at if barangay.created_at else 'N/A' }}
+                                </div>
+                            </div>
+                            {% endif %}
+
+                            <div class="form-actions">
+                                <button type="submit" class="btn-save">
+                                    <i class="fas fa-save"></i> {% if barangay %}Update Barangay{% else %}Save Barangay{% endif %}
+                                </button>
+                                <a href="/admin/barangays" class="btn-cancel">
+                                    <i class="fas fa-times"></i> Cancel
+                                </a>
+                            </div>
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>
