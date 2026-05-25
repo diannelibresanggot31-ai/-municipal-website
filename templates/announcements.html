@@ -15,23 +15,21 @@
                 </p>
                 <hr>
                 
-                <!-- Short content -->
-                <div id="short-{{ loop.index }}" class="announcement-short">
-                    <p>{{ announcement.content[:200] }}{% if announcement.content|length > 200 %}...{% endif %}</p>
-                    {% if announcement.content|length > 200 %}
-                    <button class="btn btn-link text-success p-0" onclick="toggleRead({{ loop.index }})">
-                        Read Full <i class="fas fa-arrow-down"></i>
-                    </button>
-                    {% endif %}
+                <!-- Short content (shown by default) -->
+                <div id="short-{{ loop.index }}">
+                    <p>{{ announcement.content[:250] }}{% if announcement.content|length > 250 %}...{% endif %}</p>
                 </div>
                 
-                <!-- Full content (hidden) -->
+                <!-- Full content (hidden by default) -->
                 <div id="full-{{ loop.index }}" style="display: none;">
                     <p>{{ announcement.content }}</p>
-                    <button class="btn btn-link text-success p-0" onclick="toggleRead({{ loop.index }})">
-                        Show Less <i class="fas fa-arrow-up"></i>
-                    </button>
                 </div>
+                
+                {% if announcement.content|length > 250 %}
+                <button class="btn btn-link text-success p-0" onclick="toggleRead({{ loop.index }}, this)">
+                    Read Full <i class="fas fa-arrow-down"></i>
+                </button>
+                {% endif %}
                 
                 <hr>
                 <p class="text-muted small mb-0">
@@ -48,30 +46,32 @@
     {% endif %}
 </div>
 
-<style>
-    .announcement-short p, #full-{{ loop.index }} p {
-        line-height: 1.6;
-    }
-    .btn-link {
-        text-decoration: none;
-    }
-    .btn-link:hover {
-        text-decoration: underline;
-    }
-</style>
-
 <script>
-function toggleRead(id) {
+function toggleRead(id, btn) {
     var shortDiv = document.getElementById('short-' + id);
     var fullDiv = document.getElementById('full-' + id);
     
     if (shortDiv.style.display === 'none') {
+        // Currently showing full, switch to short
         shortDiv.style.display = 'block';
         fullDiv.style.display = 'none';
+        btn.innerHTML = 'Read Full <i class="fas fa-arrow-down"></i>';
     } else {
+        // Currently showing short, switch to full
         shortDiv.style.display = 'none';
         fullDiv.style.display = 'block';
+        btn.innerHTML = 'Show Less <i class="fas fa-arrow-up"></i>';
     }
 }
 </script>
+
+<style>
+.btn-link {
+    text-decoration: none;
+    cursor: pointer;
+}
+.btn-link:hover {
+    text-decoration: underline;
+}
+</style>
 {% endblock %}
