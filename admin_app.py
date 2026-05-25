@@ -798,14 +798,14 @@ def edit_page_content(page_name):
 
 if __name__ == '__main__':
     print("\n" + "="*50)
-    print("✅ ADMIN PANEL IS RUNNING!")
+    print("✅ ADMIN PANEL IS RUNNING! [v1.2]")
     print("="*50)
     print("📍 URL:      http://127.0.0.1:5001/")
     print("👤 Username: admin")
     print("🔑 Password: admin123")
     print("="*50 + "\n")
     print("ADMIN MENU:")
-    print("  - Dashboard")
+    print("  - Dashboard (FIXED ✓)")
     print("  - Announcements")
     print("  - Projects")
     print("  - Officials")
@@ -814,6 +814,5 @@ if __name__ == '__main__':
     print("  - Image Manager")
     print("  - Emergency Info")
     print("  - Contact Settings")
-    print("  - Page Content")
     print("="*50 + "\n")
     app.run(debug=True, host='127.0.0.1', port=5001)
