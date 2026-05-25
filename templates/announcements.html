@@ -1,186 +1,39 @@
 ﻿{% extends "base.html" %}
 
 {% block content %}
-
-<div class="page-header">
-    <div class="container">
-        <h1><i class="fas fa-newspaper"></i> All Announcements</h1>
-        <p>Latest news, advisories, and updates from the Municipality of Las Nieves</p>
-    </div>
-</div>
-
-<style>
-    .announcements-container {
-        max-width: 1000px;
-        margin: 0 auto;
-    }
+<div class="container mt-5">
+    <h1 class="text-center mb-4">All Announcements</h1>
     
-    .announcement-card {
-        background: white;
-        border-radius: 12px;
-        box-shadow: 0 1px 6px rgba(0,0,0,0.05);
-        padding: 28px 30px;
-        margin-bottom: 25px;
-        border-left: 4px solid #2a7a3b;
-    }
-    
-    .announcement-title {
-        font-size: 22px;
-        font-weight: 700;
-        color: #1a5228;
-        margin-bottom: 12px;
-    }
-    
-    .announcement-meta {
-        display: flex;
-        align-items: center;
-        gap: 20px;
-        margin-bottom: 18px;
-        padding-bottom: 12px;
-        border-bottom: 1px solid #e8ede9;
-    }
-    
-    .announcement-date {
-        font-size: 13px;
-        color: #888;
-    }
-    
-    .announcement-category {
-        background: #e8f5eb;
-        color: #1a5228;
-        font-size: 11px;
-        font-weight: 600;
-        padding: 3px 10px;
-        border-radius: 20px;
-    }
-    
-    .announcement-footer {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        padding-top: 12px;
-        border-top: 1px solid #e8ede9;
-    }
-    
-    .announcement-author {
-        font-size: 12px;
-        color: #888;
-    }
-    
-    .read-more-btn {
-        background: transparent;
-        border: 1.5px solid #2a7a3b;
-        color: #1a5228;
-        padding: 6px 18px;
-        border-radius: 30px;
-        font-size: 12px;
-        font-weight: 600;
-        cursor: pointer;
-        transition: all 0.2s;
-    }
-    
-    .read-more-btn:hover {
-        background: #2a7a3b;
-        color: white;
-    }
-    
-    .no-announcements {
-        text-align: center;
-        padding: 50px;
-        background: white;
-        border-radius: 12px;
-    }
-    
-    .short-preview {
-        font-size: 15px;
-        line-height: 1.8;
-        color: #444;
-        margin-bottom: 20px;
-    }
-    
-    .full-content {
-        font-size: 15px;
-        line-height: 1.8;
-        color: #444;
-        margin-bottom: 20px;
-        display: none;
-    }
-</style>
-
-<div class="container mb-5">
-    <div class="announcements-container">
-        
-        {% if announcements and announcements|length > 0 %}
-            {% for announcement in announcements %}
-            <div class="announcement-card">
-                <div class="announcement-title">{{ announcement.title }}</div>
-                
-                <div class="announcement-meta">
-                    <div class="announcement-date">
-                        <i class="far fa-calendar-alt"></i> 
-                        {{ announcement.date_posted.strftime('%B %d, %Y at %I:%M %p') if announcement.date_posted else 'Recent' }}
-                    </div>
-                    <div class="announcement-category">
-                        <i class="fas fa-bullhorn"></i> Announcement
-                    </div>
-                </div>
-                
-                <!-- Short preview (first 250 characters only) -->
-                <div class="short-preview" id="short-{{ loop.index }}">
-                    {{ announcement.content[:250] }}{% if announcement.content|length > 250 %}...{% endif %}
-                </div>
-                
-                <!-- Full content (hidden initially) -->
-                <div class="full-content" id="full-{{ loop.index }}">
-                    {{ announcement.content }}
-                </div>
-                
-                <div class="announcement-footer">
-                    <div class="announcement-author">
-                        <i class="fas fa-user-circle"></i> Posted by: {{ announcement.posted_by if announcement.posted_by else 'Administrator' }}
-                    </div>
-                    {% if announcement.content|length > 250 %}
-                    <button class="read-more-btn" onclick="toggleReadFull({{ loop.index }})">
-                        Read Full <i class="fas fa-arrow-right"></i>
-                    </button>
-                    {% endif %}
-                </div>
+    {% for announcement in announcements %}
+    <div class="card mb-4 shadow-sm">
+        <div class="card-body">
+            <h3>{{ announcement.title }}</h3>
+            <small class="text-muted">{{ announcement.date_posted.strftime('%B %d, %Y') if announcement.date_posted else 'Recent' }}</small>
+            <hr>
+            
+            <div id="short-{{ loop.index }}">
+                {{ announcement.content[:200] }}{% if announcement.content|length > 200 %}...{% endif %}
             </div>
-            {% endfor %}
-        {% else %}
-            <div class="no-announcements">
-                <i class="fas fa-newspaper" style="font-size: 64px; color: #ccc;"></i>
-                <h3>No Announcements Yet</h3>
-                <p>There are no announcements available at this time.</p>
+            
+            <div id="full-{{ loop.index }}" style="display:none;">
+                {{ announcement.content }}
             </div>
-        {% endif %}
-        
+            
+            {% if announcement.content|length > 200 %}
+            <button class="btn btn-link text-success mt-2 p-0" onclick="toggleContent({{ loop.index }})">
+                Read Full
+            </button>
+            {% endif %}
+            
+            <hr>
+            <small>Posted by: {{ announcement.posted_by if announcement.posted_by else 'Admin' }}</small>
+        </div>
     </div>
+    {% endfor %}
 </div>
 
 <script>
-function toggleReadFull(id) {
-    var shortDiv = document.getElementById('short-' + id);
-    var fullDiv = document.getElementById('full-' + id);
-    var btn = event.target;
-    
-    if (shortDiv.style.display === 'none') {
-        // Switch back to short/preview mode
-        shortDiv.style.display = 'block';
-        fullDiv.style.display = 'none';
-        btn.innerHTML = 'Read Full <i class="fas fa-arrow-right"></i>';
-    } else {
-        // Switch to full content mode
-        shortDiv.style.display = 'none';
-        fullDiv.style.display = 'block';
-        btn.innerHTML = 'Show Less <i class="fas fa-arrow-up"></i>';
-    }
-}
-</script>
-
-{% endblock %}
-<script>
-function toggleReadFull(id) {
+function toggleContent(id) {
     var shortDiv = document.getElementById('short-' + id);
     var fullDiv = document.getElementById('full-' + id);
     var btn = event.target;
@@ -188,13 +41,12 @@ function toggleReadFull(id) {
     if (shortDiv.style.display === 'none') {
         shortDiv.style.display = 'block';
         fullDiv.style.display = 'none';
-        btn.innerHTML = 'Read Full <i class="fas fa-arrow-right"></i>';
+        btn.innerHTML = 'Read Full';
     } else {
         shortDiv.style.display = 'none';
         fullDiv.style.display = 'block';
-        btn.innerHTML = 'Show Less <i class="fas fa-arrow-up"></i>';
+        btn.innerHTML = 'Show Less';
     }
 }
 </script>
-
 {% endblock %}
