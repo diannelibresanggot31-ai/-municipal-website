@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, url_for, session, jsonify
+from flask import Flask, render_template, request, redirect, url_for, session, jsonify, flash
 import mysql.connector
 from datetime import datetime, date
 from functools import wraps
@@ -113,6 +113,7 @@ def add_announcement():
         )
         db.commit()
         db.close()
+        flash('Announcement published successfully!', 'success')
         return redirect(url_for('announcements'))
     return render_template('admin_announcements_form.html', announcement=None)
 
@@ -127,6 +128,7 @@ def edit_announcement(id):
         cursor.execute("UPDATE announcements SET title=%s, content=%s WHERE id=%s", (title, content, id))
         db.commit()
         db.close()
+        flash('Announcement updated successfully!', 'success')
         return redirect(url_for('announcements'))
     cursor.execute("SELECT * FROM announcements WHERE id=%s", (id,))
     announcement = cursor.fetchone()
@@ -141,6 +143,7 @@ def delete_announcement(id):
     cursor.execute("DELETE FROM announcements WHERE id=%s", (id,))
     db.commit()
     db.close()
+    flash('Announcement deleted successfully!', 'success')
     return redirect(url_for('announcements'))
 
 # ==================== OFFICIALS ====================
@@ -149,7 +152,7 @@ def delete_announcement(id):
 def officials():
     db = get_db()
     cursor = db.cursor(dictionary=True)
-    cursor.execute("SELECT * FROM officials ORDER BY order_num ASC, full_name ASC")
+    cursor.execute("SELECT * FROM officials ORDER BY rank_order ASC, full_name ASC")
     officials = cursor.fetchall()
     db.close()
     return render_template('admin_officials.html', officials=officials)
@@ -165,16 +168,18 @@ def add_official():
         email = request.form.get('email', '')
         photo_url = request.form.get('photo_url', '')
         order_num = request.form.get('order_num', 0)
+        rank_order = request.form.get('rank_order', 0)
         status = request.form.get('status', 'active')
         
         db = get_db()
         cursor = db.cursor()
         cursor.execute("""
-            INSERT INTO officials (full_name, position, office, contact_number, email, photo_url, order_num, status) 
-            VALUES (%s, %s, %s, %s, %s, %s, %s, %s)
-        """, (full_name, position, office, contact_number, email, photo_url, order_num, status))
+            INSERT INTO officials (full_name, position, office, contact_number, email, photo_url, order_num, rank_order, status) 
+            VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)
+        """, (full_name, position, office, contact_number, email, photo_url, order_num, rank_order, status))
         db.commit()
         db.close()
+        flash('Official added successfully!', 'success')
         return redirect(url_for('officials'))
     return render_template('admin_officials_form.html', official=None)
 
@@ -191,15 +196,17 @@ def edit_official(id):
         email = request.form.get('email', '')
         photo_url = request.form.get('photo_url', '')
         order_num = request.form.get('order_num', 0)
+        rank_order = request.form.get('rank_order', 0)
         status = request.form.get('status', 'active')
         
         cursor.execute("""
             UPDATE officials 
-            SET full_name=%s, position=%s, office=%s, contact_number=%s, email=%s, photo_url=%s, order_num=%s, status=%s 
+            SET full_name=%s, position=%s, office=%s, contact_number=%s, email=%s, photo_url=%s, order_num=%s, rank_order=%s, status=%s 
             WHERE id=%s
-        """, (full_name, position, office, contact_number, email, photo_url, order_num, status, id))
+        """, (full_name, position, office, contact_number, email, photo_url, order_num, rank_order, status, id))
         db.commit()
         db.close()
+        flash('Official updated successfully!', 'success')
         return redirect(url_for('officials'))
     
     cursor.execute("SELECT * FROM officials WHERE id=%s", (id,))
@@ -215,6 +222,7 @@ def delete_official(id):
     cursor.execute("DELETE FROM officials WHERE id=%s", (id,))
     db.commit()
     db.close()
+    flash('Official deleted successfully!', 'success')
     return redirect(url_for('officials'))
 
 # ==================== PROJECTS ====================
@@ -243,6 +251,7 @@ def add_project():
         )
         db.commit()
         db.close()
+        flash('Project added successfully!', 'success')
         return redirect(url_for('projects'))
     return render_template('admin_projects_form.html', project=None)
 
@@ -261,6 +270,7 @@ def edit_project(id):
         )
         db.commit()
         db.close()
+        flash('Project updated successfully!', 'success')
         return redirect(url_for('projects'))
     cursor.execute("SELECT * FROM projects WHERE id=%s", (id,))
     project = cursor.fetchone()
@@ -275,6 +285,7 @@ def delete_project(id):
     cursor.execute("DELETE FROM projects WHERE id=%s", (id,))
     db.commit()
     db.close()
+    flash('Project deleted successfully!', 'success')
     return redirect(url_for('projects'))
 
 # ==================== EVENTS ====================
@@ -303,6 +314,7 @@ def add_event():
         )
         db.commit()
         db.close()
+        flash('Event added successfully!', 'success')
         return redirect(url_for('events'))
     return render_template('admin_events_form.html', event=None)
 
@@ -321,6 +333,7 @@ def edit_event(id):
         )
         db.commit()
         db.close()
+        flash('Event updated successfully!', 'success')
         return redirect(url_for('events'))
     cursor.execute("SELECT * FROM events WHERE id=%s", (id,))
     event = cursor.fetchone()
@@ -335,6 +348,7 @@ def delete_event(id):
     cursor.execute("DELETE FROM events WHERE id=%s", (id,))
     db.commit()
     db.close()
+    flash('Event deleted successfully!', 'success')
     return redirect(url_for('events'))
 
 # ==================== BARANGAYS ====================
@@ -365,6 +379,7 @@ def admin_barangay_new():
         """, (name, captain, contact_number, population))
         db.commit()
         db.close()
+        flash('Barangay added successfully!', 'success')
         return redirect(url_for('admin_barangays'))
     return render_template('admin_barangays_form.html', barangay=None)
 
@@ -387,6 +402,7 @@ def admin_barangay_edit(id):
         """, (name, captain, contact_number, population, id))
         db.commit()
         db.close()
+        flash('Barangay updated successfully!', 'success')
         return redirect(url_for('admin_barangays'))
     
     cursor.execute("SELECT * FROM barangays WHERE id=%s", (id,))
@@ -402,6 +418,7 @@ def admin_barangay_delete(id):
     cursor.execute("DELETE FROM barangays WHERE id=%s", (id,))
     db.commit()
     db.close()
+    flash('Barangay deleted successfully!', 'success')
     return redirect(url_for('admin_barangays'))
 
 # ==================== IMAGE MANAGEMENT ====================
@@ -417,7 +434,6 @@ def admin_images():
     carousel_images = []
     logo_images = []
     for img in images:
-        # filename now stores the full Cloudinary URL
         img['url'] = img['filename']
         img['size'] = round(img['file_size'] / 1024, 1) if img['file_size'] else 0
         if img['category'] == 'hero':
@@ -455,14 +471,12 @@ def admin_upload_image():
     original_filename = secure_filename(file.filename)
 
     try:
-        # Upload to Cloudinary — stored permanently in municipal-site folder
         upload_result = cloudinary.uploader.upload(
             file,
             folder=f"municipal-site/{category}",
             resource_type="image"
         )
         image_url = upload_result['secure_url']
-        public_id = upload_result['public_id']
     except Exception as e:
         return jsonify({'success': False, 'error': f'Cloudinary upload failed: {str(e)}'})
 
@@ -480,19 +494,17 @@ def admin_upload_image():
 @app.route('/admin/delete-image/<path:filename>', methods=['DELETE'])
 @login_required
 def admin_delete_image(filename):
-    # Try to delete from Cloudinary if it's a Cloudinary URL
     try:
         if 'cloudinary.com' in filename:
-            # Extract public_id from URL
             parts = filename.split('/')
             upload_idx = parts.index('upload') if 'upload' in parts else -1
             if upload_idx != -1:
-                public_id_parts = parts[upload_idx+2:]  # skip version
+                public_id_parts = parts[upload_idx+2:]
                 public_id = '/'.join(public_id_parts)
-                public_id = public_id.rsplit('.', 1)[0]  # remove extension
+                public_id = public_id.rsplit('.', 1)[0]
                 cloudinary.uploader.destroy(public_id)
     except Exception:
-        pass  # Continue even if Cloudinary delete fails
+        pass
 
     db = get_db()
     cursor = db.cursor()
@@ -524,6 +536,7 @@ def admin_contact_settings():
         ))
         db.commit()
         db.close()
+        flash('Contact settings updated successfully!', 'success')
         return redirect(url_for('admin_contact_settings'))
     
     cursor.execute("SELECT * FROM contact_settings WHERE id=1")
@@ -618,6 +631,7 @@ def emergency_edit():
         ))
         db.commit()
         db.close()
+        flash('Emergency settings updated successfully!', 'success')
         return redirect(url_for('emergency'))
     
     cursor.execute("SELECT * FROM emergency_settings WHERE id = 1")

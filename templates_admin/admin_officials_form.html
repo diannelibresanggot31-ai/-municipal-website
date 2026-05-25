@@ -204,7 +204,6 @@
             <a href="/admin/officials" class="nav-item active"><i class="fas fa-id-badge"></i> Officials</a>
             <a href="/admin/events" class="nav-item"><i class="fas fa-calendar-alt"></i> Events</a>
             <div class="nav-section-label">Operations</div>
-
             <a href="/admin/emergency" class="nav-item"><i class="fas fa-ambulance"></i> Emergency Info</a>
             <div class="nav-section-label">Account</div>
             <a href="/admin/logout" class="nav-item danger"><i class="fas fa-sign-out-alt"></i> Logout</a>
@@ -257,11 +256,27 @@
                             <input type="text" name="photo_url" class="form-control" placeholder="https://..." value="{{ official.photo_url if official else '' }}">
                             <small class="text-muted">Enter a direct link to the official's photo</small>
                         </div>
+                        
+                        <!-- RANK / HIERARCHY - ADD THIS SECTION -->
+                        <div class="form-group">
+                            <label>Rank / Hierarchy *</label>
+                            <select name="rank_order" class="form-select">
+                                <option value="1" {% if official and official.rank_order == 1 %}selected{% endif %}>1 - Provincial Governor</option>
+                                <option value="2" {% if official and official.rank_order == 2 %}selected{% endif %}>2 - Provincial Vice Governor</option>
+                                <option value="3" {% if official and official.rank_order == 3 %}selected{% endif %}>3 - District Representative</option>
+                                <option value="4" {% if official and official.rank_order == 4 %}selected{% endif %}>4 - Municipal Mayor</option>
+                                <option value="5" {% if official and official.rank_order == 5 %}selected{% endif %}>5 - Vice Mayor</option>
+                                <option value="6" {% if official and official.rank_order == 6 %}selected{% endif %}>6 - Sangguniang Bayan Member</option>
+                                <option value="10" {% if official and official.rank_order == 10 %}selected{% endif %}>10 - Other</option>
+                            </select>
+                            <small class="text-muted">Select the official's rank in government hierarchy (determines display order)</small>
+                        </div>
+                        
                         <div class="row-equal">
                             <div class="form-group">
-                                <label>Display Order</label>
+                                <label>Display Order (Custom)</label>
                                 <input type="number" name="order_num" class="form-control" value="{{ official.order_num if official else 0 }}">
-                                <small class="text-muted">Lower numbers appear first</small>
+                                <small class="text-muted">Lower numbers appear first within same rank</small>
                             </div>
                             <div class="form-group">
                                 <label>Status</label>

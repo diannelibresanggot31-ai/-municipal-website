@@ -128,7 +128,7 @@ def population():
 def officials():
     db = get_db()
     cursor = db.cursor(dictionary=True)
-    cursor.execute("SELECT id, full_name, position, office, contact_number, email, status FROM officials ORDER BY position")
+    cursor.execute("SELECT * FROM officials ORDER BY rank_order ASC, full_name ASC")
     officials = cursor.fetchall()
     db.close()
     return render_template('officials.html', officials=officials)
