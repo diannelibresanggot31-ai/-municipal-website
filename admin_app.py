@@ -659,7 +659,9 @@ def emergency_edit():
 @app.route('/admin/page-content')
 @login_required
 def page_content():
-    return render_template('admin_page_content.html')
+    # Page Content feature removed — redirect to dashboard
+    flash('Page Content feature has been removed.', 'info')
+    return redirect(url_for('dashboard'))
 
 @app.route('/admin/page-content/edit/<page_name>', methods=['GET', 'POST'])
 @login_required
