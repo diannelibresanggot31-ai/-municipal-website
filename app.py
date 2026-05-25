@@ -350,6 +350,7 @@ def admin_logout():
     return redirect(url_for('admin_login'))
 
 @app.route('/admin')
+@app.route('/admin/dashboard')
 @admin_required
 def admin_dashboard():
     db = get_db()
