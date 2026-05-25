@@ -8,7 +8,9 @@ from werkzeug.utils import secure_filename
 import cloudinary
 import cloudinary.uploader
 
-app = Flask(__name__, template_folder='templates_admin')
+base_dir = os.path.dirname(__file__)
+templates_admin_path = os.path.join(base_dir, 'templates_admin')
+app = Flask(__name__, template_folder=templates_admin_path)
 app.secret_key = os.environ.get('SECRET_KEY', 'admin_secret_key_2026')
 
 # Cloudinary configuration - reads from environment variables
