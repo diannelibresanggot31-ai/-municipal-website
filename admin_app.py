@@ -67,6 +67,7 @@ def admin_logout():
 
 # ==================== DASHBOARD ====================
 @app.route('/dashboard')
+@app.route('/admin/dashboard')
 @login_required
 def dashboard():
     db = get_db()
@@ -81,11 +82,34 @@ def dashboard():
     cursor.execute("SELECT COUNT(*) AS cnt FROM projects")
     projects_count = cursor.fetchone()['cnt']
     
+    cursor.execute("SELECT COUNT(*) AS cnt FROM events")
+    events_count = cursor.fetchone()['cnt']
+    
+    cursor.execute("SELECT COUNT(*) AS cnt FROM barangays")
+    barangays_count = cursor.fetchone()['cnt']
+    
+    cursor.execute("SELECT COUNT(*) AS cnt FROM images")
+    images_count = cursor.fetchone()['cnt']
+    
+    # Fetch recent items
+    cursor.execute("SELECT id, title, date_posted FROM announcements ORDER BY date_posted DESC LIMIT 5")
+    recent_announcements = cursor.fetchall()
+    
+    cursor.execute("SELECT id, title FROM projects ORDER BY id DESC LIMIT 5")
+    recent_projects = cursor.fetchall()
+    
     db.close()
     return render_template('admin_dashboard.html',
         announcements_count=announcements_count,
         officials_count=officials_count,
-        projects_count=projects_count
+        projects_count=projects_count,
+        events_count=events_count,
+        barangays_count=barangays_count,
+        images_count=images_count,
+        recent_announcements=recent_announcements,
+        recent_projects=recent_projects,
+        current_user=session.get('admin_username', 'Admin'),
+        current_date=date.today()
     )
 
 # ==================== ANNOUNCEMENTS ====================
